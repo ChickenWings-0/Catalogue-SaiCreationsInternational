@@ -170,6 +170,7 @@ export const outdoorDecorProducts: ProductInput[] = [
     colours: ["Brass"],
     size: "medium",
     technique: "Hand-punched",
+    featured: true,
     dateAdded: "2026-10-10",
   },
 ];

@@ -195,7 +195,7 @@ Client wrapper on category pages that owns filter/sort state and renders `Filter
 | `onChange` | `(next: FilterState) => void` |
 | `onClear` | `() => void` |
 
-Desktop: a horizontal bar of facet triggers (popover checkbox lists) plus selected chips. Mobile: a "Filter & Sort" button that opens a bottom sheet (Radix Dialog). Checkbox groups are `<fieldset>`/`<legend>`.
+Implemented as one toolbar (Filter toggle · result count · Sort select) with an expandable panel of three `<fieldset>` checkbox groups, plus removable chips for active filters. The same UI works on mobile and desktop.
 
 ### `SortSelect` (C)
 Props: `value: 'name-asc' | 'name-desc' | 'newest'`, `onChange`, `options: { value; label }[]`. Native `<select>` with a visible label.

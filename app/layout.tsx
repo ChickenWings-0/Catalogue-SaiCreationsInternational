@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { RevealObserver } from "@/components/layout/RevealObserver";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { PaletteSwitcher } from "@/components/palette/PaletteSwitcher";
 import { getFaqs, getNavigation, getSiteConfig } from "@/lib/content";
@@ -35,10 +36,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${cormorant.variable} ${jost.variable}`}
-      // The palette boot script may set data-palette before hydration.
-      suppressHydrationWarning={paletteSwitcher}
+      // Inline scripts below set the "js" class (and data-palette) before hydration.
+      suppressHydrationWarning
     >
       <head>
+        {/* Marks JS as available so scroll-reveal styles apply only when they can be undone. */}
+        <script
+          dangerouslySetInnerHTML={{ __html: 'document.documentElement.classList.add("js")' }}
+        />
         {paletteSwitcher && <script dangerouslySetInnerHTML={{ __html: paletteBootScript() }} />}
       </head>
       <body className="flex min-h-svh flex-col">
@@ -53,6 +58,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           faqs={footerFaqs}
           reserveFloatingSpace={paletteSwitcher}
         />
+        <RevealObserver />
         {paletteSwitcher && <PaletteSwitcher />}
       </body>
     </html>

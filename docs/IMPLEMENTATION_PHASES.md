@@ -53,26 +53,26 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
-## Phase 2: Home, Catalogue, Category and Product detail
+## Phase 2: Home, Catalogue, Category and Product detail ✅
 
-- [ ] **Home** (`HomeSections` renders from `content/pages/home.ts` `sections[]`) ⏳ section list pending client
-  - [ ] `Hero`: full-bleed image (slideshow if `features.heroSlideshow`, with pause button), tagline, CTA
-  - [ ] `CategoryTiles` (4)
-  - [ ] `FeaturedProducts` (products with `featured: true`, limit 8)
-  - [ ] `StudioTeaser` (poster still → `/studio`)
-  - [ ] `AboutTeaser`
-- [ ] **Catalogue** `/catalogue`: intro, 4 large editorial `CategoryTile`s, "All products" `ProductGrid` (32)
-- [ ] **Category** `/catalogue/[category]`: breadcrumb, title/intro, optional banner, `CatalogueBrowser`
-  - [ ] ⏳ `Filters` (material, colour, size) + `SortSelect` (name A–Z, Z–A, newest) behind `features.catalogueFilters`
-  - [ ] URL query sync; result-count live region; clear-all; mobile bottom sheet
-  - [ ] Unit tests for `applyFilters` / `sortProducts` / `getFilterFacets`
-- [ ] **Product detail** `/catalogue/[category]/[slug]`
-  - [ ] `ProductGallery` (Embla main + synced thumbnails, swipe, keyboard)
-  - [ ] Name (H1), code/SKU, `ProductSpecs` (dimensions as `45 × 30 cm / 17.7 × 11.8 in`, materials, technique, care; `moq` / `leadTime` rows rendered **only when set**, and not set on placeholders)
-  - [ ] Description
-  - [ ] `EnquireButtons`: WhatsApp (prefilled with name + code + URL), Instagram DM, copy-code helper, plain Google Form link (no prefill)
-  - [ ] `RelatedProducts` (same category, 4)
-- [ ] Section reveal-on-scroll (IntersectionObserver, reduced-motion aware)
+- [x] **Home** (`HomeSections` renders from `content/pages/home.ts` `sections[]`) ⏳ section list pending client
+  - [x] `Hero`: full-bleed image (slideshow if `features.heroSlideshow`, with pause button), tagline, CTA
+  - [x] `CategoryTiles` (4)
+  - [x] `FeaturedProducts` (products with `featured: true`, limit 8)
+  - [x] `StudioTeaser` (poster still → `/studio`)
+  - [x] `AboutTeaser`
+- [x] **Catalogue** `/catalogue`: intro, 4 large editorial `CategoryTile`s, "All products" `ProductGrid` (32)
+- [x] **Category** `/catalogue/[category]`: breadcrumb, title/intro, optional banner, `CatalogueBrowser`
+  - [x] ⏳ `Filters` (material, colour, size) + `SortSelect` (name A–Z, Z–A, newest) behind `features.catalogueFilters`
+  - [x] URL query sync; result-count live region; clear-all; one expandable filter panel (works on mobile and desktop instead of separate popovers / bottom sheet)
+  - [x] Unit tests for `applyFilters` / `sortProducts` / `getFilterFacets`
+- [x] **Product detail** `/catalogue/[category]/[slug]`
+  - [x] `ProductGallery` (Embla main + synced thumbnails, swipe, keyboard)
+  - [x] Name (H1), code/SKU, `ProductSpecs` (dimensions as `45 × 30 cm / 17.7 × 11.8 in`, materials, technique, care; `moq` / `leadTime` rows rendered **only when set**, and not set on placeholders)
+  - [x] Description
+  - [x] `EnquireButtons`: WhatsApp (prefilled with name + code + URL), Instagram DM, copy-code helper, plain Google Form link (no prefill)
+  - [x] `RelatedProducts` (same category, 4)
+- [x] Section reveal-on-scroll (IntersectionObserver, reduced-motion aware)
 
 **Acceptance criteria**
 - Clicking any category tile or product card reaches the correct page. Breadcrumbs are correct.

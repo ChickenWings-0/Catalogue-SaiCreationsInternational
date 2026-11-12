@@ -17,11 +17,16 @@
     "content:todo": "node scripts/content-todo-report.mjs",
     "check": "npm run lint && npm run typecheck && npm run format:check",
     "verify:export": "node scripts/verify-export.mjs",
-    "postbuild": "npm run verify:export"
+    "postbuild": "npm run verify:export",
+    "test": "node --test \"lib/**/*.test.ts\""
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@radix-ui/react-dialog": "^1.3.1",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "gsap": "^3.15.1",
     "lucide-react": "^1.72.0",
     "next": "16.4.6",
     "react": "19.3.0",

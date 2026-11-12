@@ -13,6 +13,8 @@ export const homePage: HomePageInput = {
         {
           image: {
             src: "placeholders/home/hero-1.jpg",
+            // Keeps the styled objects in view when cropped to portrait on phones.
+            focalPoint: { x: 0.72, y: 0.6 },
             alt: "A calm living room styled with handcrafted pieces",
           },
           eyebrow: "A House of Home Furnishing & Handicrafts",
@@ -24,6 +26,8 @@ export const homePage: HomePageInput = {
         {
           image: {
             src: "placeholders/home/hero-2.jpg",
+            // Keeps the styled objects in view when cropped to portrait on phones.
+            focalPoint: { x: 0.74, y: 0.6 },
             alt: "Handwoven textiles in natural tones",
           },
           heading: "Natural materials, honest craft",
@@ -32,6 +36,8 @@ export const homePage: HomePageInput = {
         {
           image: {
             src: "placeholders/home/hero-3.jpg",
+            // Keeps the styled objects in view when cropped to portrait on phones.
+            focalPoint: { x: 0.66, y: 0.6 },
             alt: "Lanterns and planters on a sunlit terrace",
           },
           heading: "For terraces, courtyards and gardens",

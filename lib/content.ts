@@ -8,6 +8,7 @@ import type {
   ContactPage,
   FAQ,
   HomePage,
+  Labels,
   Navigation,
   NavItem,
   NotFoundPage,
@@ -31,6 +32,7 @@ import { aboutPage } from "@/content/pages/about";
 import { contactPage } from "@/content/pages/contact";
 import { studioPage } from "@/content/pages/studio";
 import { notFoundPage } from "@/content/pages/not-found";
+import { labels } from "@/content/labels";
 
 /*
  * CONTENT LAYER: the only way pages and components read content (docs/CONTENT_MODEL.md §3).
@@ -210,10 +212,19 @@ export async function getProduct(category: string, slug: string): Promise<Produc
   return loadProducts().find((p) => p.category === category && p.slug === slug) ?? null;
 }
 
+/** Featured products, interleaved across categories (one from each in turn). */
 export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
-  return loadProducts()
-    .filter((p) => p.featured)
-    .slice(0, limit);
+  const byCategory = loadCategories().map((c) =>
+    loadProducts().filter((p) => p.featured && p.category === c.slug),
+  );
+  const out: Product[] = [];
+  for (let i = 0; out.length < limit && byCategory.some((list) => i < list.length); i++) {
+    for (const list of byCategory) {
+      const p = list[i];
+      if (p && out.length < limit) out.push(p);
+    }
+  }
+  return out;
 }
 
 export async function getRelatedProducts(product: Product, limit = 4): Promise<Product[]> {
@@ -264,3 +275,6 @@ export const getAboutPage = async (): Promise<AboutPage> => loadAbout();
 export const getContactPage = async (): Promise<ContactPage> => loadContact();
 export const getStudioPage = async (): Promise<StudioPage> => loadStudio();
 export const getNotFoundPage = async (): Promise<NotFoundPage> => loadNotFound();
+
+const loadLabels = once(() => parse(S.labelsSchema, labels, "content/labels.ts"));
+export const getLabels = async (): Promise<Labels> => loadLabels();

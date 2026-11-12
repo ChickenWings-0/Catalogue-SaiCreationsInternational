@@ -90,7 +90,7 @@ export const site: SiteConfigInput = {
     headerShrink: false, // pending client
     headerSearch: false, // pending client: icon shown as a placeholder only
     catalogueFilters: true, // pending client
-    heroSlideshow: false, // pending client (homepage sections)
+    heroSlideshow: true, // pending client: set false for a single still hero
     showPaletteSwitcher: true, // TEMPORARY: palette preview for the client. Set to false to hide.
   },
 

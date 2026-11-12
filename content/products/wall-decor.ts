@@ -83,6 +83,7 @@ export const wallDecorProducts: ProductInput[] = [
     colours: ["Brass"],
     size: "small",
     technique: "Hand-embossed",
+    featured: true,
     dateAdded: "2026-05-11",
   },
   {

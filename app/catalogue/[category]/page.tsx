@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PhaseNote } from "@/components/dev/PhaseNote";
+import { Suspense } from "react";
+import { CatalogueBrowser } from "@/components/catalogue/CatalogueBrowser";
+import { ProductGrid } from "@/components/catalogue/ProductGrid";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Container } from "@/components/ui/Container";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import {
   getCataloguePage,
   getCategories,
   getCategory,
+  getLabels,
   getProductsByCategory,
   getSiteConfig,
 } from "@/lib/content";
+import { getFilterFacets } from "@/lib/filters";
+import { fillTemplate } from "@/lib/format";
 
 export const dynamicParams = false;
 
@@ -30,51 +34,58 @@ export async function generateMetadata({
   };
 }
 
-// Phase 1 stub: product grid, filters and sorting arrive in Phase 2.
 export default async function CategoryPage({ params }: PageProps<"/catalogue/[category]">) {
   const { category: slug } = await params;
-  const [category, products, catalogue, site] = await Promise.all([
+  const [category, products, catalogue, site, labels] = await Promise.all([
     getCategory(slug),
     getProductsByCategory(slug),
     getCataloguePage(),
     getSiteConfig(),
+    getLabels(),
   ]);
   if (!category) notFound();
 
   return (
-    <Section>
-      <Breadcrumbs
-        label={site.ui.breadcrumbLabel}
-        items={[
-          { label: site.ui.breadcrumbHome, href: "/" },
-          { label: catalogue.title, href: "/catalogue/" },
-          { label: category.name },
-        ]}
-        className="mb-10"
-      />
-      <SectionHeading
-        as="h1"
-        eyebrow={category.tagline}
-        heading={category.name}
-        intro={category.intro}
-      />
+    <>
+      <Container className="pt-10 lg:pt-14">
+        <Breadcrumbs
+          label={site.ui.breadcrumbLabel}
+          items={[
+            { label: site.ui.breadcrumbHome, href: "/" },
+            { label: catalogue.title, href: "/catalogue/" },
+            { label: category.name },
+          ]}
+        />
+        <div className="mt-10 grid items-end gap-10 md:grid-cols-[1fr_minmax(0,22rem)] lg:mt-14 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-24">
+          <div className="space-y-6 pb-2">
+            <p className="eyebrow text-muted">{category.tagline}</p>
+            <h1 className="font-display text-display-xl font-light text-ink">{category.name}</h1>
+            <p className="max-w-xl text-body-lg font-light text-ink-soft">{category.intro}</p>
+            <p className="text-caption text-muted">
+              {fillTemplate(labels.catalogue.productCount, { count: products.length })}
+            </p>
+          </div>
+          <ResponsiveImage
+            image={category.heroImage ?? category.tileImage}
+            aspect="4/5"
+            sizes="(min-width: 1024px) 26rem, (min-width: 768px) 22rem, 100vw"
+            preload
+            className="hidden md:block"
+          />
+        </div>
+      </Container>
 
-      <ul className="mt-12 divide-y divide-hairline border-y border-hairline">
-        {products.map((p) => (
-          <li key={p.id}>
-            <Link
-              href={p.href}
-              className="group flex items-baseline justify-between gap-6 py-4 transition-colors"
-            >
-              <span className="font-display text-display-sm transition-colors group-hover:text-accent">
-                {p.name}
-              </span>
-              <span className="shrink-0 text-caption text-muted">{p.code}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <PhaseNote>Phase 1 stub · Product grid, filters and sorting arrive in Phase 2</PhaseNote>
-    </Section>
+      <Container className="mt-12 pb-[clamp(4rem,10vw,9rem)] lg:mt-20">
+        {/* Without JS (or before hydration) the full grid is rendered statically. */}
+        <Suspense fallback={<ProductGrid products={products} preloadCount={4} className="mt-16" />}>
+          <CatalogueBrowser
+            products={products}
+            facets={getFilterFacets(products)}
+            enabled={site.features.catalogueFilters}
+            labels={labels.filters}
+          />
+        </Suspense>
+      </Container>
+    </>
   );
 }

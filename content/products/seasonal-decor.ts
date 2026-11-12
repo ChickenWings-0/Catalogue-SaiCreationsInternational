@@ -87,6 +87,7 @@ export const seasonalDecorProducts: ProductInput[] = [
     colours: ["Green", "Red"],
     size: "large",
     technique: "Hand-felted",
+    featured: true,
     dateAdded: "2026-07-25",
   },
   {

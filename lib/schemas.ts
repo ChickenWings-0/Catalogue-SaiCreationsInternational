@@ -325,6 +325,61 @@ export const notFoundPageSchema = z.object({
   links: z.array(linkSchema),
 });
 
+// ─── Interface labels ───────────────────────────────────────────────────────
+export const labelsSchema = z.object({
+  catalogue: z.object({ productCount: text, viewCategory: text, viewProduct: text }),
+  filters: z.object({
+    toggle: text,
+    hide: text,
+    material: text,
+    colour: text,
+    size: text,
+    sizes: z.object({ small: text, medium: text, large: text }),
+    sort: text,
+    sortOptions: z.object({ featured: text, newest: text, "name-asc": text, "name-desc": text }),
+    clearAll: text,
+    remove: text,
+    results: text,
+    empty: text,
+  }),
+  product: z.object({
+    code: text,
+    dimensions: text,
+    materials: text,
+    colours: text,
+    technique: text,
+    finish: text,
+    care: text,
+    weight: text,
+    moq: text,
+    leadTime: text,
+    details: text,
+    description: text,
+    related: text,
+  }),
+  enquire: z.object({
+    heading: text,
+    intro: text,
+    whatsapp: text,
+    instagram: text,
+    form: text,
+    copyCode: text,
+    copied: text,
+  }),
+  gallery: z.object({ previous: text, next: text, viewImage: text, imageOf: text }),
+  carousel: z.object({
+    region: text,
+    previous: text,
+    next: text,
+    goTo: text,
+    slideOf: text,
+    pause: text,
+    play: text,
+    dots: text,
+  }),
+  video: z.object({ pause: text, play: text, scrollCue: text }),
+});
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 export type ImageInput = z.input<typeof imageInputSchema>;
 /** An image as components receive it: intrinsic size always known. */
@@ -375,6 +430,7 @@ export type AboutSection = AboutPage["sections"][number];
 export type ContactPage = z.output<typeof contactPageSchema>;
 export type StudioPage = Resolved<z.output<typeof studioPageSchema>>;
 export type NotFoundPage = z.output<typeof notFoundPageSchema>;
+export type Labels = z.output<typeof labelsSchema>;
 
 // Input types used to type the files in /content.
 export type CategoryInput = z.input<typeof categorySchema>;
@@ -385,3 +441,4 @@ export type AboutPageInput = z.input<typeof aboutPageSchema>;
 export type ContactPageInput = z.input<typeof contactPageSchema>;
 export type StudioPageInput = z.input<typeof studioPageSchema>;
 export type NotFoundPageInput = z.input<typeof notFoundPageSchema>;
+export type LabelsInput = z.input<typeof labelsSchema>;

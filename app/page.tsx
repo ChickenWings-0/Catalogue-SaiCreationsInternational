@@ -1,61 +1,111 @@
-import { PhaseNote } from "@/components/dev/PhaseNote";
+import { CategoryTile } from "@/components/catalogue/CategoryTile";
+import { ProductGrid } from "@/components/catalogue/ProductGrid";
+import { Hero } from "@/components/home/Hero";
+import { AboutTeaser, StudioTeaser } from "@/components/home/Teasers";
 import { Button } from "@/components/ui/Button";
-import { LinkArrow } from "@/components/ui/LinkArrow";
-import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
-import { Section } from "@/components/ui/Section";
+import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { categoryHref, getCategories, getHomePage } from "@/lib/content";
+import {
+  categoryHref,
+  getCategories,
+  getFeaturedProducts,
+  getHomePage,
+  getLabels,
+  getProductsByCategory,
+  getSiteConfig,
+} from "@/lib/content";
+import { fillTemplate } from "@/lib/format";
+import type { HomeSection } from "@/lib/schemas";
 
-// Phase 1 stub: the full, data-driven Home sections are built in Phase 2.
+/**
+ * Home: sections render in the order given in content/pages/home.ts
+ * (pending client confirmation of the section list).
+ */
 export default async function HomePage() {
-  const [home, categories] = await Promise.all([getHomePage(), getCategories()]);
-  const hero = home.sections.find((s) => s.type === "hero");
-  const slide = hero?.slides[0];
-  const tiles = home.sections.find((s) => s.type === "categoryTiles");
-
-  return (
-    <>
-      {slide && (
-        <section className="relative">
-          <ResponsiveImage
-            image={slide.image}
-            aspect="16/9"
-            sizes="100vw"
-            preload
-            className="max-h-[88svh] min-h-[60svh] w-full"
-          />
-          <div className="absolute inset-0 flex items-end bg-linear-to-t from-ivory/90 via-ivory/40 to-transparent">
-            <div className="mx-auto w-full max-w-(--container-content) px-4 pb-12 sm:px-6 lg:px-10 lg:pb-20 2xl:px-16">
-              <div className="max-w-2xl space-y-5">
-                {slide.eyebrow && <p className="eyebrow text-muted">{slide.eyebrow}</p>}
-                <h1 className="font-display text-display-xl font-light">{slide.heading}</h1>
-                {slide.subheading && (
-                  <p className="text-body-lg font-light text-ink-soft">{slide.subheading}</p>
-                )}
-                {slide.cta && <Button href={slide.cta.href}>{slide.cta.label}</Button>}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {tiles && (
-        <Section labelledBy="home-categories">
-          <SectionHeading id="home-categories" heading={tiles.heading} intro={tiles.intro} />
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((c) => (
-              <li key={c.slug} className="space-y-2">
-                <LinkArrow href={categoryHref(c.slug)}>{c.name}</LinkArrow>
-                <p className="text-body-sm text-muted">{c.tagline}</p>
-              </li>
-            ))}
-          </ul>
-          <PhaseNote>
-            Phase 1 stub · Home sections (tiles, featured products, Studio and About teasers) arrive
-            in Phase 2
-          </PhaseNote>
-        </Section>
-      )}
-    </>
+  const [home, site, labels, categories] = await Promise.all([
+    getHomePage(),
+    getSiteConfig(),
+    getLabels(),
+    getCategories(),
+  ]);
+  const counts = Object.fromEntries(
+    await Promise.all(
+      categories.map(async (c) => [c.slug, (await getProductsByCategory(c.slug)).length] as const),
+    ),
   );
+
+  const render = async (section: HomeSection, i: number) => {
+    switch (section.type) {
+      case "hero":
+        return (
+          <Hero
+            key={i}
+            slides={section.slides}
+            slideshow={site.features.heroSlideshow}
+            labels={labels.carousel}
+          />
+        );
+      case "categoryTiles":
+        return (
+          <section key={i} aria-labelledby="home-categories" className="py-[clamp(4rem,10vw,9rem)]">
+            <Container>
+              <div data-reveal>
+                <SectionHeading
+                  id="home-categories"
+                  heading={section.heading}
+                  intro={section.intro}
+                />
+              </div>
+              <ul className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8">
+                {categories.map((c, j) => (
+                  <li key={c.slug} className={j % 2 ? "lg:mt-16" : undefined}>
+                    <CategoryTile
+                      category={c}
+                      href={categoryHref(c.slug)}
+                      cta={fillTemplate(labels.catalogue.viewCategory, { name: c.name })}
+                      meta={fillTemplate(labels.catalogue.productCount, {
+                        count: counts[c.slug] ?? 0,
+                      })}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      index={j}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
+        );
+      case "featuredProducts": {
+        const products = await getFeaturedProducts(section.limit);
+        return (
+          <section
+            key={i}
+            aria-labelledby="home-featured"
+            className="border-t border-hairline py-[clamp(4rem,10vw,9rem)]"
+          >
+            <Container>
+              <div
+                className="mb-12 flex flex-wrap items-end justify-between gap-6 lg:mb-16"
+                data-reveal
+              >
+                <SectionHeading id="home-featured" heading={section.heading} />
+                {section.cta && (
+                  <Button href={section.cta.href} variant="ghost">
+                    {section.cta.label}
+                  </Button>
+                )}
+              </div>
+              <ProductGrid products={products} />
+            </Container>
+          </section>
+        );
+      }
+      case "studioTeaser":
+        return <StudioTeaser key={i} section={section} />;
+      case "aboutTeaser":
+        return <AboutTeaser key={i} section={section} />;
+    }
+  };
+
+  return <>{await Promise.all(home.sections.map(render))}</>;
 }
