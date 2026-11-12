@@ -124,6 +124,10 @@ Follow [STUDIO_INTERACTION_SPEC.md](./STUDIO_INTERACTION_SPEC.md).
 
 ## Phase 5: SEO, accessibility and performance pass
 
+**Clean-up**
+- [ ] Client picks a palette: copy it into `@theme` and **remove the TEMPORARY palette switcher** (see DESIGN_SYSTEM §2.4), or at least set `showPaletteSwitcher: false`
+- [ ] Remove all `PhaseNote` scaffolding
+
 **SEO**
 - [ ] `metadataBase` from `NEXT_PUBLIC_SITE_URL`. Per-page `generateMetadata` (title template `%s · SAI Creations International`, description, canonical)
 - [ ] Open Graph + Twitter `summary_large_image` cards (default OG image with logo; product pages use the first product image)

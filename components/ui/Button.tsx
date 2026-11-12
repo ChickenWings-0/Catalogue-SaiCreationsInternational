@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { cn, isExternalHref } from "@/lib/utils";
 
 const VARIANTS = {
-  primary: "bg-ink text-white hover:bg-accent-hover",
+  primary: "bg-cta text-on-cta hover:bg-cta-hover",
   secondary: "border border-ink text-ink hover:bg-ink hover:text-white",
   accent: "bg-accent text-white hover:bg-accent-hover",
   ghost: "text-ink underline decoration-1 underline-offset-[6px] hover:text-accent px-0",

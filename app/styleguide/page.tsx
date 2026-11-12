@@ -12,21 +12,25 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Token names only: swatches follow the active palette (values: app/globals.css, app/palettes.css).
 const COLOURS = [
-  ["ivory", "#FAF8F4", "bg-ivory"],
-  ["white", "#FFFFFF", "bg-white"],
-  ["linen", "#F3EFE8", "bg-linen"],
-  ["greige", "#E8E2D8", "bg-greige"],
-  ["hairline", "#D9D2C5", "bg-hairline"],
-  ["stone", "#8A8378", "bg-stone"],
-  ["ink", "#2B2926", "bg-ink"],
-  ["ink-soft", "#3D3A35", "bg-ink-soft"],
-  ["muted", "#625C53", "bg-muted"],
-  ["accent", "#1F6B45", "bg-accent"],
-  ["accent-hover", "#185A3A", "bg-accent-hover"],
-  ["accent-dot", "#2E8B57", "bg-accent-dot"],
-  ["accent-tint", "#E6F0EA", "bg-accent-tint"],
-  ["indigo", "#3F4A7A", "bg-indigo"],
+  "ivory",
+  "white",
+  "linen",
+  "greige",
+  "hairline",
+  "stone",
+  "ink",
+  "ink-soft",
+  "muted",
+  "accent",
+  "accent-hover",
+  "accent-dot",
+  "accent-tint",
+  "indigo",
+  "cta",
+  "cta-hover",
+  "on-cta",
 ] as const;
 
 const TYPE = [
@@ -85,11 +89,13 @@ export default function StyleGuidePage() {
           Colour tokens
         </h2>
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
-          {COLOURS.map(([name, hex, cls]) => (
+          {COLOURS.map((name) => (
             <li key={name} className="space-y-2">
-              <div className={`${cls} h-16 border border-hairline`} />
+              <div
+                className="h-16 border border-hairline"
+                style={{ backgroundColor: `var(--color-${name})` }}
+              />
               <p className="text-body-sm">{name}</p>
-              <p className="text-caption text-muted">{hex}</p>
             </li>
           ))}
         </ul>

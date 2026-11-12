@@ -54,7 +54,7 @@ export function Sidebar({ main, bottom, labels }: Props) {
           id={SIDEBAR_ID}
           aria-describedby={undefined}
           className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-[min(88vw,380px)] flex-col bg-white shadow-[0_0_40px_rgb(0_0_0/0.08)] outline-none",
+            "fixed inset-y-0 left-0 z-50 flex w-[min(88vw,380px)] flex-col bg-white shadow-drawer outline-none",
             "data-[state=closed]:animate-drawer-out data-[state=open]:animate-drawer-in",
           )}
         >

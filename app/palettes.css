@@ -1,0 +1,117 @@
+/*
+ * TEMPORARY: alternative colour palettes for client review (see docs/DESIGN_SYSTEM.md §2.4).
+ *
+ * "Classic" is the default and lives in globals.css (@theme). Each block below only
+ * overrides colour tokens. Selectors match any element with data-palette, so the
+ * switcher's swatches can preview a palette without duplicating hex values.
+ *
+ * To remove the switcher: delete this file, its import in app/layout.tsx,
+ * components/palette/ and lib/palettes.ts, and `showPaletteSwitcher` in content/site.ts.
+ * To adopt one palette permanently: copy its values into @theme in globals.css instead.
+ */
+
+/* Classic (default): same values as @theme in globals.css. Needed so a "classic" swatch
+   previews correctly while another palette is active on <html>. */
+[data-palette="classic"] {
+  --color-ivory: #faf8f4;
+  --color-white: #ffffff;
+  --color-linen: #f3efe8;
+  --color-greige: #e8e2d8;
+  --color-hairline: #d9d2c5;
+  --color-stone: #8a8378;
+  --color-ink: #2b2926;
+  --color-ink-soft: #3d3a35;
+  --color-muted: #625c53;
+  --color-accent: #1f6b45;
+  --color-accent-hover: #185a3a;
+  --color-accent-dot: #2e8b57;
+  --color-accent-tint: #e6f0ea;
+  --color-indigo: #3f4a7a;
+  --color-cta: #2b2926;
+  --color-cta-hover: #185a3a;
+  --color-on-cta: #ffffff;
+}
+
+/* Block Print: sand and terracotta clay with a deep indigo highlight. */
+[data-palette="block-print"] {
+  --color-ivory: #fbf5ee;
+  --color-white: #fffdfa;
+  --color-linen: #f5e7da;
+  --color-greige: #e6c7af;
+  --color-hairline: #ddc2ac;
+  --color-stone: #9a7f6c;
+  --color-ink: #2e2420;
+  --color-ink-soft: #42352f;
+  --color-muted: #634a40;
+  --color-accent: #2f3e8c;
+  --color-accent-hover: #232f6e;
+  --color-accent-dot: #3b4da8;
+  --color-accent-tint: #e5e8f5;
+  --color-indigo: #2f3e8c;
+  --color-cta: #2f3e8c;
+  --color-cta-hover: #232f6e;
+  --color-on-cta: #ffffff;
+}
+
+/* Sage & Brass: calm sage and linen with an antique brass accent. */
+[data-palette="sage-brass"] {
+  --color-ivory: #f7f7f1;
+  --color-white: #fffffc;
+  --color-linen: #ecefe5;
+  --color-greige: #dde3d4;
+  --color-hairline: #cdd4c3;
+  --color-stone: #7f8a78;
+  --color-ink: #253028;
+  --color-ink-soft: #364238;
+  --color-muted: #545f55;
+  --color-accent: #7a5718;
+  --color-accent-hover: #5f4311;
+  --color-accent-dot: #a27a2e;
+  --color-accent-tint: #f3ebd9;
+  --color-indigo: #3e5a4a;
+  --color-cta: #253028;
+  --color-cta-hover: #5f4311;
+  --color-on-cta: #ffffff;
+}
+
+/* Blush & Teal: ivory and soft blush clay with a deep teal highlight. */
+[data-palette="blush-teal"] {
+  --color-ivory: #fcf7f4;
+  --color-white: #ffffff;
+  --color-linen: #f7eae4;
+  --color-greige: #efd9d0;
+  --color-hairline: #e5ccc2;
+  --color-stone: #927a75;
+  --color-ink: #2c2526;
+  --color-ink-soft: #41383a;
+  --color-muted: #6b5a5a;
+  --color-accent: #0e5f63;
+  --color-accent-hover: #0a4a4d;
+  --color-accent-dot: #16777c;
+  --color-accent-tint: #ddeeee;
+  --color-indigo: #0e5f63;
+  --color-cta: #0e5f63;
+  --color-cta-hover: #0a4a4d;
+  --color-on-cta: #ffffff;
+}
+
+/* Marigold: warm cream with a saffron highlight (dark text on saffron buttons). */
+[data-palette="marigold"] {
+  --color-ivory: #fffbf3;
+  --color-white: #ffffff;
+  --color-linen: #fbf1dc;
+  --color-greige: #f3e3c3;
+  --color-hairline: #e9d6b0;
+  --color-stone: #9a8565;
+  --color-ink: #2a241c;
+  --color-ink-soft: #3e362b;
+  --color-muted: #66573f;
+  --color-accent: #8f4a00;
+  --color-accent-hover: #713a00;
+  --color-accent-dot: #c27400;
+  --color-accent-tint: #fcebcb;
+  --color-indigo: #5a3a8c;
+  --color-cta: #e8a019;
+  --color-cta-hover: #d18a0b;
+  --color-on-cta: #2a241c;
+}

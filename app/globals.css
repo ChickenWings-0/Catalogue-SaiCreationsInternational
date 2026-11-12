@@ -19,8 +19,15 @@
   --color-accent-hover: #185a3a;
   --color-accent-dot: #2e8b57;
   --color-accent-tint: #e6f0ea;
-  --color-indigo: #3f4a7a;
-  --color-scrim: rgb(20 19 17 / 0.45);
+  --color-indigo: #3f4a7a; /* focus ring / secondary accent */
+  /* Primary button ("call to action"). Bold palettes use their highlight colour here. */
+  --color-cta: #2b2926;
+  --color-cta-hover: #185a3a;
+  --color-on-cta: #ffffff;
+  /* Derived tokens follow the active palette automatically. */
+  --color-scrim: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  --shadow-drawer: 0 0 40px color-mix(in srgb, var(--color-ink) 10%, transparent);
+  --shadow-float: 0 6px 24px color-mix(in srgb, var(--color-ink) 16%, transparent);
 
   --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-sans: var(--font-jost), "Jost", ui-sans-serif, system-ui, sans-serif;

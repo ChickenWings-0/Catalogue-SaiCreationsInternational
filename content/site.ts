@@ -91,6 +91,7 @@ export const site: SiteConfigInput = {
     headerSearch: false, // pending client: icon shown as a placeholder only
     catalogueFilters: true, // pending client
     heroSlideshow: false, // pending client (homepage sections)
+    showPaletteSwitcher: true, // TEMPORARY: palette preview for the client. Set to false to hide.
   },
 
   seo: {

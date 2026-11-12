@@ -86,6 +86,7 @@ Warm ivory base, charcoal text, and a deepened version of the logo green used sp
 | `accent-dot` | `#2E8B57` | Carousel active pill, small non-text indicators |
 | `accent-tint` | `#E6F0EA` | Selected filter chip background, subtle highlights |
 | `indigo` | `#3F4A7A` | Optional secondary accent: keyboard focus ring, occasional editorial highlight |
+| `cta` / `cta-hover` / `on-cta` | `#2B2926` / `#185A3A` / `#FFFFFF` | Primary button background, hover background and text |
 | `scrim` | `rgba(20,19,17,0.45)` | Overlay behind sidebar; text-over-image gradient |
 
 The logo green (`#00A651`) is **not** used for text. It's only 3.01:1 on ivory. `accent` is the same hue, deepened to pass AA.
@@ -115,6 +116,185 @@ The logo green (`#00A651`) is **not** used for text. It's only 3.01:1 on ivory. 
 
 ### 2.3 Usage ratios
 About 85% ivory/white/linen, 12% ink text, and ≤3% accent. Green appears in links, the active nav item, the active carousel pill, selected filters and the focus details. Never use it as large fills.
+
+### 2.4 Alternative palettes (TEMPORARY review tool)
+
+> **TEMPORARY.** A floating palette switcher (bottom-right on every page) lets the client compare these palettes live. It is controlled by `features.showPaletteSwitcher` in `content/site.ts`. Set it to `false` to hide it in one line.
+
+**How it works**
+- Palettes swap **CSS variables only** (`app/palettes.css`, `[data-palette="…"]` blocks). No component hardcodes a colour. Button colours use dedicated tokens: `cta`, `cta-hover`, `on-cta`. The scrim and shadows are derived from `ink` with `color-mix()`.
+- An inline script in `<head>` applies the palette **before first paint** from `?palette=<id>` (which takes priority and is also saved) or from `localStorage["sci-palette"]` (wrapped in try/catch). It works in the static export on any host.
+- Direct links: `https://<domain>/?palette=block-print` (any page works, e.g. `/catalogue/?palette=marigold`).
+- Choosing a palette in the panel updates the address bar, and "Copy link to this palette" copies it.
+
+**Removing it later:** delete `app/palettes.css` (and its import in `app/layout.tsx`), `components/palette/`, `lib/palettes.ts`, the boot `<script>` and `<PaletteSwitcher />` in `app/layout.tsx`, and `showPaletteSwitcher` in `content/site.ts` + `lib/schemas.ts`. **To adopt a palette permanently**, copy its values into `@theme` in `app/globals.css`.
+
+Styles: **calm** palettes (Classic, Sage & Brass) keep buttons dark and use the accent sparingly. **Bold highlight** palettes (Block Print, Blush & Teal, Marigold) pair 2–3 base colours with one strong highlight on primary buttons, links, hover states and the active carousel dot. Every value below was checked with the WCAG 2.1 formula. All text pairs are ≥ 4.5:1 and UI indicators ≥ 3:1.
+
+#### Classic (`?palette=classic`), calm · default
+
+Ivory, linen and charcoal with a forest-green accent. Primary buttons are charcoal.
+
+| Token | Hex |  | Token | Hex |
+|---|---|---|---|---|
+| `ivory` | `#FAF8F4` |  | `accent` | `#1F6B45` |
+| `white` | `#FFFFFF` |  | `accent-hover` | `#185A3A` |
+| `linen` | `#F3EFE8` |  | `accent-dot` | `#2E8B57` |
+| `greige` | `#E8E2D8` |  | `accent-tint` | `#E6F0EA` |
+| `hairline` | `#D9D2C5` |  | `indigo` | `#3F4A7A` |
+| `stone` | `#8A8378` |  | `cta` | `#2B2926` |
+| `ink` | `#2B2926` |  | `cta-hover` | `#185A3A` |
+| `ink-soft` | `#3D3A35` |  | `on-cta` | `#FFFFFF` |
+| `muted` | `#625C53` |  |  |  |
+
+| Check (min) | on ivory | on white | on linen | on greige |
+|---|---|---|---|---|
+| `ink` text (4.5) | 13.67 | 14.50 | 12.65 | 11.26 |
+| `muted` text (4.5) | 6.24 | 6.61 | 5.77 | 5.13 |
+| `accent` text (4.5) | 6.10 | 6.47 | 5.64 | 5.02 |
+| `accent-hover` text (4.5) | 7.73 | 8.20 | 7.15 | 6.36 |
+
+| Pair (min) | Ratio |
+|---|---|
+| `on-cta` on `cta` (4.5) | 14.50 |
+| `on-cta` on `cta-hover` (4.5) | 8.20 |
+| white on `accent` (WhatsApp button, 4.5) | 6.47 |
+| `accent` on `accent-tint` (4.5) | 5.55 |
+| `accent-dot` on ivory (UI, 3.0) | 4.00 |
+| `stone` on ivory / white / linen (UI, 3.0) | 3.54 / 3.75 / 3.27 |
+| `indigo` focus ring on ivory / greige (3.0) | 8.01 / 6.59 |
+
+#### Block Print (`?palette=block-print`), bold highlight
+
+Sand and terracotta clay bands with a **deep indigo** highlight, inspired by hand-block printing. Primary buttons, links and the active dot are indigo.
+
+| Token | Hex |  | Token | Hex |
+|---|---|---|---|---|
+| `ivory` | `#FBF5EE` |  | `accent` | `#2F3E8C` |
+| `white` | `#FFFDFA` |  | `accent-hover` | `#232F6E` |
+| `linen` | `#F5E7DA` |  | `accent-dot` | `#3B4DA8` |
+| `greige` | `#E6C7AF` |  | `accent-tint` | `#E5E8F5` |
+| `hairline` | `#DDC2AC` |  | `indigo` | `#2F3E8C` |
+| `stone` | `#9A7F6C` |  | `cta` | `#2F3E8C` |
+| `ink` | `#2E2420` |  | `cta-hover` | `#232F6E` |
+| `ink-soft` | `#42352F` |  | `on-cta` | `#FFFFFF` |
+| `muted` | `#634A40` |  |  |  |
+
+| Check (min) | on ivory | on white | on linen | on greige |
+|---|---|---|---|---|
+| `ink` text (4.5) | 13.96 | 14.89 | 12.47 | 9.47 |
+| `muted` text (4.5) | 7.51 | 8.00 | 6.70 | 5.09 |
+| `accent` text (4.5) | 8.86 | 9.45 | 7.92 | 6.01 |
+| `accent-hover` text (4.5) | 11.39 | 12.14 | 10.17 | 7.72 |
+
+| Pair (min) | Ratio |
+|---|---|
+| `on-cta` on `cta` (4.5) | 9.60 |
+| `on-cta` on `cta-hover` (4.5) | 12.33 |
+| white on `accent` (WhatsApp button, 4.5) | 9.60 |
+| `accent` on `accent-tint` (4.5) | 7.86 |
+| `accent-dot` on ivory (UI, 3.0) | 6.90 |
+| `stone` on ivory / white / linen (UI, 3.0) | 3.45 / 3.68 / 3.08 |
+| `indigo` focus ring on ivory / greige (3.0) | 8.86 / 6.01 |
+
+#### Sage & Brass (`?palette=sage-brass`), calm
+
+Soft sage and linen with an **antique brass** accent. Primary buttons are deep green-charcoal and turn brass on hover. Links are brass.
+
+| Token | Hex |  | Token | Hex |
+|---|---|---|---|---|
+| `ivory` | `#F7F7F1` |  | `accent` | `#7A5718` |
+| `white` | `#FFFFFC` |  | `accent-hover` | `#5F4311` |
+| `linen` | `#ECEFE5` |  | `accent-dot` | `#A27A2E` |
+| `greige` | `#DDE3D4` |  | `accent-tint` | `#F3EBD9` |
+| `hairline` | `#CDD4C3` |  | `indigo` | `#3E5A4A` |
+| `stone` | `#7F8A78` |  | `cta` | `#253028` |
+| `ink` | `#253028` |  | `cta-hover` | `#5F4311` |
+| `ink-soft` | `#364238` |  | `on-cta` | `#FFFFFF` |
+| `muted` | `#545F55` |  |  |  |
+
+| Check (min) | on ivory | on white | on linen | on greige |
+|---|---|---|---|---|
+| `ink` text (4.5) | 12.75 | 13.68 | 11.78 | 10.45 |
+| `muted` text (4.5) | 6.21 | 6.67 | 5.74 | 5.09 |
+| `accent` text (4.5) | 6.10 | 6.54 | 5.63 | 5.00 |
+| `accent-hover` text (4.5) | 8.50 | 9.12 | 7.85 | 6.97 |
+
+| Pair (min) | Ratio |
+|---|---|
+| `on-cta` on `cta` (4.5) | 13.71 |
+| `on-cta` on `cta-hover` (4.5) | 9.14 |
+| white on `accent` (WhatsApp button, 4.5) | 6.55 |
+| `accent` on `accent-tint` (4.5) | 5.52 |
+| `accent-dot` on ivory (UI, 3.0) | 3.64 |
+| `stone` on ivory / white / linen (UI, 3.0) | 3.36 / 3.61 / 3.11 |
+| `indigo` focus ring on ivory / greige (3.0) | 7.06 / 5.79 |
+
+#### Blush & Teal (`?palette=blush-teal`), bold highlight
+
+Ivory and soft blush clay with a **deep teal** highlight. Primary buttons, links and the active dot are teal.
+
+| Token | Hex |  | Token | Hex |
+|---|---|---|---|---|
+| `ivory` | `#FCF7F4` |  | `accent` | `#0E5F63` |
+| `white` | `#FFFFFF` |  | `accent-hover` | `#0A4A4D` |
+| `linen` | `#F7EAE4` |  | `accent-dot` | `#16777C` |
+| `greige` | `#EFD9D0` |  | `accent-tint` | `#DDEEEE` |
+| `hairline` | `#E5CCC2` |  | `indigo` | `#0E5F63` |
+| `stone` | `#927A75` |  | `cta` | `#0E5F63` |
+| `ink` | `#2C2526` |  | `cta-hover` | `#0A4A4D` |
+| `ink-soft` | `#41383A` |  | `on-cta` | `#FFFFFF` |
+| `muted` | `#6B5A5A` |  |  |  |
+
+| Check (min) | on ivory | on white | on linen | on greige |
+|---|---|---|---|---|
+| `ink` text (4.5) | 14.11 | 15.00 | 12.75 | 11.08 |
+| `muted` text (4.5) | 6.10 | 6.49 | 5.52 | 4.79 |
+| `accent` text (4.5) | 6.96 | 7.41 | 6.29 | 5.47 |
+| `accent-hover` text (4.5) | 9.41 | 10.00 | 8.50 | 7.39 |
+
+| Pair (min) | Ratio |
+|---|---|
+| `on-cta` on `cta` (4.5) | 7.41 |
+| `on-cta` on `cta-hover` (4.5) | 10.00 |
+| white on `accent` (WhatsApp button, 4.5) | 7.41 |
+| `accent` on `accent-tint` (4.5) | 6.18 |
+| `accent-dot` on ivory (UI, 3.0) | 4.98 |
+| `stone` on ivory / white / linen (UI, 3.0) | 3.75 / 3.99 / 3.39 |
+| `indigo` focus ring on ivory / greige (3.0) | 6.96 / 5.47 |
+
+#### Marigold (`?palette=marigold`), bold highlight
+
+Warm cream with a **saffron** highlight. Primary buttons are saffron with dark text. Links use a darkened burnt-saffron so they pass AA.
+
+| Token | Hex |  | Token | Hex |
+|---|---|---|---|---|
+| `ivory` | `#FFFBF3` |  | `accent` | `#8F4A00` |
+| `white` | `#FFFFFF` |  | `accent-hover` | `#713A00` |
+| `linen` | `#FBF1DC` |  | `accent-dot` | `#C27400` |
+| `greige` | `#F3E3C3` |  | `accent-tint` | `#FCEBCB` |
+| `hairline` | `#E9D6B0` |  | `indigo` | `#5A3A8C` |
+| `stone` | `#9A8565` |  | `cta` | `#E8A019` |
+| `ink` | `#2A241C` |  | `cta-hover` | `#D18A0B` |
+| `ink-soft` | `#3E362B` |  | `on-cta` | `#2A241C` |
+| `muted` | `#66573F` |  |  |  |
+
+| Check (min) | on ivory | on white | on linen | on greige |
+|---|---|---|---|---|
+| `ink` text (4.5) | 14.88 | 15.36 | 13.69 | 12.13 |
+| `muted` text (4.5) | 6.78 | 7.00 | 6.24 | 5.53 |
+| `accent` text (4.5) | 6.46 | 6.67 | 5.95 | 5.27 |
+| `accent-hover` text (4.5) | 8.82 | 9.10 | 8.11 | 7.19 |
+
+| Pair (min) | Ratio |
+|---|---|
+| `on-cta` on `cta` (4.5) | 6.93 |
+| `on-cta` on `cta-hover` (4.5) | 5.38 |
+| white on `accent` (WhatsApp button, 4.5) | 6.67 |
+| `accent` on `accent-tint` (4.5) | 5.68 |
+| `accent-dot` on ivory (UI, 3.0) | 3.51 |
+| `stone` on ivory / white / linen (UI, 3.0) | 3.44 / 3.55 / 3.16 |
+| `indigo` focus ring on ivory / greige (3.0) | 8.41 / 6.86 |
 
 ## 3. Spacing scale
 

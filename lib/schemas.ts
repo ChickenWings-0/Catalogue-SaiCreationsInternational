@@ -163,6 +163,8 @@ export const siteConfigSchema = z.object({
     headerSearch: z.boolean(),
     catalogueFilters: z.boolean(),
     heroSlideshow: z.boolean(),
+    /** TEMPORARY: floating colour-palette switcher for client review. */
+    showPaletteSwitcher: z.boolean(),
   }),
   seo: z.object({
     defaultTitle: text,

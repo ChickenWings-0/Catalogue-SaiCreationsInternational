@@ -18,6 +18,7 @@ Key constraints (see `docs/PLAN.md`):
 - Images use `next/image` with a static custom loader. Images are pre-sized and compressed at build time by `scripts/build-images.mjs`.
 - All content lives in `/content` and is read only through `lib/content.ts`. No hardcoded content in components.
 - Light theme only. Placeholders are marked `TODO(client)`.
+- Colours come only from tokens (CSS variables). Never hardcode a colour in a component: the TEMPORARY palette switcher (`features.showPaletteSwitcher`, `app/palettes.css`) depends on it.
 - Commit after each phase, following the rule above.
 - This is Next.js 16 (see `AGENTS.md`): check `node_modules/next/dist/docs/` before using an unfamiliar API (e.g. `preload` replaced `priority` on next/image; route params are Promises).
 
