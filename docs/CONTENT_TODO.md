@@ -55,7 +55,7 @@ Template, one per product (a spreadsheet works well; we can provide one):
 
 ## 4. The Studio
 
-- [ ] **Studio video:** 12–20 s, loopable, no audio needed, no on-screen text, subject centered. Master in the highest quality available (ProRes/H.264 4K or 1080p). We'll handle compression (see `STUDIO_INTERACTION_SPEC.md` §4)
+- [ ] **Studio video** (the site currently uses a free Mixkit stock clip of loom weaving as a placeholder): 12–20 s, loopable, no audio needed, no on-screen text, subject centered. Master in the highest quality available (ProRes/H.264 4K or 1080p). We'll handle compression (see `STUDIO_INTERACTION_SPEC.md` §4)
 - [ ] Portrait version for mobile (optional, 4:5 or 9:16)
 - [ ] Poster/still frame (or we'll take one from the video)
 - [ ] Studio page heading + intro text (50–100 words) + outro text and CTA

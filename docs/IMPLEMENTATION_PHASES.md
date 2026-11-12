@@ -84,24 +84,24 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
-## Phase 3: The Studio page interaction
+## Phase 3: The Studio page interaction ✅
 
 Follow [STUDIO_INTERACTION_SPEC.md](./STUDIO_INTERACTION_SPEC.md).
 
-- [ ] Placeholder video assets (a short neutral clip, or a generated gradient loop) + poster in `/public/video/studio/`
-- [ ] `StudioVideo` (autoplay muted loop playsInline, poster, mobile source, pause toggle, off-screen pause)
-- [ ] `StudioScrollVideo` timeline: `expand` → `hold` (dead zone) → `reveal` → `release`, with configurable distances
-- [ ] `gsap.matchMedia` branches: full / mobile / reduced-motion / short-landscape fallback
-- [ ] Install `gsap`, `@gsap/react`, `embla-carousel-react`, `embla-carousel-autoplay`
-- [ ] `PhotoCarousel` (Embla, centered + peek, arrows, keyboard, drag/swipe, optional autoplay with pause on hover/focus + pause button). Slides show the company (workshop, process, people) and are **not links**
-- [ ] `PaginationDots` (circle → pill animated width, accessible buttons)
-- [ ] GSAP + Embla dynamically imported on `/studio` only
-- [ ] Outro section with CTA to `/catalogue`
-- [ ] `debug` prop shows ScrollTrigger markers in dev
+- [x] Placeholder video: free stock clip (Mixkit #4479, loom weaving) cut to a 14 s seamless loop: `studio.mp4` (720p, 2.6 MB), `studio.webm` (1.7 MB), `studio-mobile.mp4` (540p, 1.2 MB) in `/public/video/studio/`, poster frame in `assets/images/placeholders/studio/video-poster.jpg`
+- [x] `StudioVideo` (autoplay muted loop playsInline, poster, mobile source, pause toggle, off-screen pause)
+- [x] `StudioScrollVideo` timeline: `expand` → `hold` (dead zone) → `reveal` → `release`, with configurable distances
+- [x] `gsap.matchMedia` branches: full / mobile / reduced-motion / short-landscape fallback
+- [x] Install `gsap`, `@gsap/react`, `embla-carousel-react`, `embla-carousel-autoplay`
+- [x] `PhotoCarousel` (Embla, centered + peek, arrows, keyboard, drag/swipe, optional autoplay with pause on hover/focus + pause button). Slides show the company (workshop, process, people) and are **not links**
+- [x] `PaginationDots` (circle → pill animated width, accessible buttons)
+- [x] GSAP + Embla dynamically imported on `/studio` only
+- [x] Outro section with CTA to `/catalogue`
+- [x] `debug` prop shows ScrollTrigger markers in dev
 
 **Acceptance criteria**
 - All items in STUDIO_INTERACTION_SPEC §9 are checked.
-- Real-device test on iOS Safari + Android Chrome is recorded (short screen recordings attached to the PR).
+- Real-device test on iOS Safari + Android Chrome is recorded (short screen recordings attached to the PR). ⏳ Still to do on physical devices; desktop Chrome and emulated mobile widths are verified.
 - The bundle analyser shows GSAP only in the `/studio` chunk.
 
 ---

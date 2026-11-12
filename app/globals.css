@@ -184,6 +184,65 @@
   }
 }
 
+/* The Studio scroll sequence (docs/STUDIO_INTERACTION_SPEC.md).
+   Default (no JS, reduced motion, short landscape screens): a normal stacked layout.
+   Animated mode: a full-viewport stage; GSAP pins it and scrubs the video's clip-path
+   from the inset frame to full screen, then fades the carousel panel in. */
+@media (prefers-reduced-motion: no-preference) and (min-height: 500px) {
+  .js .studio-stage {
+    position: relative;
+    height: 100lvh;
+    overflow: hidden;
+  }
+  .js .studio-video {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    max-width: none;
+    margin: 0;
+    clip-path: inset(18svh 12vw round 4px);
+  }
+  .js .studio-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .js .studio-cue {
+    display: inline-flex;
+  }
+  .js .studio-play-stage {
+    display: inline-flex;
+    position: absolute;
+    left: calc(12vw + 1rem);
+    bottom: calc(18svh + 1rem);
+  }
+  .js .studio-play-inline {
+    display: none;
+  }
+}
+.studio-play-stage {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) and (min-height: 500px) and (max-width: 47.99rem) {
+  .js .studio-video {
+    clip-path: inset(22svh 16px round 4px);
+  }
+}
+.studio-card {
+  --card-w: min(80vw, 30rem, calc((100svh - 22rem) * 0.8));
+}
+@media (min-width: 48rem) {
+  .studio-card {
+    --card-w: min(56vw, 30rem, calc((100svh - 22rem) * 0.8));
+  }
+}
+@media (min-width: 64rem) {
+  .studio-card {
+    --card-w: min(40vw, 32rem, calc((100svh - 22rem) * 0.8));
+  }
+}
+
 /* FAQ accordion (native <details>): animated height where supported, instant elsewhere. */
 @layer components {
   .faq-item::details-content {

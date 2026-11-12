@@ -10,11 +10,16 @@ export const studioPage: StudioPageInput = {
   intro:
     "Every piece we make begins in the workshop. Step inside to meet the people, the tools and the patient processes behind our collections.",
   video: {
-    // TODO(client): Studio film: 12–20 s seamless loop, no audio (encoded in Phase 3)
+    // TODO(client): replace with the client's own film (12–20 s seamless loop, no audio).
+    // PLACEHOLDER: free stock clip "Woman weaving a cloth on a large wooden loom" (Mixkit #4479,
+    // Mixkit Stock Video Free License), cut to a 14 s loop. Encode commands: STUDIO_INTERACTION_SPEC §4.1.
     src: "/video/studio/studio.mp4",
     srcWebm: "/video/studio/studio.webm",
     srcMobile: "/video/studio/studio-mobile.mp4",
-    poster: { src: "placeholders/studio/poster.jpg", alt: "The SAI Creations workshop" },
+    poster: {
+      src: "placeholders/studio/video-poster.jpg",
+      alt: "A weaver working at a wooden hand loom",
+    },
   },
   carousel: {
     heading: "Workshop, process and people",

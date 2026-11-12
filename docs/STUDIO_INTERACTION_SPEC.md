@@ -205,6 +205,15 @@ No pinning, no scrubbing, no scroll-jacking.
 - LCP = poster image < 2.5 s on 4G. CLS = 0 (stage has fixed dimensions, carousel space reserved).
 - `ScrollTrigger.refresh()` runs after fonts load (`document.fonts.ready`) and after the carousel reports `onReady`.
 
+## 8a. As built (Phase 3)
+
+- Layout modes are pure CSS (`.studio-*` in `app/globals.css`), gated on `html.js`, `prefers-reduced-motion: no-preference` and `min-height: 500px`. Without JS, with reduced motion, or on short landscape screens, the page is a normal stacked layout (no pin, no flash).
+- The play/pause control rides along with the frame's bottom-left corner during the expansion. In the static layout it sits inside the video frame.
+- The panel is `inert` while pinned. The video pauses on release (ScrollTrigger `onLeave`) and resumes when scrolling back (`onEnterBack`). It also pauses when off-screen or when the tab is hidden.
+- The poster is a real `next/image` (pre-built WebP, preloaded) under the `<video>`. Sources are picked after mount: WebM + MP4 on desktop, `studio-mobile.mp4` under 768px, and none with data-saver (poster only).
+- GSAP + ScrollTrigger (one ~124 kB uncompressed chunk) load only on `/studio`. This was verified in the static export.
+- **Placeholder video:** "Woman weaving a cloth on a large wooden loom" (Mixkit #4479, Mixkit Stock Video Free License, described on Mixkit as free for commercial or personal use), cut to a 14 s seamless loop (the last second cross-fades into the opening). Replace it with the client's film.
+
 ## 9. Acceptance criteria
 
 - [ ] Desktop: the video starts inset, expands smoothly to edge-to-edge as the user scrolls, and stays pinned.
