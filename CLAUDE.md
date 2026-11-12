@@ -19,6 +19,7 @@ Key constraints (see `docs/PLAN.md`):
 - All content lives in `/content` and is read only through `lib/content.ts`. No hardcoded content in components.
 - Light theme only. Placeholders are marked `TODO(client)`.
 - Commit after each phase, following the rule above.
+- This is Next.js 16 (see `AGENTS.md`): check `node_modules/next/dist/docs/` before using an unfamiliar API (e.g. `preload` replaced `priority` on next/image; route params are Promises).
 
 ## Commands
 

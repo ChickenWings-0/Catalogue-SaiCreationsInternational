@@ -4,23 +4,23 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
-## Phase 0: Project setup, tooling, design tokens, fonts
+## Phase 0: Project setup, tooling, design tokens, fonts ✅
 
-- [ ] `create-next-app` (latest stable): TypeScript, App Router, Tailwind v4, ESLint, `src`-less layout, `@/*` alias
-- [ ] `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { loader: 'custom', loaderFile: './lib/image-loader.ts', deviceSizes, imageSizes }`. No middleware, API routes, edge runtime or ISR
-- [ ] **Build-time image pipeline:** `scripts/build-images.mjs` (sharp). Originals in `/assets/images/**` → WebP variants at fixed widths in `/public/img/` (gitignored) + `lib/generated/image-manifest.json` (intrinsic sizes). Incremental (skips up-to-date files). Runs via `predev` / `prebuild`
-- [ ] `lib/image-loader.ts`: maps `(src, width)` → `/img/<path>-<width>.webp`; absolute URLs pass through
-- [ ] `tsconfig` `strict: true`, `noUncheckedIndexedAccess: true`
-- [ ] Prettier + `prettier-plugin-tailwindcss`. ESLint: `next/core-web-vitals`, `jsx-a11y`
-- [ ] `.editorconfig`, `.nvmrc` (Node LTS), `npm` scripts: `dev`, `build`, `start`, `lint`, `format`, `typecheck`, `test:e2e`, `content:todo`, `placeholders`
-- [ ] Install deps: `@radix-ui/react-dialog`, `lucide-react`, `react-icons`, `zod`, `clsx`, `tailwind-merge`. Dev: `sharp`, `prettier`, `prettier-plugin-tailwindcss`, `eslint-plugin-jsx-a11y`. (GSAP/Embla are added in the phases that need them. Playwright/axe come in Phase 5)
-- [ ] Design tokens in `app/globals.css` `@theme` (colours, fonts, easing, breakpoints) per DESIGN_SYSTEM
-- [ ] `next/font/google`: Cormorant Garamond (300/400/500 + 400 italic), Jost (300/400/500), exposed as CSS variables
-- [ ] `color-scheme: light`; no dark-mode styles
-- [ ] `scripts/generate-placeholders.mjs`: generates neutral-toned, labelled JPG placeholder originals (product 4:5, category tiles, hero 16:9, about, studio slides, static map, OG 1200×630) into `/assets/images/placeholders/`. It only creates missing files and never overwrites real images. The originals are committed
-- [ ] Placeholder logo at `/public/brand/logo.png` + favicon set (`app/icon.png`, `apple-icon.png`), created only if missing
-- [ ] A `/styleguide` page showing type scale, colours and buttons (`noindex`, not linked, excluded from the sitemap)
-- [ ] Git: `.gitignore` (incl. `/out`, `/public/img`, `lib/generated`), README with setup steps
+- [x] `create-next-app` (latest stable): TypeScript, App Router, Tailwind v4, ESLint, `src`-less layout, `@/*` alias
+- [x] `next.config.ts`: `output: 'export'`, `trailingSlash: true`, `images: { loader: 'custom', loaderFile: './lib/image-loader.ts', deviceSizes, imageSizes }`. No middleware, API routes, edge runtime or ISR
+- [x] **Build-time image pipeline:** `scripts/build-images.mjs` (sharp). Originals in `/assets/images/**` → WebP variants at fixed widths in `/public/img/` (gitignored) + `lib/generated/image-manifest.json` (intrinsic sizes). Incremental (skips up-to-date files). Runs via `predev` / `prebuild`
+- [x] `lib/image-loader.ts`: maps `(src, width)` → `/img/<path>-<width>.webp`; absolute URLs pass through
+- [x] `tsconfig` `strict: true`, `noUncheckedIndexedAccess: true`
+- [x] Prettier + `prettier-plugin-tailwindcss`. ESLint: `next/core-web-vitals`, `jsx-a11y`
+- [x] `.editorconfig`, `.nvmrc` (Node LTS), `npm` scripts: `dev`, `build`, `start`, `lint`, `format`, `typecheck`, `test:e2e`, `content:todo`, `placeholders`
+- [x] Install deps: `@radix-ui/react-dialog`, `lucide-react`, `react-icons`, `zod`, `clsx`, `tailwind-merge`. Dev: `sharp`, `prettier`, `prettier-plugin-tailwindcss`, `eslint-plugin-jsx-a11y`. (GSAP/Embla are added in the phases that need them. Playwright/axe come in Phase 5)
+- [x] Design tokens in `app/globals.css` `@theme` (colours, fonts, easing, breakpoints) per DESIGN_SYSTEM
+- [x] `next/font/google`: Cormorant Garamond (300/400/500 + 400 italic), Jost (300/400/500), exposed as CSS variables
+- [x] `color-scheme: light`; no dark-mode styles
+- [x] `scripts/generate-placeholders.mjs`: generates neutral-toned, labelled JPG placeholder originals (product 4:5, category tiles, hero 16:9, about, studio slides, static map, OG 1200×630) into `/assets/images/placeholders/`. It only creates missing files and never overwrites real images. The originals are committed
+- [x] Placeholder logo at `/public/brand/logo.png` + favicon set (`app/icon.png`, `apple-icon.png`), created only if missing
+- [x] A `/styleguide` page showing type scale, colours and buttons (`noindex`, not linked, excluded from the sitemap)
+- [x] Git: `.gitignore` (incl. `/out`, `/public/img`, `lib/generated`), README with setup steps
 
 **Acceptance criteria**
 - `npm run dev` serves the style guide in ivory with the correct fonts loaded (no FOUT/CLS visible), and a placeholder image renders through the custom loader with a correct `srcset`.
@@ -29,18 +29,18 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
-## Phase 1: Layout shell: header, sidebar, footer, routing, placeholder content
+## Phase 1: Layout shell: header, sidebar, footer, routing, placeholder content ✅
 
-- [ ] `lib/schemas.ts` (Zod) + types; `lib/content.ts` async getters (all from CONTENT_MODEL §3)
-- [ ] Content files: `site.ts` (all links/contacts/socials/Google Form/feature flags), `navigation.ts`, `categories.ts` (4), `products/*.ts` (**8 per category = 32**, codes `SCI-XX-001…008`), `faqs.ts` (8 placeholder Q&As), `pages/*.ts`
-- [ ] Every placeholder value has a `// TODO(client):` marker. `scripts/content-todo-report.mjs` prints them
-- [ ] `Header` (sticky, wordmark centered, hamburger left, search + contact right). `shrinkOnScroll` prop wired to `site.features.headerShrink` (no effect yet) ⏳. Search icon is a placeholder ⏳. Contact icon target comes from `site.header.contactHref` (`/contact` for now) ⏳
-- [ ] `Wordmark` with the two-line mobile lockup (approved)
-- [ ] `Sidebar` (Radix Dialog): slides from left, overlay, Esc/overlay/X close, focus trap + return, scroll lock, closes on navigation, sub-categories always visible and indented, About/Contact pinned bottom, `aria-current`
-- [ ] `Footer`: all columns, `SocialLinks` (5 platforms, new tab, aria-labels), `FAQAccordion` (footer subset), bottom strip (logo, © year, address)
-- [ ] `SkipLink`, `Container`, `Section`, `Button`, `LinkArrow`, `SectionHeading`, `ResponsiveImage`, `Breadcrumbs`
-- [ ] Route stubs for every route in SITEMAP, with `generateStaticParams` + `dynamicParams = false` for category/product
-- [ ] `app/not-found.tsx` stub
+- [x] `lib/schemas.ts` (Zod) + types; `lib/content.ts` async getters (all from CONTENT_MODEL §3)
+- [x] Content files: `site.ts` (all links/contacts/socials/Google Form/feature flags), `navigation.ts`, `categories.ts` (4), `products/*.ts` (**8 per category = 32**, codes `SCI-XX-001…008`), `faqs.ts` (8 placeholder Q&As), `pages/*.ts`
+- [x] Every placeholder value has a `// TODO(client):` marker. `scripts/content-todo-report.mjs` prints them
+- [x] `Header` (sticky, wordmark centered, hamburger left, search + contact right). `shrinkOnScroll` prop wired to `site.features.headerShrink` (no effect yet) ⏳. Search icon is a placeholder ⏳. Contact icon target comes from `site.header.contactHref` (`/contact` for now) ⏳
+- [x] `Wordmark` with the two-line mobile lockup (approved)
+- [x] `Sidebar` (Radix Dialog): slides from left, overlay, Esc/overlay/X close, focus trap + return, scroll lock, closes on navigation, sub-categories always visible and indented, About/Contact pinned bottom, `aria-current`
+- [x] `Footer`: all columns, `SocialLinks` (5 platforms, new tab, aria-labels), `FAQAccordion` (footer subset), bottom strip (logo, © year, address)
+- [x] `SkipLink`, `Container`, `Section`, `Button`, `LinkArrow`, `SectionHeading`, `ResponsiveImage`, `Breadcrumbs`
+- [x] Route stubs for every route in SITEMAP, with `generateStaticParams` + `dynamicParams = false` for category/product
+- [x] `app/not-found.tsx` stub
 
 **Acceptance criteria**
 - All routes in SITEMAP export statically (`/out` contains 32 product pages + 4 category pages + the static pages + `404.html`).

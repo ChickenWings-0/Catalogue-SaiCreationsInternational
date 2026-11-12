@@ -37,8 +37,8 @@ Both fonts load through `next/font/google` (self-hosted at build time, `display:
 |---|---|---|---|
 | Text | `SAI CREATIONS INTERNATIONAL` (1 line) | 1 line | 2 lines: `SAI CREATIONS` / `INTERNATIONAL` |
 | Font | Cormorant Garamond 400 | 400 | line 1: 400 · line 2: 400, smaller |
-| Size | 22px | 18px | 17px / 10px |
-| Letter-spacing | 0.28em | 0.24em | 0.2em / 0.42em (the two lines optically justified to the same width) |
+| Size | 22px | 18px | 17px / 11px |
+| Letter-spacing | 0.28em | 0.24em | 0.2em / 0.56em (measured: both lines ≈167px wide at 360px) |
 | Case | Uppercase | | |
 | Colour | `--color-ink` | | |
 

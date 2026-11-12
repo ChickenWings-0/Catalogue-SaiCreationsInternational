@@ -60,6 +60,45 @@
 
   --container-content: 100rem; /* 1600 */
   --header-height: 4rem;
+
+  /* Sidebar drawer (Radix waits for animationend before unmounting, so use keyframes). */
+  --animate-drawer-in: drawer-in 700ms var(--ease-in-out-soft) both;
+  --animate-drawer-out: drawer-out 500ms var(--ease-in-out-soft) both;
+  --animate-fade-in: fade-in 500ms var(--ease-soft) both;
+  --animate-fade-out: fade-out 400ms var(--ease-soft) both;
+
+  @keyframes drawer-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes drawer-out {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
@@ -112,6 +151,32 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+}
+
+/* FAQ accordion (native <details>): animated height where supported, instant elsewhere. */
+@layer components {
+  .faq-item::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 400ms var(--ease-soft),
+      content-visibility 400ms allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+  .faq-item > summary {
+    list-style: none;
+  }
+  .faq-item > summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
   }
 }
 

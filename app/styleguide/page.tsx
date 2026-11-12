@@ -61,7 +61,7 @@ export default function StyleGuidePage() {
   );
 
   return (
-    <main className="mx-auto max-w-(--container-content) space-y-20 px-4 py-16 sm:px-6 lg:px-10 2xl:px-16">
+    <div className="mx-auto max-w-(--container-content) space-y-20 px-4 py-16 sm:px-6 lg:px-10 2xl:px-16">
       <header className="space-y-3">
         <p className="eyebrow text-muted">Internal reference</p>
         <h1 className="font-display text-display-lg font-light">Style guide</h1>
@@ -146,6 +146,6 @@ export default function StyleGuidePage() {
           <ResponsiveImage image={hero} sizes="(min-width: 768px) 66vw, 100vw" />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

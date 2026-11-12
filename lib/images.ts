@@ -10,11 +10,15 @@ type Manifest = Record<string, { width: number; height: number }>;
 
 const MANIFEST_PATH = path.join(process.cwd(), "lib", "generated", "image-manifest.json");
 let manifest: Manifest | null = null;
+let manifestMtime = 0;
 
 function getManifest(): Manifest {
-  if (manifest) return manifest;
   try {
+    // In dev, pick up a re-run of `npm run images` without restarting the server.
+    const mtime = fs.statSync(MANIFEST_PATH).mtimeMs;
+    if (manifest && mtime === manifestMtime) return manifest;
     manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf8")) as Manifest;
+    manifestMtime = mtime;
   } catch {
     throw new Error(
       `Image manifest not found at ${MANIFEST_PATH}. Run "npm run images" (it runs automatically before dev/build).`,

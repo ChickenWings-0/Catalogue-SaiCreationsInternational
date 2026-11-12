@@ -18,7 +18,7 @@ Sticky top bar: hamburger · centered wordmark · search + contact icons.
 |---|---|---|
 | `siteName` | `string` | Passed to `Wordmark` |
 | `contactHref` | `string` | Contact icon target (`/contact`) |
-| `searchEnabled` | `boolean` | `false` → icon shown as placeholder (`aria-disabled`, tooltip "Search coming soon"). **To refine later** |
+| `searchEnabled` | `boolean` | `false` → icon shown as placeholder (`aria-disabled`, "Search (coming soon)"), hidden below 640px to leave room for the two-line wordmark. **To refine later** |
 | `shrinkOnScroll` | `boolean` (default `false`) | Hook point for the future shrink effect. When true, a small client observer toggles `data-scrolled` on the header and CSS handles the rest. **Pending client** |
 | `navigation` | `Navigation` | Forwarded to `Sidebar` |
 
@@ -127,8 +127,10 @@ Maps `platform` to a react-icons/fa6 icon. Links open in a new tab.
 |---|---|---|
 | `items` | `FAQ[]` | |
 | `name` | `string` | Native `<details name>` makes it exclusive (one open at a time) |
-| `headingLevel?` | `2 \| 3 \| 4` | Each summary wraps a heading for structure |
-| `emitJsonLd?` | `boolean` | FAQPage JSON-LD (on `/about` only) |
+| `size?` | `'sm' \| 'md'` | `sm` in the footer |
+| `emitJsonLd?` | `boolean` | FAQPage JSON-LD (on `/about` only, Phase 5) |
+
+Summaries contain plain text, not headings: a heading inside `<summary>` loses its semantics in some screen readers.
 
 Built on native `<details>/<summary>`, with a chevron rotating 180°. The height animation uses `::details-content` + `interpolate-size` where supported. Other browsers fall back to no animation. Works without JS.
 
