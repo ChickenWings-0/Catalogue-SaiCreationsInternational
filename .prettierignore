@@ -1,0 +1,10 @@
+.next
+out
+node_modules
+public/img
+lib/generated
+assets
+package-lock.json
+next-env.d.ts
+docs
+sai-creations-claude-code-prompt.md

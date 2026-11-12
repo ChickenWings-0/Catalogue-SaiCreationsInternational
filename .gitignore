@@ -1,0 +1,41 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+/test-results
+/playwright-report
+
+# next.js / static export
+/.next/
+/out/
+/build
+
+# generated at build time by scripts/build-images.mjs
+/public/img/
+/lib/generated/
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+!.env.example
+
+# hosting CLIs
+.vercel
+.wrangler
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
