@@ -229,6 +229,15 @@
     clip-path: inset(22svh 16px round 4px);
   }
 }
+/* Square product cards in the category carousels. */
+.product-card {
+  --card-w: min(76vw, 26rem, calc(100svh - 20rem));
+}
+@media (min-width: 64rem) {
+  .product-card {
+    --card-w: min(34vw, 28rem, calc(100svh - 20rem));
+  }
+}
 .studio-card {
   --card-w: min(80vw, 30rem, calc((100svh - 22rem) * 0.8));
 }

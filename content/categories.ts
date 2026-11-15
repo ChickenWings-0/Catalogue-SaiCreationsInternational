@@ -1,39 +1,36 @@
 import type { CategoryInput } from "@/lib/schemas";
 
-// TODO(client): category taglines, intros and tile photos (1200 × 1500 or larger, 4:5)
+// TODO(client): confirm category taglines and intros. Tile photos use a product photo for now.
 export const categories: CategoryInput[] = [
   {
     slug: "home-decor",
     name: "Home Decor",
     codePrefix: "HD",
     order: 1,
-    tagline: "Textiles, vessels and accents for every room",
+    tagline: "Terrariums, glass boxes and trays",
     intro:
-      "Cushions, throws, vases and trays made by hand, in natural fibres, brass and wood. Pieces that bring warmth and texture to a living space without asking for attention.",
-    tileImage: { src: "placeholders/categories/home-decor-tile.jpg", alt: "Home decor collection" },
+      "Brass-framed glass terrariums, display boxes, trays and vessels, each piece cut, soldered and finished by hand.",
+    tileImage: { src: "products/sci-hd-001.jpg", alt: "Brass and glass greenhouse terrarium" },
   },
   {
     slug: "outdoor-decor",
     name: "Outdoor Decor",
     codePrefix: "OD",
     order: 2,
-    tagline: "Planters, lanterns and pieces for open air",
+    tagline: "Lanterns for terraces and gardens",
     intro:
-      "Terracotta, iron and teak, chosen to weather well. Planters, lanterns and garden pieces for terraces, courtyards and gardens.",
-    tileImage: {
-      src: "placeholders/categories/outdoor-decor-tile.jpg",
-      alt: "Outdoor decor collection",
-    },
+      "Brass and glass lanterns in many shapes and sizes, made by hand to bring a soft glow to terraces, courtyards and gardens.",
+    tileImage: { src: "products/sci-od-001.jpg", alt: "Brass and glass lantern with carry handle" },
   },
   {
     slug: "wall-decor",
     name: "Wall Decor",
     codePrefix: "WD",
     order: 3,
-    tagline: "Mirrors, hangings and art for the wall",
+    tagline: "Sconces, candle holders and wall pieces",
     intro:
-      "Carved mirrors, woven baskets, embroidered hangings and metal art. Each piece is finished by hand and brings depth to a bare wall.",
-    tileImage: { src: "placeholders/categories/wall-decor-tile.jpg", alt: "Wall decor collection" },
+      "Hand-forged iron sconces, candle holders, planters and hanging lanterns that bring light and character to a wall.",
+    tileImage: { src: "products/sci-wd-001.jpg", alt: "Hanging amber glass star lantern" },
   },
   {
     slug: "seasonal-decor",
@@ -42,10 +39,7 @@ export const categories: CategoryInput[] = [
     order: 4,
     tagline: "Festive pieces, made to be kept",
     intro:
-      "Lanterns, wreaths, garlands and ornaments for festivals and celebrations through the year, made to be brought out again season after season.",
-    tileImage: {
-      src: "placeholders/categories/seasonal-decor-tile.jpg",
-      alt: "Seasonal decor collection",
-    },
+      "Wire trees, stars, lanterns and festive figures, handmade to be brought out again season after season.",
+    tileImage: { src: "products/sci-sd-001.jpg", alt: "Silver wire reindeer" },
   },
 ];

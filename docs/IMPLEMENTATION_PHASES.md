@@ -4,6 +4,20 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
+## Status at a glance (updated 2026-11-16)
+
+| Phase | Status |
+|---|---|
+| 0 Setup · 1 Layout shell · 2 Catalogue pages · 3 The Studio | ✅ Done |
+| 3.5 Client feedback: visual-only catalogue + first real photos | ✅ Done |
+| 4 About, Contact, FAQs, 404 | Next |
+| 4b Product photos batch 2 (repeatable whenever the client sends more) | Waiting on client |
+| 5 SEO, accessibility, performance, clean-up | To do |
+| 6 Deployment + custom domain | To do (needs domain details) |
+| 7 CMS for client editing | Later / optional |
+
+---
+
 ## Phase 0: Project setup, tooling, design tokens, fonts ✅
 
 - [x] `create-next-app` (latest stable): TypeScript, App Router, Tailwind v4, ESLint, `src`-less layout, `@/*` alias
@@ -106,12 +120,49 @@ Follow [STUDIO_INTERACTION_SPEC.md](./STUDIO_INTERACTION_SPEC.md).
 
 ---
 
+## Phase 3.5: Client feedback: visual-only catalogue ✅
+
+Client decisions (2026-11-16): **no product names, dimensions or specifications** on the site (to protect their designs from being copied), **no filters or sorting**, just a visual display. Visitors click a product photo to enquire on **WhatsApp**.
+
+- [x] Import the client's first photo batch (56 products: 11 Home Decor, 11 Outdoor Decor, 12 Wall Decor, 22 Seasonal Decor) with `npm run import:images` (trim white margin, centre on a square canvas, no upscaling). Mapping in `scripts/client-images.mjs`
+- [x] The "IMAGES" folder was split: terrariums, glass boxes, trays and vases go to **Home Decor**; lanterns go to **Outdoor Decor** (name kept)
+- [x] Product model reduced to **code + category + photo(s) + featured flag** (codes provisional: `SCI-HD-001` …)
+- [x] Category page: large product **carousel** + **image wall** (photos and codes only)
+- [x] Click a photo → **lightbox** (large photo, swipe/arrows/keys between products, code, one "Enquire on WhatsApp" button)
+- [x] WhatsApp message = product code + product page link. Each product page uses its photo as `og:image` (JPEG share image), so **WhatsApp shows the photo as a link preview**. (A website can't attach a photo to a WhatsApp message directly.)
+- [x] Minimal product page (photo, code, WhatsApp button, more from the category): the target of shared links
+- [x] Removed: filters, sorting, specs, dimensions, product gallery, Instagram/form enquiry buttons on product pages
+- [x] Light anti-copy deterrent: product photos can't be dragged and right-click/long-press offers no "Save image" (not real protection)
+- [x] Category tiles and Home "Featured pieces" use real product photos
+
+**Acceptance criteria**
+- No product name, size or specification appears anywhere on the site. ✅
+- Every product opens in the lightbox, and its WhatsApp link carries the right code and URL. ✅
+- The link preview works once the site is on a public URL (WhatsApp can't fetch `localhost`). ⏳ Verify after Phase 6.
+
+---
+
+## Phase 4b: Product photos batch 2 (repeat for every new batch) ⏳
+
+When the client sends more photos:
+1. Put them in `IMAGES FOR AKSH/<CATEGORY>/` (this inbox folder is not committed).
+2. Add one line per photo to `scripts/client-images.mjs` (code, file, short alt text).
+3. Run `npm run import:images`, then add the matching entries to `content/products/<category>.ts`.
+4. `npm run build` → check → commit.
+
+- [ ] Home Decor and Garden/Outdoor folders were empty in batch 1. Collect photos for them
+- [ ] Ask for higher-resolution originals where the product is small in frame (e.g. SCI-OD-002 is only ~350 px wide)
+- [ ] Replace provisional codes with the client's own codes, if they have them
+
+---
+
 ## Phase 4: About, Contact, FAQs, 404
 
 - [ ] **About** `/about`: intro, `#the-initiative` and `#the-present` sections (placeholder text + images, alternating layout), `#faqs` with the **full** `FAQAccordion` (same `faqs.ts` source as the footer). `scroll-margin-top` for the sticky header
 - [ ] Footer links `/about#the-initiative` and `#the-present` land at the correct sections (also when already on `/about`)
 - [ ] **Contact** `/contact`: `ContactDetails` (address, phone `tel:`, email `mailto:`, hours), `MapPlaceholder` (a static placeholder image linking to Google Maps; **no iframe embed**), `SocialLinks` with labels, `GoogleFormCta` (plain link, new tab, no prefill). No on-site form
-- [ ] **404**: styled page with copy from content, links to Home + Catalogue, featured products
+- [ ] **404**: styled page with copy from content, links to Home + Catalogue, featured product photos
+- [ ] **Home hero**: replace the illustrated placeholder slides with real photography or a composed product shot (needs client lifestyle photos) ⏳
 - [ ] Header contact icon → `/contact`. Search icon placeholder state finalised ⏳
 
 **Acceptance criteria**
@@ -127,12 +178,13 @@ Follow [STUDIO_INTERACTION_SPEC.md](./STUDIO_INTERACTION_SPEC.md).
 **Clean-up**
 - [ ] Client picks a palette: copy it into `@theme` and **remove the TEMPORARY palette switcher** (see DESIGN_SYSTEM §2.4), or at least set `showPaletteSwitcher: false`
 - [ ] Remove all `PhaseNote` scaffolding
+- [ ] Optional (client decision): watermark product photos with the logo at build time, as a stronger anti-copy measure
 
 **SEO**
 - [ ] `metadataBase` from `NEXT_PUBLIC_SITE_URL`. Per-page `generateMetadata` (title template `%s · SAI Creations International`, description, canonical)
 - [ ] Open Graph + Twitter `summary_large_image` cards (default OG image with logo; product pages use the first product image)
-- [ ] `app/sitemap.ts` + `app/robots.ts` (`dynamic = 'force-static'`, emitted as files). Sitemap: all static + 4 category + 32 product URLs with trailing slashes on the bare domain. Robots: allow all when `SITE_ENV=production`; otherwise `Disallow: /` + `<meta name="robots" content="noindex">` (host-independent, no headers/middleware)
-- [ ] JSON-LD: `Organization` (root layout: name, logo, url, `sameAs` socials, `contactPoint`), `BreadcrumbList` (category/product), `Product` (name, sku, image, material, brand, category). *Note:* without price/offers Google won't show Product rich results, but the markup is still valid structured data. `FAQPage` on `/about` (low rich-result value since 2023, harmless)
+- [ ] `app/sitemap.ts` + `app/robots.ts` (`dynamic = 'force-static'`, emitted as files). Sitemap: all static + 4 category + every product URL (56 in batch 1) with trailing slashes on the bare domain. Robots: allow all when `SITE_ENV=production`; otherwise `Disallow: /` + `<meta name="robots" content="noindex">` (host-independent, no headers/middleware)
+- [ ] JSON-LD: `Organization` (root layout: name, logo, url, `sameAs` socials, `contactPoint`), `BreadcrumbList` (category/product), `Product` (sku = code, image, brand, category; no name or specs, by client choice). *Note:* without price/offers Google won't show Product rich results, but the markup is still valid structured data. `FAQPage` on `/about` (low rich-result value since 2023, harmless)
 - [ ] Semantic HTML audit: one H1 per page, landmark roles, lists for grids
 
 **Analytics**
@@ -141,7 +193,7 @@ Follow [STUDIO_INTERACTION_SPEC.md](./STUDIO_INTERACTION_SPEC.md).
 **Accessibility (WCAG 2.1 AA)**
 - [ ] Add `@playwright/test` + `@axe-core/playwright`. Run Playwright + axe on every route template against the static `/out` build: zero violations
 - [ ] Keyboard pass on all interactive components; visible focus everywhere
-- [ ] Screen reader pass (VoiceOver iOS/macOS + NVDA Windows) on sidebar, filters, gallery, carousel, FAQ
+- [ ] Screen reader pass (VoiceOver iOS/macOS + NVDA Windows) on sidebar, product carousel, lightbox, Studio carousel, FAQ
 - [ ] `prefers-reduced-motion` honoured site-wide
 - [ ] 200% zoom / 320px reflow without loss of content
 - [ ] All images have meaningful alt text from content

@@ -173,7 +173,6 @@ const loadProducts = once(() => {
 
   for (const category of cats) {
     const { file, items } = PRODUCT_SOURCES[category.slug];
-    const slugs = new Set<string>();
     items.forEach((raw, i) => {
       const code = (raw as { code?: string })?.code ?? `#${i}`;
       const where = `${file} → ${code}`;
@@ -187,13 +186,13 @@ const loadProducts = once(() => {
         throw new Error(`${where}: code should start with "SCI-${category.codePrefix}-".`);
       }
       if (codes.has(p.code)) throw new Error(`${where}: duplicate product code.`);
-      if (slugs.has(p.slug)) throw new Error(`${where}: duplicate slug "${p.slug}" in category.`);
       codes.add(p.code);
-      slugs.add(p.slug);
+      const slug = p.code.toLowerCase();
       products.push({
-        ...(p as Omit<Product, "id" | "href">),
+        ...(p as Omit<Product, "id" | "slug" | "href">),
         id: p.code,
-        href: productHref(p.category, p.slug),
+        slug,
+        href: productHref(p.category, slug),
       });
     });
   }

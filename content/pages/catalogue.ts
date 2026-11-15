@@ -6,7 +6,7 @@ export const cataloguePage: CataloguePageInput = {
   intro:
     "Explore our collections of handcrafted home furnishings and decor. Every piece is made by hand, so each one carries the marks of the person who made it. To enquire about any product, message us with its product code.",
   categoriesHeading: "Collections",
-  allProductsHeading: "All products",
+  allProductsHeading: "All pieces",
   seo: {
     description:
       "Browse the SAI Creations International catalogue: home decor, outdoor decor, wall decor and seasonal decor, all handcrafted.",

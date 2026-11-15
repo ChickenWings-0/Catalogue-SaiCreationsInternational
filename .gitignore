@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# client photo inbox (processed copies live in assets/images/products)
+/IMAGES FOR AKSH/

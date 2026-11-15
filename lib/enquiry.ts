@@ -1,13 +1,16 @@
-import { fillTemplate } from "./format";
+import { fillTemplate } from "./format.ts";
 import type { Product, SiteConfig } from "./schemas";
 
-/** WhatsApp click-to-chat link, prefilled with the product name, code and page URL. */
+/**
+ * WhatsApp click-to-chat link, prefilled with the product code and the product page URL.
+ * Websites can't attach a photo to a WhatsApp message; instead WhatsApp shows the page's
+ * og:image (the product photo) as a link preview, as long as the URL is in the message.
+ */
 export function buildWhatsAppUrl(
   site: Pick<SiteConfig, "contact" | "enquiry" | "url">,
-  product: Pick<Product, "name" | "code" | "href">,
+  product: Pick<Product, "code" | "href">,
 ): string {
   const text = fillTemplate(site.enquiry.whatsappTemplate, {
-    name: product.name,
     code: product.code,
     url: `${site.url}${product.href}`,
   });
@@ -15,9 +18,8 @@ export function buildWhatsAppUrl(
 }
 
 /**
- * Instagram direct-message link (ig.me opens a DM thread). Instagram doesn't support
- * prefilled text, so the product page also offers a "copy code" button.
- * Falls back to the profile URL if no handle is configured.
+ * Instagram direct-message link (ig.me opens a DM thread). Falls back to the profile URL if no
+ * handle is configured.
  */
 export function buildInstagramDmUrl(site: Pick<SiteConfig, "socials">): string | null {
   const ig = site.socials.find((s) => s.platform === "instagram");

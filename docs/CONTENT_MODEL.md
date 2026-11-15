@@ -22,6 +22,11 @@ content/*.ts  ──►  lib/schemas.ts (Zod parse at build)  ──►  lib/con
 
 ## 2. Types
 
+> **Update 2026-11-16 (client feedback):** the catalogue is visual-only. The live `Product` type is
+> `{ code, category, images[], featured? }` (+ derived `id`, `slug` = lowercase code, `href`). Names, dimensions,
+> materials, specs, MOQ and lead time were removed from the schema (`lib/schemas.ts` is the source of truth).
+> The fuller interface below is the original plan and is kept for reference.
+
 ```ts
 // ─── Shared ────────────────────────────────────────────────────────────────
 export type CategorySlug =

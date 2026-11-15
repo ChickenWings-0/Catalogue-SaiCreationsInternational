@@ -1,5 +1,6 @@
 import { CategoryTile } from "@/components/catalogue/CategoryTile";
-import { ProductGrid } from "@/components/catalogue/ProductGrid";
+import { ProductWall } from "@/components/catalogue/ProductWall";
+import { toWallItems } from "@/lib/catalogue";
 import { Hero } from "@/components/home/Hero";
 import { AboutTeaser, StudioTeaser } from "@/components/home/Teasers";
 import { Button } from "@/components/ui/Button";
@@ -95,7 +96,16 @@ export default async function HomePage() {
                   </Button>
                 )}
               </div>
-              <ProductGrid products={products} />
+              <ProductWall
+                items={toWallItems(products, site)}
+                labels={{
+                  carousel: labels.carousel,
+                  lightbox: labels.lightbox,
+                  enquire: labels.enquire,
+                  product: labels.product,
+                }}
+                newTabHint={site.ui.opensInNewTab}
+              />
             </Container>
           </section>
         );

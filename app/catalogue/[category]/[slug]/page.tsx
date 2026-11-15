@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { EnquireButtons } from "@/components/catalogue/EnquireButtons";
-import { ProductGallery } from "@/components/catalogue/ProductGallery";
-import { ProductGrid } from "@/components/catalogue/ProductGrid";
-import { ProductSpecs } from "@/components/catalogue/ProductSpecs";
+import { FaWhatsapp } from "react-icons/fa6";
+import { ProductImage } from "@/components/catalogue/ProductImage";
+import { ProductWall } from "@/components/catalogue/ProductWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { LinkArrow } from "@/components/ui/LinkArrow";
+import { toWallItems } from "@/lib/catalogue";
 import {
   categoryHref,
   getCataloguePage,
@@ -18,7 +19,9 @@ import {
   getRelatedProducts,
   getSiteConfig,
 } from "@/lib/content";
+import { buildWhatsAppUrl } from "@/lib/enquiry";
 import { fillTemplate } from "@/lib/format";
+import { sharePath } from "@/lib/image-widths.mjs";
 
 export const dynamicParams = false;
 
@@ -26,18 +29,48 @@ export async function generateStaticParams() {
   return getProductStaticParams();
 }
 
+/**
+ * The product photo is the page's share image, so when this URL is sent on WhatsApp
+ * (the enquiry message includes it) the chat shows the photo as a link preview.
+ */
 export async function generateMetadata({
   params,
 }: PageProps<"/catalogue/[category]/[slug]">): Promise<Metadata> {
-  const { category, slug } = await params;
-  const product = await getProduct(category, slug);
-  if (!product) return {};
+  const { category: categorySlug, slug } = await params;
+  const [product, category, site] = await Promise.all([
+    getProduct(categorySlug, slug),
+    getCategory(categorySlug),
+    getSiteConfig(),
+  ]);
+  if (!product || !category) return {};
+  const [image] = product.images;
+  const title = `${category.name} · ${product.code}`;
+  const ogImage = image
+    ? [
+        {
+          url: sharePath(image.src),
+          width: Math.min(image.width, 1200),
+          height: Math.min(image.height, 1200),
+          alt: image.alt,
+        },
+      ]
+    : undefined;
   return {
-    title: product.seo?.title ?? `${product.name} (${product.code})`,
-    description: product.seo?.description ?? product.summary,
+    title,
+    description: category.intro,
+    openGraph: {
+      title: `${title} · ${site.legalName}`,
+      description: category.tagline,
+      url: product.href,
+      siteName: site.legalName,
+      type: "website",
+      images: ogImage,
+    },
+    twitter: { card: "summary_large_image", images: ogImage?.map((i) => i.url) },
   };
 }
 
+/** Minimal product page: photo, code, WhatsApp. Mainly the target of shared WhatsApp links. */
 export default async function ProductPage({ params }: PageProps<"/catalogue/[category]/[slug]">) {
   const { category: categorySlug, slug } = await params;
   const [product, category, catalogue, site, labels] = await Promise.all([
@@ -48,7 +81,9 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
     getLabels(),
   ]);
   if (!product || !category) notFound();
-  const related = await getRelatedProducts(product, 4);
+  const [image] = product.images;
+  const related = await getRelatedProducts(product, 8);
+  const codeLabel = fillTemplate(labels.product.code, { code: product.code });
 
   return (
     <>
@@ -59,18 +94,22 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
             { label: site.ui.breadcrumbHome, href: "/" },
             { label: catalogue.title, href: "/catalogue/" },
             { label: category.name, href: categoryHref(category.slug) },
-            { label: product.name },
+            { label: product.code },
           ]}
         />
 
-        <div className="mt-8 grid gap-10 lg:mt-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-16 xl:gap-24">
-          <ProductGallery
-            images={product.images}
-            productName={product.name}
-            labels={labels.gallery}
-          />
+        <div className="mt-8 grid items-center gap-10 lg:mt-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+          {image && (
+            <ProductImage
+              image={image}
+              tone="white"
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              preload
+              className="border border-hairline"
+            />
+          )}
 
-          <div className="space-y-8 lg:sticky lg:top-[calc(var(--header-height)+2rem)] lg:self-start">
+          <div className="space-y-8">
             <div className="space-y-4">
               <Link
                 href={categoryHref(category.slug)}
@@ -78,46 +117,48 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
               >
                 {category.name}
               </Link>
-              <h1 className="font-display text-display-lg font-light text-ink">{product.name}</h1>
-              <p className="text-caption tracking-[0.12em] text-muted">{product.code}</p>
-              <p className="text-body-lg font-light text-ink-soft">{product.summary}</p>
+              <h1 className="font-display text-display-lg font-light text-ink">{codeLabel}</h1>
             </div>
-
-            <EnquireButtons product={product} site={site} labels={labels.enquire} />
-
-            <section aria-labelledby="product-details" className="space-y-4">
-              <h2 id="product-details" className="eyebrow text-ink">
-                {labels.product.details}
-              </h2>
-              <ProductSpecs product={product} labels={labels.product} />
-            </section>
-
-            <section aria-labelledby="product-description" className="space-y-4">
-              <h2 id="product-description" className="eyebrow text-ink">
-                {labels.product.description}
-              </h2>
-              <div className="space-y-4 text-body text-ink-soft">
-                {product.description.split(/\n{2,}/).map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </section>
+            <div className="space-y-5 border border-hairline bg-white p-6 sm:p-8">
+              <h2 className="eyebrow text-ink">{labels.enquire.heading}</h2>
+              <p className="text-body-sm text-muted">{labels.enquire.intro}</p>
+              <Button
+                href={buildWhatsAppUrl(site, product)}
+                variant="accent"
+                size="lg"
+                icon={<FaWhatsapp className="size-4" />}
+                newTabHint={site.ui.opensInNewTab}
+                className="w-full"
+              >
+                {labels.enquire.whatsapp}
+              </Button>
+            </div>
+            <LinkArrow href={categoryHref(category.slug)}>
+              {fillTemplate(labels.product.back, { category: category.name })}
+            </LinkArrow>
           </div>
         </div>
       </Container>
 
       {related.length > 0 && (
-        <section aria-labelledby="related" className="bg-linen py-[clamp(4rem,10vw,8rem)]">
+        <section
+          aria-labelledby="related"
+          className="border-t border-hairline bg-white py-[clamp(4rem,10vw,8rem)]"
+        >
           <Container>
-            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-              <h2 id="related" className="font-display text-display-md text-ink">
-                {fillTemplate(labels.product.related, { category: category.name })}
-              </h2>
-              <LinkArrow href={categoryHref(category.slug)}>
-                {fillTemplate(labels.catalogue.viewCategory, { name: category.name })}
-              </LinkArrow>
-            </div>
-            <ProductGrid products={related} />
+            <h2 id="related" className="mb-12 font-display text-display-md text-ink">
+              {fillTemplate(labels.product.more, { category: category.name })}
+            </h2>
+            <ProductWall
+              items={toWallItems(related, site)}
+              labels={{
+                carousel: labels.carousel,
+                lightbox: labels.lightbox,
+                enquire: labels.enquire,
+                product: labels.product,
+              }}
+              newTabHint={site.ui.opensInNewTab}
+            />
           </Container>
         </section>
       )}

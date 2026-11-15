@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { CatalogueBrowser } from "@/components/catalogue/CatalogueBrowser";
-import { ProductGrid } from "@/components/catalogue/ProductGrid";
+import { ProductWall } from "@/components/catalogue/ProductWall";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
-import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
+import { toWallItems } from "@/lib/catalogue";
 import {
   getCataloguePage,
   getCategories,
@@ -14,7 +12,6 @@ import {
   getProductsByCategory,
   getSiteConfig,
 } from "@/lib/content";
-import { getFilterFacets } from "@/lib/filters";
 import { fillTemplate } from "@/lib/format";
 
 export const dynamicParams = false;
@@ -34,6 +31,7 @@ export async function generateMetadata({
   };
 }
 
+/** Visual-only category page: carousel + image wall. Click a photo → large view → WhatsApp. */
 export default async function CategoryPage({ params }: PageProps<"/catalogue/[category]">) {
   const { category: slug } = await params;
   const [category, products, catalogue, site, labels] = await Promise.all([
@@ -44,6 +42,7 @@ export default async function CategoryPage({ params }: PageProps<"/catalogue/[ca
     getLabels(),
   ]);
   if (!category) notFound();
+  const items = toWallItems(products, site);
 
   return (
     <>
@@ -56,35 +55,35 @@ export default async function CategoryPage({ params }: PageProps<"/catalogue/[ca
             { label: category.name },
           ]}
         />
-        <div className="mt-10 grid items-end gap-10 md:grid-cols-[1fr_minmax(0,22rem)] lg:mt-14 lg:grid-cols-[1fr_minmax(0,26rem)] lg:gap-24">
-          <div className="space-y-6 pb-2">
-            <p className="eyebrow text-muted">{category.tagline}</p>
-            <h1 className="font-display text-display-xl font-light text-ink">{category.name}</h1>
-            <p className="max-w-xl text-body-lg font-light text-ink-soft">{category.intro}</p>
-            <p className="text-caption text-muted">
-              {fillTemplate(labels.catalogue.productCount, { count: products.length })}
-            </p>
-          </div>
-          <ResponsiveImage
-            image={category.heroImage ?? category.tileImage}
-            aspect="4/5"
-            sizes="(min-width: 1024px) 26rem, (min-width: 768px) 22rem, 100vw"
-            preload
-            className="hidden md:block"
-          />
+        <div className="mx-auto mt-12 max-w-3xl space-y-5 text-center lg:mt-16">
+          <p className="eyebrow text-muted">{category.tagline}</p>
+          <h1 className="font-display text-display-xl font-light text-ink">{category.name}</h1>
+          <p className="text-body-lg font-light text-ink-soft">{category.intro}</p>
+          <p className="text-caption text-muted">
+            {fillTemplate(labels.catalogue.productCount, { count: items.length })}
+            {items.length > 0 && <> · {labels.catalogue.browse}</>}
+          </p>
         </div>
       </Container>
 
-      <Container className="mt-12 pb-[clamp(4rem,10vw,9rem)] lg:mt-20">
-        {/* Without JS (or before hydration) the full grid is rendered statically. */}
-        <Suspense fallback={<ProductGrid products={products} preloadCount={4} className="mt-16" />}>
-          <CatalogueBrowser
-            products={products}
-            facets={getFilterFacets(products)}
-            enabled={site.features.catalogueFilters}
-            labels={labels.filters}
+      <Container className="mt-14 pb-[clamp(4rem,10vw,9rem)] lg:mt-20">
+        {items.length ? (
+          <ProductWall
+            items={items}
+            showCarousel
+            labels={{
+              carousel: labels.carousel,
+              lightbox: labels.lightbox,
+              enquire: labels.enquire,
+              product: labels.product,
+            }}
+            newTabHint={site.ui.opensInNewTab}
           />
-        </Suspense>
+        ) : (
+          <p className="py-24 text-center font-display text-display-sm text-muted">
+            {labels.catalogue.comingSoon}
+          </p>
+        )}
       </Container>
     </>
   );

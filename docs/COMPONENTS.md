@@ -10,6 +10,16 @@ Legend: **S** = Server component · **C** = Client component
 
 ---
 
+## 0. Update 2026-11-16: visual-only catalogue
+
+Removed: `ProductCard`, `ProductGrid`, `CatalogueBrowser`/`Filters`/`SortSelect`, `ProductGallery`, `ProductSpecs`, `EnquireButtons`, `CopyCodeButton`.
+Added:
+- **`ProductImage`** (S): square frame for white-background product cut-outs. `mix-blend-multiply` so the white takes the palette tone; not draggable, no "Save image" on right-click.
+- **`ProductWall`** (C): optional product carousel (reuses `PhotoCarousel` with `renderSlide` and `cardClassName="product-card"`) + image grid. Any photo opens the lightbox. Props: `items: WallItem[]`, `showCarousel`, `labels`, `newTabHint`.
+- **`ProductLightbox`** (C): Radix Dialog with an Embla slider across the wall's products (swipe, arrows, ← → keys), a position counter, the code, and one "Enquire on WhatsApp" button. Focus returns to the photo that opened it.
+- `lib/catalogue.ts` → `toWallItems(products, site)` builds serialisable items, including each product's prefilled WhatsApp URL.
+- `PhotoCarousel` now accepts `renderSlide`, `cardClassName` and `maxDots` (above that, a "3 / 22" counter replaces the dots).
+
 ## 1. Layout
 
 ### `Header` (S, with C children)

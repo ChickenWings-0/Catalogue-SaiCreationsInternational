@@ -73,43 +73,18 @@ export const categorySchema = z.object({
 });
 
 // ─── Product ─────────────────────────────────────────────────────────────────
-const cm = z.number().positive();
-export const dimensionsSchema = z
-  .object({
-    widthCm: cm.optional(),
-    heightCm: cm.optional(),
-    depthCm: cm.optional(),
-    diameterCm: cm.optional(),
-    lengthCm: cm.optional(),
-    note: text.optional(),
-  })
-  .refine((d) => Object.values(d).some((v) => v !== undefined), {
-    message: "Give at least one dimension.",
-  });
-
+/*
+ * Visual-only catalogue: the client doesn't want names, dimensions or specifications published
+ * (to protect their designs). A product is a photo with a reference code that visitors quote
+ * on WhatsApp. The slug is derived from the code (sci-hd-001).
+ */
 export const productSchema = z.object({
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slugs are lowercase-kebab-case."),
   code: z.string().regex(/^SCI-(HD|OD|WD|SD)-\d{3}$/, 'Codes look like "SCI-HD-001".'),
-  name: text,
   category: categorySlugSchema,
-  summary: text.max(160),
-  description: text,
+  /** First image is the main photo (also the WhatsApp link preview). Alt text is required. */
   images: z.array(imageInputSchema).min(1),
-  dimensions: dimensionsSchema,
-  weightKg: z.number().positive().optional(),
-  materials: z.array(text).min(1),
-  colours: z.array(text).min(1),
-  size: z.enum(["small", "medium", "large"]),
-  finish: text.optional(),
-  technique: text.optional(),
-  care: text.optional(),
+  /** Shown in the Home "featured" section. */
   featured: z.boolean().optional(),
-  dateAdded: z.iso.date(),
-  tags: z.array(text).optional(),
-  /** Optional B2B fields: rendered only when set (audience not yet confirmed). */
-  moq: text.optional(),
-  leadTime: text.optional(),
-  seo: seoSchema,
 });
 
 // ─── FAQ ─────────────────────────────────────────────────────────────────────
@@ -161,7 +136,6 @@ export const siteConfigSchema = z.object({
   features: z.object({
     headerShrink: z.boolean(),
     headerSearch: z.boolean(),
-    catalogueFilters: z.boolean(),
     heroSlideshow: z.boolean(),
     /** TEMPORARY: floating colour-palette switcher for client review. */
     showPaletteSwitcher: z.boolean(),
@@ -327,44 +301,21 @@ export const notFoundPageSchema = z.object({
 
 // ─── Interface labels ───────────────────────────────────────────────────────
 export const labelsSchema = z.object({
-  catalogue: z.object({ productCount: text, viewCategory: text, viewProduct: text }),
-  filters: z.object({
-    toggle: text,
-    hide: text,
-    material: text,
-    colour: text,
-    size: text,
-    sizes: z.object({ small: text, medium: text, large: text }),
-    sort: text,
-    sortOptions: z.object({ featured: text, newest: text, "name-asc": text, "name-desc": text }),
-    clearAll: text,
-    remove: text,
-    results: text,
-    empty: text,
+  catalogue: z.object({
+    productCount: text,
+    viewCategory: text,
+    allProducts: text,
+    browse: text,
+    comingSoon: text,
   }),
-  product: z.object({
-    code: text,
-    dimensions: text,
-    materials: text,
-    colours: text,
-    technique: text,
-    finish: text,
-    care: text,
-    weight: text,
-    moq: text,
-    leadTime: text,
-    details: text,
-    description: text,
-    related: text,
-  }),
-  enquire: z.object({
-    heading: text,
-    intro: text,
-    whatsapp: text,
-    instagram: text,
-    form: text,
-    copyCode: text,
-    copied: text,
+  product: z.object({ code: text, more: text, back: text }),
+  enquire: z.object({ heading: text, intro: text, whatsapp: text }),
+  lightbox: z.object({
+    open: text,
+    close: text,
+    previous: text,
+    next: text,
+    position: text,
   }),
   gallery: z.object({ previous: text, next: text, viewImage: text, imageOf: text }),
   carousel: z.object({
@@ -400,9 +351,12 @@ type Resolved<T> =
 
 export type CategorySlug = z.infer<typeof categorySlugSchema>;
 export type Category = Resolved<z.output<typeof categorySchema>>;
-export type Dimensions = z.output<typeof dimensionsSchema>;
 export type ProductInput = z.input<typeof productSchema>;
-export type Product = Resolved<z.output<typeof productSchema>> & { id: string; href: string };
+export type Product = Resolved<z.output<typeof productSchema>> & {
+  id: string;
+  slug: string;
+  href: string;
+};
 export type FAQ = z.output<typeof faqSchema>;
 export type SiteConfigInput = z.input<typeof siteConfigSchema>;
 export type SiteConfig = Resolved<z.output<typeof siteConfigSchema>> & { url: string };

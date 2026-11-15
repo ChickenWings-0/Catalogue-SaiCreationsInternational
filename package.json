@@ -18,7 +18,8 @@
     "check": "npm run lint && npm run typecheck && npm run format:check",
     "verify:export": "node scripts/verify-export.mjs",
     "postbuild": "npm run verify:export",
-    "test": "node --test \"lib/**/*.test.ts\""
+    "test": "node --test \"lib/**/*.test.ts\"",
+    "import:images": "node scripts/import-client-images.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

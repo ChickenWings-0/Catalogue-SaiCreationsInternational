@@ -16,7 +16,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { ALL_IMAGE_WIDTHS, variantPath } from "../lib/image-widths.mjs";
+import { ALL_IMAGE_WIDTHS, sharePath, variantPath } from "../lib/image-widths.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SOURCE_ROOTS = [
@@ -56,6 +56,11 @@ const mtime = async (p) => {
 const toPosix = (p) => p.split(path.sep).join("/");
 const outFile = (logical, w) => path.join(ROOT, "public", ...variantPath(logical, w).split("/"));
 
+/** Products and OG images also get a JPEG "share" image for link previews (WhatsApp, social). */
+const SHARE_PREFIXES = ["products/", "placeholders/og/"];
+const needsShare = (logical) => SHARE_PREFIXES.some((p) => logical.startsWith(p));
+const shareFile = (logical) => path.join(ROOT, "public", ...sharePath(logical).split("/"));
+
 async function processImage(file, logical) {
   const meta = await sharp(file).metadata();
   const rotated = (meta.orientation ?? 1) >= 5;
@@ -64,6 +69,7 @@ async function processImage(file, logical) {
 
   const srcTime = await mtime(file);
   const outputs = ALL_IMAGE_WIDTHS.map((w) => outFile(logical, w));
+  if (needsShare(logical)) outputs.push(shareFile(logical));
   const times = await Promise.all(outputs.map(mtime));
   const upToDate = times.every((t) => t >= srcTime);
 
@@ -87,6 +93,14 @@ async function processImage(file, logical) {
       }
       await fs.writeFile(outFile(logical, w), encoded.get(target));
     }
+    if (needsShare(logical)) {
+      await sharp(file)
+        .rotate()
+        .flatten({ background: "#ffffff" })
+        .resize({ width: 1200, height: 1200, fit: "inside", withoutEnlargement: true })
+        .jpeg({ quality: 82, mozjpeg: true })
+        .toFile(shareFile(logical));
+    }
   }
   return { width, height, encoded: !upToDate };
 }
@@ -108,6 +122,7 @@ async function main() {
       const { width, height, encoded } = await processImage(file, logical);
       manifest[logical] = { width, height };
       ALL_IMAGE_WIDTHS.forEach((w) => expected.add(path.normalize(outFile(logical, w))));
+      if (needsShare(logical)) expected.add(path.normalize(shareFile(logical)));
       if (encoded) encodedCount++;
     }
   }

@@ -3,15 +3,31 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { fillTemplate } from "@/lib/format";
-import type { Labels, StudioPage } from "@/lib/schemas";
+import type { ImageAsset, Labels } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { PaginationDots } from "./PaginationDots";
 
+type Slide = { image: ImageAsset; title?: string; caption?: string };
+
 type Props = {
-  slides: StudioPage["carousel"]["slides"];
+  slides: Slide[];
+  /** Custom slide content (e.g. product cards). Default: 4:5 photo with title/caption. */
+  renderSlide?: (slide: Slide, index: number, active: boolean) => ReactNode;
+  /** Sets --card-w (see globals.css): "studio-card" (4:5 photos) or "product-card" (square). */
+  cardClassName?: string;
+  /** Above this many slides, a "3 / 22" counter replaces the dots. */
+  maxDots?: number;
   autoplay: boolean;
   autoplayDelayMs: number;
   labels: Labels["carousel"];
@@ -28,6 +44,9 @@ type Props = {
  */
 export function PhotoCarousel({
   slides,
+  renderSlide,
+  cardClassName = "studio-card",
+  maxDots = 12,
   autoplay,
   autoplayDelayMs,
   labels,
@@ -113,7 +132,7 @@ export function PhotoCarousel({
       role="region"
       aria-roledescription="carousel"
       aria-label={labels.region}
-      className={cn("studio-card w-full", className)}
+      className={cn(cardClassName, "w-full", className)}
       onFocus={() => api?.plugins().autoplay?.stop()}
     >
       <div ref={viewportRef} className="overflow-hidden">
@@ -122,7 +141,7 @@ export function PhotoCarousel({
             const active = i === selected;
             return (
               <div
-                key={slide.image.src}
+                key={`${slide.image.src}-${i}`}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={fillTemplate(labels.slideOf, { n: i + 1, total })}
@@ -138,28 +157,34 @@ export function PhotoCarousel({
                     active ? "scale-100 opacity-100" : "scale-[0.92] cursor-pointer opacity-55",
                   )}
                 >
-                  <ResponsiveImage
-                    image={slide.image}
-                    aspect="4/5"
-                    sizes="(min-width: 1024px) 32rem, (min-width: 768px) 56vw, 80vw"
-                    preload={false}
-                  />
-                  {(slide.title || slide.caption) && (
-                    <figcaption
-                      className={cn(
-                        "mt-4 space-y-1 text-center transition-opacity duration-500",
-                        active ? "opacity-100" : "opacity-0",
+                  {renderSlide ? (
+                    renderSlide(slide, i, active)
+                  ) : (
+                    <>
+                      <ResponsiveImage
+                        image={slide.image}
+                        aspect="4/5"
+                        sizes="(min-width: 1024px) 32rem, (min-width: 768px) 56vw, 80vw"
+                        preload={false}
+                      />
+                      {(slide.title || slide.caption) && (
+                        <figcaption
+                          className={cn(
+                            "mt-4 space-y-1 text-center transition-opacity duration-500",
+                            active ? "opacity-100" : "opacity-0",
+                          )}
+                        >
+                          {slide.title && (
+                            <span className="block font-display text-display-sm text-ink">
+                              {slide.title}
+                            </span>
+                          )}
+                          {slide.caption && (
+                            <span className="block text-caption text-muted">{slide.caption}</span>
+                          )}
+                        </figcaption>
                       )}
-                    >
-                      {slide.title && (
-                        <span className="block font-display text-display-sm text-ink">
-                          {slide.title}
-                        </span>
-                      )}
-                      {slide.caption && (
-                        <span className="block text-caption text-muted">{slide.caption}</span>
-                      )}
-                    </figcaption>
+                    </>
                   )}
                 </figure>
               </div>
@@ -178,14 +203,20 @@ export function PhotoCarousel({
         >
           <ArrowLeft className="size-4" strokeWidth={1.5} aria-hidden="true" />
         </button>
-        <PaginationDots
-          count={total}
-          selectedIndex={selected}
-          onSelect={(i) => navigate(() => api?.scrollTo(i))}
-          onKeyDown={onKeyDown}
-          groupLabel={labels.dots}
-          label={(i, n) => fillTemplate(labels.goTo, { n: i + 1, total: n })}
-        />
+        {total <= maxDots ? (
+          <PaginationDots
+            count={total}
+            selectedIndex={selected}
+            onSelect={(i) => navigate(() => api?.scrollTo(i))}
+            onKeyDown={onKeyDown}
+            groupLabel={labels.dots}
+            label={(i, n) => fillTemplate(labels.goTo, { n: i + 1, total: n })}
+          />
+        ) : (
+          <p className="min-w-16 text-center text-caption tracking-[0.12em] text-muted tabular-nums">
+            {selected + 1} / {total}
+          </p>
+        )}
         <button
           type="button"
           onClick={() => navigate(() => api?.scrollNext())}

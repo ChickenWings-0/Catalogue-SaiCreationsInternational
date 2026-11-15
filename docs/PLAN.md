@@ -152,6 +152,17 @@ E-commerce, prices, cart/checkout, user accounts, on-site form submission, multi
 | Domain | Bare domain is primary, `www` redirects to it. Name, registrar and email details are to follow from the client |
 | Analytics | Cloudflare Web Analytics, Phase 5 |
 
+## 7b. Client feedback (2026-11-16): visual-only catalogue
+
+| Topic | Decision |
+|---|---|
+| Product information | **None published**: no names, dimensions, materials or specs (protects designs from competitors). Products show a photo and a reference code only |
+| Filters / sorting | **Removed** |
+| Category pages | Product **carousel** + **image wall** |
+| Enquiry | Click a photo → large view → **Enquire on WhatsApp**. The message carries the code and the product page link, and WhatsApp shows the photo as the link preview |
+| Photos | First batch of 56 imported (Home 11, Outdoor 11, Wall 12, Seasonal 22). More to come. The client's "IMAGES" folder was split into Home (terrariums, boxes, trays, vases) and Outdoor (lanterns) |
+| Category name | Keep "Outdoor Decor" (client folder says "Garden Decor") |
+
 ## 7a. Still open (for the client)
 
 Pending client feedback: homepage sections, filters/sorting, header shrink, header search, contact icon destination (see §6). Also:

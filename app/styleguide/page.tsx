@@ -56,7 +56,7 @@ const TYPE = [
 
 export default function StyleGuidePage() {
   const sample = resolveImage(
-    { src: "placeholders/products/sci-hd-001-a.jpg", alt: "Placeholder product image" },
+    { src: "products/sci-hd-001.jpg", alt: "Product photo" },
     "styleguide",
   );
   const hero = resolveImage(

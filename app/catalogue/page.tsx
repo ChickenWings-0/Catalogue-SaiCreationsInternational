@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CategoryTile } from "@/components/catalogue/CategoryTile";
-import { ProductGrid } from "@/components/catalogue/ProductGrid";
+import { ProductWall } from "@/components/catalogue/ProductWall";
+import { toWallItems } from "@/lib/catalogue";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Container } from "@/components/ui/Container";
 import {
@@ -77,7 +78,16 @@ export default async function CataloguePage() {
               {fillTemplate(labels.catalogue.productCount, { count: products.length })}
             </p>
           </div>
-          <ProductGrid products={products} />
+          <ProductWall
+            items={toWallItems(products, site)}
+            labels={{
+              carousel: labels.carousel,
+              lightbox: labels.lightbox,
+              enquire: labels.enquire,
+              product: labels.product,
+            }}
+            newTabHint={site.ui.opensInNewTab}
+          />
         </Container>
       </section>
     </>

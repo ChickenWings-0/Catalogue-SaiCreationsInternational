@@ -81,15 +81,14 @@ export const site: SiteConfigInput = {
   },
 
   enquiry: {
-    // TODO(client): confirm wording. {name}, {code} and {url} are filled in per product.
-    whatsappTemplate: "Hello SAI Creations, I'm interested in {name} ({code}). {url}",
+    // TODO(client): confirm wording. {code} and {url} are filled in per product. Keep {url} at the end so WhatsApp shows the photo preview.
+    whatsappTemplate: "Hello SAI Creations, I'm interested in this piece ({code}): {url}",
     instagramNote: "Mention product code {code} in your message.",
   },
 
   features: {
     headerShrink: false, // pending client
     headerSearch: false, // pending client: icon shown as a placeholder only
-    catalogueFilters: true, // pending client
     heroSlideshow: true, // pending client: set false for a single still hero
     showPaletteSwitcher: true, // TEMPORARY: palette preview for the client. Set to false to hide.
   },

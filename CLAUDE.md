@@ -28,4 +28,6 @@ Key constraints (see `docs/PLAN.md`):
 - `npm run build`: static export to `/out`
 - `npm run lint` · `npm run typecheck` · `npm run format`
 - `npm run placeholders`: (re)generate placeholder source images
+- `npm run import:images`: import client product photos (mapping in `scripts/client-images.mjs`, source folder `IMAGES FOR AKSH/`, not committed)
+- Catalogue is visual-only by client request: never add product names, sizes or specs to the site
 - `npm run content:todo`: list remaining `TODO(client)` markers

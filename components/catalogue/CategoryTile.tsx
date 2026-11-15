@@ -41,7 +41,7 @@ export function CategoryTile({
       <Link href={href} className="block">
         <div
           className={cn(
-            "relative overflow-hidden bg-greige",
+            "relative overflow-hidden bg-linen",
             size === "large" ? "aspect-[4/5]" : "aspect-[3/4]",
           )}
         >
@@ -49,7 +49,8 @@ export function CategoryTile({
             image={category.tileImage}
             fill
             sizes={sizes}
-            imgClassName="transition-transform duration-[1200ms] ease-soft group-hover:scale-[1.03]"
+            // Product cut-outs on white: contain + multiply so the white takes the frame colour.
+            imgClassName="pointer-events-none select-none object-contain p-[8%] mix-blend-multiply transition-transform duration-[1200ms] ease-soft [-webkit-user-drag:none] group-hover:scale-[1.04]"
           />
         </div>
         <div className="mt-5 space-y-2">
