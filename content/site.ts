@@ -81,16 +81,16 @@ export const site: SiteConfigInput = {
   },
 
   enquiry: {
-    // TODO(client): confirm wording. {code} and {url} are filled in per product. Keep {url} at the end so WhatsApp shows the photo preview.
-    whatsappTemplate: "Hello SAI Creations, I'm interested in this piece ({code}): {url}",
-    instagramNote: "Mention product code {code} in your message.",
+    // TODO(client): confirm wording. {url} is the product page; keep it at the end so WhatsApp
+    // shows the product photo as the link preview. (No product codes are shown on the site.)
+    whatsappTemplate: "Hello SAI Creations, I'm interested in this piece: {url}",
+    instagramNote: "Send us the link to the piece you like.",
   },
 
   features: {
     headerShrink: false, // pending client
     headerSearch: false, // pending client: icon shown as a placeholder only
-    heroSlideshow: true, // pending client: set false for a single still hero
-    showPaletteSwitcher: true, // TEMPORARY: palette preview for the client. Set to false to hide.
+    heroSlideshow: false, // client chose a single still hero
   },
 
   seo: {

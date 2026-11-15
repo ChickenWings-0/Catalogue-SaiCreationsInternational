@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { PhaseNote } from "@/components/dev/PhaseNote";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -42,7 +41,6 @@ export default async function AboutPage() {
       <Section id="faqs" labelledBy="faqs-heading">
         <SectionHeading id="faqs-heading" heading={page.faqHeading} />
         <FAQAccordion items={faqs} name="about-faq" className="mt-10 max-w-4xl" />
-        <PhaseNote>Phase 1 stub · Images and the final About layout arrive in Phase 4</PhaseNote>
       </Section>
     </>
   );

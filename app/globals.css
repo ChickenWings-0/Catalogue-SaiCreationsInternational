@@ -4,25 +4,27 @@
    Design tokens: see docs/DESIGN_SYSTEM.md. Light theme only (no dark mode).
    The default Tailwind colour palette is removed so only brand tokens exist.
    ────────────────────────────────────────────────────────────────────────── */
+/* Final palette: Sage & Brass (chosen by the client 2026-11-16). Calm sage and linen with an
+   antique brass accent. Contrast ratios: docs/DESIGN_SYSTEM.md §2.4. */
 @theme {
   --color-*: initial;
-  --color-ivory: #faf8f4;
-  --color-white: #ffffff;
-  --color-linen: #f3efe8;
-  --color-greige: #e8e2d8;
-  --color-hairline: #d9d2c5;
-  --color-stone: #8a8378;
-  --color-ink: #2b2926;
-  --color-ink-soft: #3d3a35;
-  --color-muted: #625c53;
-  --color-accent: #1f6b45;
-  --color-accent-hover: #185a3a;
-  --color-accent-dot: #2e8b57;
-  --color-accent-tint: #e6f0ea;
-  --color-indigo: #3f4a7a; /* focus ring / secondary accent */
+  --color-ivory: #f7f7f1;
+  --color-white: #fffffc;
+  --color-linen: #ecefe5;
+  --color-greige: #dde3d4;
+  --color-hairline: #cdd4c3;
+  --color-stone: #7f8a78;
+  --color-ink: #253028;
+  --color-ink-soft: #364238;
+  --color-muted: #545f55;
+  --color-accent: #7a5718;
+  --color-accent-hover: #5f4311;
+  --color-accent-dot: #a27a2e;
+  --color-accent-tint: #f3ebd9;
+  --color-indigo: #3e5a4a; /* focus ring / secondary accent */
   /* Primary button ("call to action"). Bold palettes use their highlight colour here. */
-  --color-cta: #2b2926;
-  --color-cta-hover: #185a3a;
+  --color-cta: #253028;
+  --color-cta-hover: #5f4311;
   --color-on-cta: #ffffff;
   /* Derived tokens follow the active palette automatically. */
   --color-scrim: color-mix(in srgb, var(--color-ink) 45%, transparent);

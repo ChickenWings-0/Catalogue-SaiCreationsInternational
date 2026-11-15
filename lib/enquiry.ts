@@ -2,7 +2,7 @@ import { fillTemplate } from "./format.ts";
 import type { Product, SiteConfig } from "./schemas";
 
 /**
- * WhatsApp click-to-chat link, prefilled with the product code and the product page URL.
+ * WhatsApp click-to-chat link, prefilled with the product page URL ({url} in the template).
  * Websites can't attach a photo to a WhatsApp message; instead WhatsApp shows the page's
  * og:image (the product photo) as a link preview, as long as the URL is in the message.
  */

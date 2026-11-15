@@ -5,15 +5,12 @@ import { LinkArrow } from "@/components/ui/LinkArrow";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { fillTemplate } from "@/lib/format";
-import { cn } from "@/lib/utils";
 import type { FAQ, Navigation, NavItem, SiteConfig } from "@/lib/schemas";
 
 type Props = {
   site: Pick<SiteConfig, "legalName" | "logo" | "contact" | "socials" | "ui">;
   footer: Navigation["footer"];
   faqs: FAQ[];
-  /** Extra bottom space so a floating control (palette switcher) never covers footer content. */
-  reserveFloatingSpace?: boolean;
 };
 
 const heading = "eyebrow text-ink mb-5";
@@ -49,7 +46,7 @@ function LinkList({ links }: { links: NavItem[] }) {
   );
 }
 
-export function Footer({ site, footer, faqs, reserveFloatingSpace = false }: Props) {
+export function Footer({ site, footer, faqs }: Props) {
   const { address } = site.contact;
   const addressLine = [
     ...address.lines,
@@ -60,7 +57,7 @@ export function Footer({ site, footer, faqs, reserveFloatingSpace = false }: Pro
 
   return (
     <footer className="bg-greige text-ink">
-      <Container className={cn("pt-16 pb-10 lg:pt-24", reserveFloatingSpace && "pb-24 sm:pb-28")}>
+      <Container className="pt-16 pb-10 lg:pt-24">
         <nav aria-label={site.ui.footerNavLabel}>
           <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
             {footer.columns.map((col) => (

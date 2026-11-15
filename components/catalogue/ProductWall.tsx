@@ -29,8 +29,8 @@ type Props = {
 
 /**
  * Visual-only product display: an optional carousel plus a wall of photos. Clicking any photo
- * opens the lightbox with a single "Enquire on WhatsApp" button (prefilled code + link).
- * Only photos and reference codes are shown (no names, sizes or specifications).
+ * opens the lightbox with a single "Enquire on WhatsApp" button (prefilled product link).
+ * Only photos are shown (no names, codes, sizes or specifications).
  */
 export function ProductWall({
   items,
@@ -57,7 +57,7 @@ export function ProductWall({
       {showCarousel && items.length > 1 && (
         <div className="mb-20 lg:mb-28">
           <PhotoCarousel
-            slides={items.map((it) => ({ image: it.image, title: it.code }))}
+            slides={items.map((it) => ({ image: it.image }))}
             cardClassName="product-card"
             autoplay={false}
             autoplayDelayMs={5000}
@@ -70,7 +70,7 @@ export function ProductWall({
                   type="button"
                   tabIndex={active ? 0 : -1}
                   onClick={active ? () => setOpen(i) : undefined}
-                  aria-label={fillTemplate(labels.lightbox.open, { code: item.code })}
+                  aria-label={fillTemplate(labels.lightbox.open, { label: item.label })}
                   className={cn("group block w-full text-left", active ? "cursor-zoom-in" : "")}
                 >
                   <ProductImage
@@ -80,14 +80,6 @@ export function ProductWall({
                     preload={i === 0}
                     zoomOnHover={active}
                   />
-                  <span
-                    className={cn(
-                      "mt-4 block text-center eyebrow text-muted transition-opacity duration-500",
-                      active ? "opacity-100" : "opacity-0",
-                    )}
-                  >
-                    {item.code}
-                  </span>
                 </button>
               );
             }}
@@ -102,11 +94,11 @@ export function ProductWall({
         )}
       >
         {items.map((item, i) => (
-          <li key={item.code} data-reveal style={{ "--reveal-i": i % 4 } as CSSProperties}>
+          <li key={item.key} data-reveal style={{ "--reveal-i": i % 4 } as CSSProperties}>
             <button
               type="button"
               onClick={() => setOpen(i)}
-              aria-label={fillTemplate(labels.lightbox.open, { code: item.code })}
+              aria-label={fillTemplate(labels.lightbox.open, { label: item.label })}
               className="group block w-full cursor-zoom-in text-left"
             >
               <ProductImage
@@ -115,9 +107,6 @@ export function ProductWall({
                 preload={i < preloadCount}
                 zoomOnHover
               />
-              <span className="mt-3 block text-caption tracking-[0.12em] text-muted transition-colors group-hover:text-ink">
-                {item.code}
-              </span>
             </button>
           </li>
         ))}

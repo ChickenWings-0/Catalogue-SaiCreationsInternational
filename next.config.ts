@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   reactStrictMode: true,
+  // No floating Next.js dev indicator (it only ever appears in `npm run dev`, never in the build).
+  devIndicators: false,
   images: {
     // Images are pre-sized at build time by scripts/build-images.mjs.
     // The loader maps each srcset width to its pre-built WebP file.

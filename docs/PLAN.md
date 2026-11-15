@@ -162,6 +162,9 @@ E-commerce, prices, cart/checkout, user accounts, on-site form submission, multi
 | Enquiry | Click a photo → large view → **Enquire on WhatsApp**. The message carries the code and the product page link, and WhatsApp shows the photo as the link preview |
 | Photos | First batch of 56 imported (Home 11, Outdoor 11, Wall 12, Seasonal 22). More to come. The client's "IMAGES" folder was split into Home (terrariums, boxes, trays, vases) and Outdoor (lanterns) |
 | Category name | Keep "Outdoor Decor" (client folder says "Garden Decor") |
+| Palette | **Sage & Brass** (final). Switcher and other palettes removed |
+| Home hero | One slide: "Crafted by hand, made for home" (placeholder design approved) |
+| Product codes | **Not shown** anywhere (provisional, not the client's); internal URL keys only |
 
 ## 7a. Still open (for the client)
 

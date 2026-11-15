@@ -18,7 +18,7 @@ Key constraints (see `docs/PLAN.md`):
 - Images use `next/image` with a static custom loader. Images are pre-sized and compressed at build time by `scripts/build-images.mjs`.
 - All content lives in `/content` and is read only through `lib/content.ts`. No hardcoded content in components.
 - Light theme only. Placeholders are marked `TODO(client)`.
-- Colours come only from tokens (CSS variables). Never hardcode a colour in a component: the TEMPORARY palette switcher (`features.showPaletteSwitcher`, `app/palettes.css`) depends on it.
+- Colours come only from tokens (CSS variables in `@theme`, app/globals.css). Final palette: Sage & Brass. Never hardcode a colour in a component.
 - Commit after each phase, following the rule above.
 - This is Next.js 16 (see `AGENTS.md`): check `node_modules/next/dist/docs/` before using an unfamiliar API (e.g. `preload` replaced `priority` on next/image; route params are Promises).
 
@@ -29,5 +29,5 @@ Key constraints (see `docs/PLAN.md`):
 - `npm run lint` · `npm run typecheck` · `npm run format`
 - `npm run placeholders`: (re)generate placeholder source images
 - `npm run import:images`: import client product photos (mapping in `scripts/client-images.mjs`, source folder `IMAGES FOR AKSH/`, not committed)
-- Catalogue is visual-only by client request: never add product names, sizes or specs to the site
+- Catalogue is visual-only by client request: never show product names, codes, sizes or specs on the site (codes exist only internally, in URLs)
 - `npm run content:todo`: list remaining `TODO(client)` markers

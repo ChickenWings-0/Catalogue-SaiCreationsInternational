@@ -13,18 +13,17 @@ export const labels: LabelsInput = {
     comingSoon: "More pieces coming soon.",
   },
   product: {
-    code: "Code {code}",
+    piece: "Piece {n}",
     more: "More {category}",
     back: "Back to {category}",
   },
   enquire: {
     heading: "Interested in this piece?",
-    intro:
-      "Send us a WhatsApp message. The product code and a link with its photo are added for you.",
+    intro: "Send us a WhatsApp message. A link to this piece, with its photo, is added for you.",
     whatsapp: "Enquire on WhatsApp",
   },
   lightbox: {
-    open: "View {code} larger",
+    open: "View larger: {label}",
     close: "Close",
     previous: "Previous piece",
     next: "Next piece",

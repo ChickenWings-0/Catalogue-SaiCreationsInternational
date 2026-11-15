@@ -11,9 +11,10 @@ In the code, every placeholder is marked `// TODO(client):` in `/content`. Run `
 - [x] **Product photos batch 1**: 56 products received and live (Home 11, Outdoor 11, Wall 12, Seasonal 22)
 - [ ] **More product photos**: the Home Decor and Garden Decor folders were empty; any further pieces in all categories
 - [ ] **Higher-resolution originals** for small images (at least 1500 px on the product's longest side; SCI-OD-002 is the weakest)
-- [ ] **Product codes**: the site uses provisional codes (SCI-HD-001 …). Send the client's own codes if they exist
+- [x] **Product codes**: not needed. No codes are shown on the site
 - [ ] **WhatsApp number** for enquiries (every product button uses it)
-- [ ] **Lifestyle / hero photos** for the Home page (room settings), plus Studio video and photos
+- [x] Home hero: client approved the current placeholder design (single slide)
+- [ ] Studio video and workshop photos
 - [ ] Decide: **watermark** product photos with the logo? (stronger anti-copy measure)
 - Product names, dimensions and specs are **not needed**: the client chose a visual-only catalogue. §2 below is kept for reference only.
 

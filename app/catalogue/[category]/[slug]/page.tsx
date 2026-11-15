@@ -16,6 +16,7 @@ import {
   getLabels,
   getProduct,
   getProductStaticParams,
+  getProductsByCategory,
   getRelatedProducts,
   getSiteConfig,
 } from "@/lib/content";
@@ -37,14 +38,19 @@ export async function generateMetadata({
   params,
 }: PageProps<"/catalogue/[category]/[slug]">): Promise<Metadata> {
   const { category: categorySlug, slug } = await params;
-  const [product, category, site] = await Promise.all([
+  const [product, category, site, labels, siblings] = await Promise.all([
     getProduct(categorySlug, slug),
     getCategory(categorySlug),
     getSiteConfig(),
+    getLabels(),
+    getProductsByCategory(categorySlug),
   ]);
   if (!product || !category) return {};
   const [image] = product.images;
-  const title = `${category.name} · ${product.code}`;
+  const piece = fillTemplate(labels.product.piece, {
+    n: siblings.findIndex((p) => p.id === product.id) + 1,
+  });
+  const title = `${category.name} · ${piece}`;
   const ogImage = image
     ? [
         {
@@ -70,20 +76,23 @@ export async function generateMetadata({
   };
 }
 
-/** Minimal product page: photo, code, WhatsApp. Mainly the target of shared WhatsApp links. */
+/** Minimal product page: photo + WhatsApp (no codes or details). Target of shared WhatsApp links. */
 export default async function ProductPage({ params }: PageProps<"/catalogue/[category]/[slug]">) {
   const { category: categorySlug, slug } = await params;
-  const [product, category, catalogue, site, labels] = await Promise.all([
+  const [product, category, catalogue, site, labels, siblings] = await Promise.all([
     getProduct(categorySlug, slug),
     getCategory(categorySlug),
     getCataloguePage(),
     getSiteConfig(),
     getLabels(),
+    getProductsByCategory(categorySlug),
   ]);
   if (!product || !category) notFound();
   const [image] = product.images;
   const related = await getRelatedProducts(product, 8);
-  const codeLabel = fillTemplate(labels.product.code, { code: product.code });
+  const piece = fillTemplate(labels.product.piece, {
+    n: siblings.findIndex((p) => p.id === product.id) + 1,
+  });
 
   return (
     <>
@@ -94,7 +103,7 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
             { label: site.ui.breadcrumbHome, href: "/" },
             { label: catalogue.title, href: "/catalogue/" },
             { label: category.name, href: categoryHref(category.slug) },
-            { label: product.code },
+            { label: piece },
           ]}
         />
 
@@ -111,13 +120,15 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
 
           <div className="space-y-8">
             <div className="space-y-4">
-              <Link
-                href={categoryHref(category.slug)}
-                className="link-grow eyebrow text-muted transition-colors hover:text-accent"
-              >
-                {category.name}
-              </Link>
-              <h1 className="font-display text-display-lg font-light text-ink">{codeLabel}</h1>
+              <p className="eyebrow text-muted">{category.tagline}</p>
+              <h1 className="font-display text-display-lg font-light text-ink">
+                <Link
+                  href={categoryHref(category.slug)}
+                  className="transition-colors hover:text-accent"
+                >
+                  {category.name}
+                </Link>
+              </h1>
             </div>
             <div className="space-y-5 border border-hairline bg-white p-6 sm:p-8">
               <h2 className="eyebrow text-ink">{labels.enquire.heading}</h2>

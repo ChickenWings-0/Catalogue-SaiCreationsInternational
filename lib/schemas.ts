@@ -137,8 +137,6 @@ export const siteConfigSchema = z.object({
     headerShrink: z.boolean(),
     headerSearch: z.boolean(),
     heroSlideshow: z.boolean(),
-    /** TEMPORARY: floating colour-palette switcher for client review. */
-    showPaletteSwitcher: z.boolean(),
   }),
   seo: z.object({
     defaultTitle: text,
@@ -308,7 +306,7 @@ export const labelsSchema = z.object({
     browse: text,
     comingSoon: text,
   }),
-  product: z.object({ code: text, more: text, back: text }),
+  product: z.object({ piece: text, more: text, back: text }),
   enquire: z.object({ heading: text, intro: text, whatsapp: text }),
   lightbox: z.object({
     open: text,

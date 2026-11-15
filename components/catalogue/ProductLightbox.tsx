@@ -24,7 +24,7 @@ type Props = {
 
 /**
  * Full-screen view of one product: large photo (swipe / arrows / ← → keys to move between
- * products), its code, and a single "Enquire on WhatsApp" button. No other product details.
+ * products) and a single "Enquire on WhatsApp" button. No product details or codes.
  */
 export function ProductLightbox({
   items,
@@ -96,9 +96,7 @@ function LightboxBody({
 
   return (
     <>
-      <Dialog.Title className="sr-only">
-        {fillTemplate(labels.product.code, { code: current.code })}
-      </Dialog.Title>
+      <Dialog.Title className="sr-only">{current.label}</Dialog.Title>
 
       <div className="flex h-(--header-height) shrink-0 items-center justify-between px-4 sm:px-6 lg:px-10">
         <p className="text-caption tracking-[0.12em] text-muted tabular-nums" aria-live="polite">
@@ -127,7 +125,7 @@ function LightboxBody({
           <div className="flex h-full touch-pan-y">
             {items.map((item, i) => (
               <div
-                key={item.code}
+                key={item.key}
                 className="flex h-full min-w-0 flex-[0_0_100%] items-center justify-center"
                 aria-hidden={i !== selected}
               >
@@ -153,9 +151,6 @@ function LightboxBody({
       </div>
 
       <div className="flex shrink-0 flex-col items-center gap-4 px-4 pt-5 pb-8 sm:pb-10">
-        <p className="eyebrow text-ink">
-          {fillTemplate(labels.product.code, { code: current.code })}
-        </p>
         <Button
           href={current.whatsappUrl}
           variant="accent"

@@ -611,34 +611,6 @@ P("home/hero-1.jpg", () =>
     text: "HOME HERO 1",
   }),
 );
-P("home/hero-2.jpg", () =>
-  vignette(HW, HH, {
-    wall: "#ECE3D6",
-    floor: "#D8C9B4",
-    horizon: 0.72,
-    items: [
-      ["throw", 0.66, 0.84, 0.045, C.indigo],
-      ["throw", 0.66, 0.72, 0.04, C.ivory],
-      ["cushion", 0.84, 0.86, 0.04, C.terracotta],
-    ],
-    wallItems: [["panel", 0.84, 0.36, 0.035, C.indigo]],
-    text: "HOME HERO 2",
-  }),
-);
-P("home/hero-3.jpg", () =>
-  vignette(HW, HH, {
-    wall: "#DFE3D5",
-    floor: "#CBB89C",
-    horizon: 0.72,
-    window: { x: HW * 0.55, w: HW * 0.22, h: HH * 0.62 },
-    items: [
-      ["planter", 0.5, 0.9, 0.04, C.terracotta],
-      ["lantern", 0.84, 0.9, 0.04, C.iron],
-      ["stool", 0.68, 0.92, 0.035, C.teak],
-    ],
-    text: "HOME HERO 3",
-  }),
-);
 P("home/studio-teaser.jpg", () => workshop(2000, 1250, "loom", "STUDIO TEASER"));
 P("home/about-teaser.jpg", () => workshop(1200, 1500, "finishing", "ABOUT TEASER"));
 P("about/initiative-1.jpg", () => workshop(1200, 1500, "blocks", "THE INITIATIVE 1"));

@@ -3,10 +3,13 @@ import type { ImageAsset, Product, SiteConfig } from "./schemas";
 
 /** What the visual catalogue components need per product (serialisable for client components). */
 export type WallItem = {
-  code: string;
+  /** Stable key (internal only; never shown to visitors). */
+  key: string;
+  /** Accessible description of the photo (its alt text). */
+  label: string;
   href: string;
   image: ImageAsset;
-  /** Prefilled WhatsApp link: product code + product page URL (link preview shows the photo). */
+  /** Prefilled WhatsApp link to the product page (the link preview shows the photo). */
   whatsappUrl: string;
 };
 
@@ -17,7 +20,15 @@ export function toWallItems(
   return products.flatMap((p) => {
     const [image] = p.images;
     return image
-      ? [{ code: p.code, href: p.href, image, whatsappUrl: buildWhatsAppUrl(site, p) }]
+      ? [
+          {
+            key: p.id,
+            label: image.alt,
+            href: p.href,
+            image,
+            whatsappUrl: buildWhatsAppUrl(site, p),
+          },
+        ]
       : [];
   });
 }

@@ -10,6 +10,7 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 |---|---|
 | 0 Setup · 1 Layout shell · 2 Catalogue pages · 3 The Studio | ✅ Done |
 | 3.5 Client feedback: visual-only catalogue + first real photos | ✅ Done |
+| 3.6 Final palette (Sage & Brass), single hero, no codes, dev tools removed | ✅ Done |
 | 4 About, Contact, FAQs, 404 | Next |
 | 4b Product photos batch 2 (repeatable whenever the client sends more) | Waiting on client |
 | 5 SEO, accessibility, performance, clean-up | To do |
@@ -142,6 +143,15 @@ Client decisions (2026-11-16): **no product names, dimensions or specifications*
 
 ---
 
+## Phase 3.6: Client sign-off round ✅
+
+- [x] **Sage & Brass** is the final palette: values moved into `@theme`. The palette switcher, `app/palettes.css`, `lib/palettes.ts` and the `showPaletteSwitcher` flag were removed
+- [x] Home hero: one slide only ("Crafted by hand, made for home", the placeholder illustration the client liked). Slideshow off
+- [x] **No product codes shown anywhere** (they were provisional, not the client's). Codes remain only internally (URL slugs, content keys). The WhatsApp message is now "I'm interested in this piece: <link>", and the link preview shows the photo
+- [x] Dev-only items removed from the deployed site: palette switcher, `/styleguide` page, "arrives in Phase N" notes. Next.js dev indicator disabled (it only appeared in `npm run dev`)
+
+---
+
 ## Phase 4b: Product photos batch 2 (repeat for every new batch) ⏳
 
 When the client sends more photos:
@@ -152,7 +162,7 @@ When the client sends more photos:
 
 - [ ] Home Decor and Garden/Outdoor folders were empty in batch 1. Collect photos for them
 - [ ] Ask for higher-resolution originals where the product is small in frame (e.g. SCI-OD-002 is only ~350 px wide)
-- [ ] Replace provisional codes with the client's own codes, if they have them
+- [ ] ~~Replace provisional codes~~ Not needed: codes are internal only and never shown
 
 ---
 
@@ -176,15 +186,15 @@ When the client sends more photos:
 ## Phase 5: SEO, accessibility and performance pass
 
 **Clean-up**
-- [ ] Client picks a palette: copy it into `@theme` and **remove the TEMPORARY palette switcher** (see DESIGN_SYSTEM §2.4), or at least set `showPaletteSwitcher: false`
-- [ ] Remove all `PhaseNote` scaffolding
+- [x] Client picked Sage & Brass; palette switcher removed (Phase 3.6)
+- [x] Remove all `PhaseNote` scaffolding (Phase 3.6)
 - [ ] Optional (client decision): watermark product photos with the logo at build time, as a stronger anti-copy measure
 
 **SEO**
 - [ ] `metadataBase` from `NEXT_PUBLIC_SITE_URL`. Per-page `generateMetadata` (title template `%s · SAI Creations International`, description, canonical)
 - [ ] Open Graph + Twitter `summary_large_image` cards (default OG image with logo; product pages use the first product image)
 - [ ] `app/sitemap.ts` + `app/robots.ts` (`dynamic = 'force-static'`, emitted as files). Sitemap: all static + 4 category + every product URL (56 in batch 1) with trailing slashes on the bare domain. Robots: allow all when `SITE_ENV=production`; otherwise `Disallow: /` + `<meta name="robots" content="noindex">` (host-independent, no headers/middleware)
-- [ ] JSON-LD: `Organization` (root layout: name, logo, url, `sameAs` socials, `contactPoint`), `BreadcrumbList` (category/product), `Product` (sku = code, image, brand, category; no name or specs, by client choice). *Note:* without price/offers Google won't show Product rich results, but the markup is still valid structured data. `FAQPage` on `/about` (low rich-result value since 2023, harmless)
+- [ ] JSON-LD: `Organization` (root layout: name, logo, url, `sameAs` socials, `contactPoint`), `BreadcrumbList` (category/product), `Product` (image, brand, category; no name, code or specs, by client choice). *Note:* without price/offers Google won't show Product rich results, but the markup is still valid structured data. `FAQPage` on `/about` (low rich-result value since 2023, harmless)
 - [ ] Semantic HTML audit: one H1 per page, landmark roles, lists for grids
 
 **Analytics**

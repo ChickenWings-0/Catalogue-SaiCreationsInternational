@@ -8,7 +8,8 @@ export const homePage: HomePageInput = {
   sections: [
     {
       type: "hero",
-      // TODO(client): hero headline, subline and image(s) (≥ 2400 × 1350, 16:9)
+      // Client approved this single hero (placeholder illustration and copy) on 2026-11-16.
+      // TODO(client): swap in a real room photo later if they wish (≥ 2400 × 1350, 16:9).
       slides: [
         {
           image: {
@@ -22,26 +23,6 @@ export const homePage: HomePageInput = {
           subheading:
             "Home, outdoor, wall and seasonal decor, made by artisans who have practised their craft for generations.",
           cta: { label: "Explore the catalogue", href: "/catalogue/" },
-        },
-        {
-          image: {
-            src: "placeholders/home/hero-2.jpg",
-            // Keeps the styled objects in view when cropped to portrait on phones.
-            focalPoint: { x: 0.74, y: 0.6 },
-            alt: "Handwoven textiles in natural tones",
-          },
-          heading: "Natural materials, honest craft",
-          cta: { label: "Home decor", href: "/catalogue/home-decor/" },
-        },
-        {
-          image: {
-            src: "placeholders/home/hero-3.jpg",
-            // Keeps the styled objects in view when cropped to portrait on phones.
-            focalPoint: { x: 0.66, y: 0.6 },
-            alt: "Lanterns and planters on a sunlit terrace",
-          },
-          heading: "For terraces, courtyards and gardens",
-          cta: { label: "Outdoor decor", href: "/catalogue/outdoor-decor/" },
         },
       ],
     },
