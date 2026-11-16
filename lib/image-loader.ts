@@ -7,8 +7,8 @@ type LoaderArgs = { src: string; width: number; quality?: number };
 /**
  * Static image loader for next/image (no runtime optimisation service).
  *
- * - Logical paths (relative to /assets/images, e.g. "placeholders/products/sci-hd-001-a.jpg")
- *   map to the pre-built variant "/img/placeholders/products/sci-hd-001-a-1080.webp".
+ * - Logical paths (relative to /assets/images, e.g. "products/sci-hd-001.jpg")
+ *   map to the pre-built variant "/img/products/sci-hd-001-1080.webp".
  * - Absolute URLs (https://…) and paths that are already public (start with "/")
  *   are returned unchanged.
  *

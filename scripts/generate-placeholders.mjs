@@ -1,23 +1,18 @@
 #!/usr/bin/env node
 /**
- * Generates editorial-style PLACEHOLDER originals: soft still-life "photographs" built from
- * simple shapes (wall + floor plane, product silhouette, shadow), material close-ups for
- * detail shots, room scenes for heroes and workshop scenes for The Studio.
- * Every image carries a small "PLACEHOLDER" label so it's never mistaken for a real photo.
+ * Generates the site's illustrated images (built from simple shapes, no photography):
  *
- *   assets/images/placeholders/**    (content images)
- *   public/brand/logo.png            (placeholder logo)
- *   app/icon.png, app/apple-icon.png (placeholder favicon)
+ *   assets/images/home/hero.jpg      the Home hero still life (approved by the client as-is)
+ *   assets/images/site/og-default.jpg default link-preview image (logo + name)
  *
- * Files are only created if missing, so real images are never overwritten.
- * `--force` regenerates files inside assets/images/placeholders/ only.
+ * Files are only created if missing. `--force` regenerates them.
  */
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const PH = path.join(ROOT, "assets", "images", "placeholders");
+const OUT = path.join(ROOT, "assets", "images");
 const FORCE = process.argv.includes("--force");
 
 // ─── Colour helpers ──────────────────────────────────────────────────────────
@@ -93,6 +88,7 @@ const wallShadow = (svg, dx, dy) =>
   `<g transform="translate(${dx} ${dy})" opacity="0.22" filter="url(#blur)">${svg.replace(/fill="(?!none)[^"]*"/g, 'fill="#2a2018"').replace(/stroke="[^"]*"/g, 'stroke="#2a2018"')}</g>`;
 
 function label(w, h, text) {
+  if (!text) return "";
   const s = Math.min(w, h);
   const fs = Math.max(14, Math.round(s * 0.017));
   const pad = Math.round(s * 0.035);
@@ -461,109 +457,6 @@ function vignette(
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs>${defs}</defs>${body}${sc.vignette}${label(w, h, text)}</svg>`;
 }
 
-/** Workshop scenes for The Studio / About (deeper, warmer tones). */
-function workshop(w, h, motif, text) {
-  const wall = "#D8CBB6";
-  const bench = "#8D6B4C";
-  const sc = scene(w, h, { wall, floor: "#B9A285", horizon: 0.62 });
-  let body = sc.base;
-  const u = Math.min(w, h) * 0.07;
-  const cx = w / 2;
-  const top = sc.hy;
-  const benchTop = `<rect x="0" y="${top + u * 1.2}" width="${w}" height="${u * 0.7}" fill="${bench}"/><rect x="0" y="${top + u * 1.9}" width="${w}" height="${h}" fill="${dark(bench, 0.25)}" opacity="0.5"/>`;
-  switch (motif) {
-    case "blocks":
-      body +=
-        benchTop +
-        Array.from({ length: 9 }, (_, k) => {
-          const x = cx - u * 4.2 + (k % 3) * u * 2.9 + (Math.floor(k / 3) % 2) * u * 0.6;
-          const y = top - u * 2.6 + Math.floor(k / 3) * u * 1.4;
-          return `<rect x="${x}" y="${y}" width="${u * 2.3}" height="${u * 1.1}" fill="${k % 2 ? "#9B7653" : "#7E5D40"}"/><g fill="#5c4330">${[0, 1, 2].map((j) => `<circle cx="${x + u * 0.55 + j * u * 0.6}" cy="${y + u * 0.55}" r="${u * 0.2}"/>`).join("")}</g>`;
-        }).join("");
-      break;
-    case "printing":
-      body +=
-        benchTop +
-        `<rect x="${cx - u * 4.5}" y="${top - u * 0.4}" width="${u * 9}" height="${u * 1.8}" fill="#F2EAD9" transform="skewX(-18)"/>` +
-        Array.from(
-          { length: 14 },
-          (_, k) =>
-            `<g transform="translate(${cx - u * 3.8 + (k % 7) * u * 1.2 - Math.floor(k / 7) * u * 0.25} ${top + Math.floor(k / 7) * u * 0.8})" fill="${C.indigo}"><circle r="${u * 0.18}"/>${[0, 1, 2, 3].map((j) => `<ellipse cx="${Math.cos(j * 1.57) * u * 0.32}" cy="${Math.sin(j * 1.57) * u * 0.22}" rx="${u * 0.16}" ry="${u * 0.08}"/>`).join("")}</g>`,
-        ).join("") +
-        `<rect x="${cx + u * 1.5}" y="${top - u * 2.4}" width="${u * 1.8}" height="${u * 1.2}" fill="#7E5D40"/><rect x="${cx + u * 2.1}" y="${top - u * 3.3}" width="${u * 0.6}" height="${u * 0.9}" fill="#6a4e36"/>`;
-      break;
-    case "loom":
-      body += `<g stroke="#6a4e36" stroke-width="${u * 0.35}"><line x1="${cx - u * 4}" y1="${u}" x2="${cx - u * 4}" y2="${h}"/><line x1="${cx + u * 4}" y1="${u}" x2="${cx + u * 4}" y2="${h}"/><line x1="${cx - u * 4.4}" y1="${u * 1.6}" x2="${cx + u * 4.4}" y2="${u * 1.6}"/><line x1="${cx - u * 4.4}" y1="${top + u}" x2="${cx + u * 4.4}" y2="${top + u}"/></g><g stroke="#EFE6D6" stroke-width="${u * 0.05}">${Array.from({ length: 50 }, (_, k) => `<line x1="${cx - u * 3.7 + k * u * 0.15}" y1="${u * 1.6}" x2="${cx - u * 3.7 + k * u * 0.15}" y2="${top + u}"/>`).join("")}</g><rect x="${cx - u * 3.7}" y="${top - u * 1.6}" width="${u * 7.4}" height="${u * 2.6}" fill="${C.indigo}" opacity="0.85"/><g stroke="#EFE6D6" stroke-width="${u * 0.06}" opacity="0.6">${Array.from({ length: 10 }, (_, k) => `<line x1="${cx - u * 3.7}" y1="${top - u * 1.4 + k * u * 0.25}" x2="${cx + u * 3.7}" y2="${top - u * 1.4 + k * u * 0.25}" stroke-dasharray="${u * 0.3} ${u * 0.2}"/>`).join("")}</g><path d="M ${cx - u * 1.5} ${top - u * 2} l ${u * 3} 0 l ${u * 0.4} ${u * 0.25} l ${-u * 3.8} 0 z" fill="#9B7653"/>`;
-      break;
-    case "dyes":
-      body +=
-        `<line x1="0" y1="${u * 1.5}" x2="${w}" y2="${u * 1.5}" stroke="#6a4e36" stroke-width="${u * 0.25}"/>` +
-        ["#41507F", "#B46F52", "#D98A3A", "#6F8C6C", "#A2483D", "#41507F", "#C2A579"]
-          .map(
-            (col, k) =>
-              `<path d="M ${cx - u * 5.2 + k * u * 1.75} ${u * 1.5} q ${u * 0.7} ${u * 2} 0 ${u * 5.5} l ${u * 1.1} 0 q ${-u * 0.7} ${-u * 3.5} 0 ${-u * 5.5} z" fill="${col}"/><g stroke="${dark(col, 0.2)}" stroke-width="${u * 0.04}">${[0, 1, 2, 3].map((j) => `<line x1="${cx - u * 5.1 + k * u * 1.75 + j * u * 0.25}" y1="${u * 1.8}" x2="${cx - u * 5.1 + k * u * 1.75 + j * u * 0.25}" y2="${u * 6.8}"/>`).join("")}</g>`,
-          )
-          .join("");
-      break;
-    case "carving":
-      body +=
-        benchTop +
-        OBJ.mirror(cx, top - u * 1.2, u * 0.9, C.wood).svg +
-        `<rect x="${cx + u * 3}" y="${top}" width="${u * 2}" height="${u * 0.25}" fill="#5c4330"/><rect x="${cx + u * 3.4}" y="${top - u * 0.15}" width="${u * 0.5}" height="${u * 0.15}" fill="#9C9A94"/>`;
-      break;
-    case "metal":
-      body +=
-        benchTop +
-        [-3, -1, 1.2, 3.2]
-          .map(
-            (k, i) =>
-              `<path d="M ${cx + k * u - u * (0.9 - i * 0.1)} ${top + u * 1.2} q ${u * (0.9 - i * 0.1)} ${-u * (1.8 - i * 0.2)} ${u * (1.8 - i * 0.2)} 0 z" fill="${i % 2 ? C.brass : dark(C.brass, 0.15)}"/>`,
-          )
-          .join("") +
-        `<rect x="${cx - u * 0.2}" y="${top - u * 3}" width="${u * 0.25}" height="${u * 2.4}" fill="#6a4e36" transform="rotate(25 ${cx} ${top})"/><rect x="${cx - u * 0.6}" y="${top - u * 3.3}" width="${u * 1}" height="${u * 0.5}" fill="#5f5b56" transform="rotate(25 ${cx} ${top})"/>`;
-      break;
-    case "finishing":
-      body +=
-        benchTop +
-        ["#EFE6D6", "#41507F", "#C2A579", "#B46F52", "#EFE6D6", "#6F8C6C"]
-          .map(
-            (col, k) =>
-              `<rect x="${cx - u * 2.6 + (k % 2) * u * 0.15}" y="${top + u * 1.2 - (k + 1) * u * 0.7}" width="${u * 5.2}" height="${u * 0.66}" rx="${u * 0.25}" fill="${col}"/>`,
-          )
-          .join("") +
-        `<rect x="${cx + u * 3.4}" y="${top - u * 0.6}" width="${u * 1.4}" height="${u * 1.8}" fill="#F7F2E8"/><line x1="${cx + u * 3.6}" y1="${top - u * 0.2}" x2="${cx + u * 4.6}" y2="${top - u * 0.2}" stroke="#4A443C" stroke-width="${u * 0.04}"/>`;
-      break;
-    case "people":
-      body += [-3.2, -1.1, 1.1, 3.2]
-        .map((k, i) => {
-          const x = cx + k * u;
-          const tone = ["#7A5A44", "#5E4636", "#8C6A50", "#6B4F3C"][i];
-          const cloth = ["#41507F", "#B46F52", "#EFE6D6", "#6F8C6C"][i];
-          return `<ellipse cx="${x}" cy="${h}" rx="${u * 1.4}" ry="${u * 0.3}" fill="#2a2018" opacity="0.2" filter="url(#blur)"/><path d="M ${x - u * 1.2} ${h} L ${x - u * 1} ${top - u * 0.6} Q ${x} ${top - u * 1.6} ${x + u * 1} ${top - u * 0.6} L ${x + u * 1.2} ${h} Z" fill="${cloth}"/><circle cx="${x}" cy="${top - u * 2.1}" r="${u * 0.75}" fill="${tone}"/>`;
-        })
-        .join("");
-      break;
-    default:
-      body += benchTop;
-  }
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs>${sc.defs}</defs>${body}${sc.vignette}${label(w, h, text)}</svg>`;
-}
-
-function mapImage(w, h) {
-  let s = `<rect width="${w}" height="${h}" fill="#EEE8DD"/>`;
-  s += `<path d="M 0 ${h * 0.7} C ${w * 0.3} ${h * 0.55}, ${w * 0.5} ${h * 0.85}, ${w} ${h * 0.6} L ${w} ${h} L 0 ${h} Z" fill="#D9E3DC"/>`;
-  for (let k = 0; k < 9; k++)
-    s += `<line x1="${k * w * 0.13 - 40}" y1="0" x2="${k * w * 0.13 + 120}" y2="${h}" stroke="#fff" stroke-width="${k % 3 ? 6 : 14}"/>`;
-  for (let k = 0; k < 6; k++)
-    s += `<line x1="0" y1="${k * h * 0.2 + 30}" x2="${w}" y2="${k * h * 0.2 - 30}" stroke="#fff" stroke-width="${k % 2 ? 6 : 12}"/>`;
-  s += `<g transform="translate(${w * 0.52} ${h * 0.45})"><path d="M 0 0 C -30 -40 -40 -60 -40 -80 A 40 40 0 0 1 40 -80 C 40 -60 30 -40 0 0 Z" fill="#1F6B45"/><circle cy="-80" r="14" fill="#fff"/></g>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">${s}${label(w, h, "STATIC MAP")}</svg>`;
-}
-
-function ogImage(w, h) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="#FAF8F4"/><rect x="40" y="40" width="${w - 80}" height="${h - 80}" fill="none" stroke="#D9D2C5" stroke-width="2"/><text x="50%" y="46%" text-anchor="middle" font-family="Georgia, serif" font-size="52" letter-spacing="14" fill="#2B2926">SAI CREATIONS INTERNATIONAL</text><text x="50%" y="58%" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" letter-spacing="6" fill="#625C53">A HOUSE OF HOME FURNISHING &amp; HANDICRAFTS</text>${label(w, h, "SHARE IMAGE")}</svg>`;
-}
-
 // ─── Output ──────────────────────────────────────────────────────────────────
 async function exists(p) {
   try {
@@ -576,8 +469,8 @@ async function exists(p) {
 
 let created = 0;
 let skipped = 0;
-async function write(file, makeBuffer, { forceable = true } = {}) {
-  if ((await exists(file)) && !(FORCE && forceable)) {
+async function write(file, makeBuffer) {
+  if ((await exists(file)) && !FORCE) {
     skipped++;
     return;
   }
@@ -587,79 +480,49 @@ async function write(file, makeBuffer, { forceable = true } = {}) {
 }
 
 const jpg = (svgString) => () =>
-  sharp(Buffer.from(svgString)).jpeg({ quality: 84, mozjpeg: true }).toBuffer();
-const jobs = [];
-const P = (rel, svgFactory) => jobs.push([path.join(PH, rel), () => jpg(svgFactory())()]);
-
-// Product and category images are now the client's real photos (scripts/import-client-images.mjs).
+  sharp(Buffer.from(svgString)).jpeg({ quality: 86, mozjpeg: true }).toBuffer();
 
 const HW = 2400,
   HH = 1350;
-P("home/hero-1.jpg", () =>
-  vignette(HW, HH, {
-    wall: "#E9E1D4",
-    floor: "#D5C6B0",
-    horizon: 0.74,
-    window: { x: HW * 0.58, w: HW * 0.2, h: HH * 0.6 },
-    items: [
-      ["rug", 0.68, 0.98, 0.05, C.ivory],
-      ["pouf", 0.52, 0.9, 0.035, C.jute],
-      ["lamp", 0.86, 0.88, 0.04, C.green],
-      ["budvase", 0.92, 0.88, 0.025, C.brass],
-    ],
-    wallItems: [["plate", 0.44, 0.36, 0.025, C.brass]],
-    text: "HOME HERO 1",
-  }),
-);
-P("home/studio-teaser.jpg", () => workshop(2000, 1250, "loom", "STUDIO TEASER"));
-P("home/about-teaser.jpg", () => workshop(1200, 1500, "finishing", "ABOUT TEASER"));
-P("about/initiative-1.jpg", () => workshop(1200, 1500, "blocks", "THE INITIATIVE 1"));
-P("about/initiative-2.jpg", () => workshop(1200, 1500, "printing", "THE INITIATIVE 2"));
-P("about/present-1.jpg", () => workshop(1200, 1500, "people", "THE PRESENT 1"));
-P("about/present-2.jpg", () => workshop(1200, 1500, "finishing", "THE PRESENT 2"));
-P("studio/poster.jpg", () => workshop(1920, 1080, "loom", "STUDIO VIDEO POSTER"));
-["blocks", "printing", "loom", "dyes", "carving", "metal", "finishing", "people"].forEach((m, i) =>
-  P(`studio/slide-${String(i + 1).padStart(2, "0")}.jpg`, () =>
-    workshop(1200, 1500, m, `STUDIO ${i + 1}`),
-  ),
-);
-P("contact/map.jpg", () => mapImage(1600, 900));
-P("og/default.jpg", () => ogImage(1200, 630));
-
-// Brand placeholders (never overwritten, even with --force)
-const GREEN = "#1F6B45";
-const monogram = (size) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="100%" height="100%" rx="${size * 0.08}" fill="${GREEN}"/><text x="50%" y="62%" text-anchor="middle" font-family="Georgia, serif" font-size="${size * 0.42}" fill="#FFFFFF">SC</text></svg>`;
-const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300">
-  <rect x="20" y="30" width="240" height="240" rx="18" fill="${GREEN}"/>
-  <text x="140" y="185" text-anchor="middle" font-family="Georgia, serif" font-size="100" fill="#FFFFFF">SC</text>
-  <text x="300" y="140" font-family="Georgia, serif" font-size="58" fill="#2B2926">Sai Creations Int'l</text>
-  <text x="302" y="190" font-family="Arial, sans-serif" font-size="24" letter-spacing="2" fill="#625C53">LOGO PLACEHOLDER</text>
-</svg>`;
-const brandJobs = [
+const jobs = [
   [
-    path.join(ROOT, "public", "brand", "logo.png"),
-    () => sharp(Buffer.from(logoSvg)).png().toBuffer(),
+    path.join(OUT, "home", "hero.jpg"),
+    jpg(
+      vignette(HW, HH, {
+        wall: "#E9E1D4",
+        floor: "#D5C6B0",
+        horizon: 0.74,
+        window: { x: HW * 0.58, w: HW * 0.2, h: HH * 0.6 },
+        items: [
+          ["rug", 0.68, 0.98, 0.05, C.ivory],
+          ["pouf", 0.52, 0.9, 0.035, C.jute],
+          ["lamp", 0.86, 0.88, 0.04, C.green],
+          ["budvase", 0.92, 0.88, 0.025, C.brass],
+        ],
+        wallItems: [["plate", 0.44, 0.36, 0.025, C.brass]],
+        text: null,
+      }),
+    ),
   ],
   [
-    path.join(ROOT, "app", "icon.png"),
-    () =>
-      sharp(Buffer.from(monogram(512)))
-        .png()
-        .toBuffer(),
-  ],
-  [
-    path.join(ROOT, "app", "apple-icon.png"),
-    () =>
-      sharp(Buffer.from(monogram(180)))
-        .flatten({ background: GREEN })
-        .png()
-        .toBuffer(),
+    path.join(OUT, "site", "og-default.jpg"),
+    async () => {
+      // Sage & Brass ivory background, the client's logo and the wordmark text.
+      const W = 1200,
+        H = 630;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><rect width="100%" height="100%" fill="#F7F7F1"/><rect x="36" y="36" width="${W - 72}" height="${H - 72}" fill="none" stroke="#CDD4C3" stroke-width="2"/><text x="50%" y="62%" text-anchor="middle" font-family="Georgia, serif" font-size="40" letter-spacing="11" fill="#253028">SAI CREATIONS INTERNATIONAL</text><text x="50%" y="72%" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" letter-spacing="6" fill="#545F55">A HOUSE OF HOME FURNISHING &amp; HANDICRAFTS</text></svg>`;
+      const logo = await sharp(path.join(ROOT, "public", "brand", "logo.png"))
+        .resize(150, 150)
+        .toBuffer();
+      return sharp(Buffer.from(svg))
+        .composite([{ input: logo, left: (W - 150) / 2, top: 120 }])
+        .jpeg({ quality: 88, mozjpeg: true })
+        .toBuffer();
+    },
   ],
 ];
 
 for (const [file, make] of jobs) await write(file, make);
-for (const [file, make] of brandJobs) await write(file, make, { forceable: false });
 console.log(
-  `[placeholders] ${created} created · ${skipped} already present${FORCE ? " (--force)" : ""}`,
+  `[illustrations] ${created} created · ${skipped} already present${FORCE ? " (--force)" : ""}`,
 );

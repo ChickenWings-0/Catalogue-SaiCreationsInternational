@@ -59,8 +59,8 @@ export function AboutTeaser({ section }: { section: AboutTeaserData }) {
           <div className="md:order-2 md:max-w-lg" data-reveal>
             <ResponsiveImage
               image={section.image}
-              aspect="4/5"
-              sizes="(min-width: 768px) 40vw, 100vw"
+              aspect="3/2"
+              sizes="(min-width: 768px) 45vw, 100vw"
             />
           </div>
         </div>

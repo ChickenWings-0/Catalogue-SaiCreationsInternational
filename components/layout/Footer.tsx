@@ -8,7 +8,7 @@ import { fillTemplate } from "@/lib/format";
 import type { FAQ, Navigation, NavItem, SiteConfig } from "@/lib/schemas";
 
 type Props = {
-  site: Pick<SiteConfig, "legalName" | "logo" | "contact" | "socials" | "ui">;
+  site: Pick<SiteConfig, "name" | "tagline" | "legalName" | "logo" | "contact" | "socials" | "ui">;
   footer: Navigation["footer"];
   faqs: FAQ[];
 };
@@ -50,7 +50,8 @@ export function Footer({ site, footer, faqs }: Props) {
   const { address } = site.contact;
   const addressLine = [
     ...address.lines,
-    `${address.city} ${address.postalCode}`,
+    address.city,
+    `${address.region} ${address.postalCode}`,
     address.country,
   ].join(", ");
   const year = new Date().getFullYear();
@@ -69,6 +70,36 @@ export function Footer({ site, footer, faqs }: Props) {
             <div>
               <h2 className={heading}>{footer.socialsHeading}</h2>
               <SocialLinks links={site.socials} newTabHint={site.ui.opensInNewTab} />
+              <ul className="mt-4 space-y-2 text-body-sm text-muted">
+                {site.contact.phones.map((p) => (
+                  <li key={p.number}>
+                    <a
+                      href={`https://wa.me/${site.contact.whatsappNumber}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-grow transition-colors hover:text-ink"
+                    >
+                      {p.label}: {p.number}
+                      <span className="sr-only"> ({site.ui.opensInNewTab})</span>
+                    </a>
+                  </li>
+                ))}
+                {site.socials
+                  .filter((sl) => sl.platform === "instagram" && sl.handle)
+                  .map((sl) => (
+                    <li key={sl.url}>
+                      <a
+                        href={sl.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link-grow transition-colors hover:text-ink"
+                      >
+                        @{sl.handle}
+                        <span className="sr-only"> ({site.ui.opensInNewTab})</span>
+                      </a>
+                    </li>
+                  ))}
+              </ul>
             </div>
           </div>
         </nav>
@@ -88,7 +119,19 @@ export function Footer({ site, footer, faqs }: Props) {
         </section>
 
         <div className="mt-16 flex flex-col gap-6 border-t border-hairline pt-8 md:flex-row md:items-center md:justify-between">
-          <ResponsiveImage image={site.logo} sizes="160px" className="w-40 bg-transparent" />
+          <div className="flex items-center gap-4">
+            <ResponsiveImage
+              image={{ ...site.logo, decorative: true }}
+              sizes="56px"
+              className="size-12 shrink-0 bg-transparent"
+            />
+            <div>
+              <p className="font-display text-[15px] tracking-[0.22em] text-ink uppercase">
+                {site.name}
+              </p>
+              <p className="mt-1 text-caption text-muted">{site.tagline}</p>
+            </div>
+          </div>
           <div className="space-y-1 text-caption text-muted md:text-right">
             <p>{fillTemplate(site.ui.copyright, { year })}</p>
             <address className="not-italic">{addressLine}</address>

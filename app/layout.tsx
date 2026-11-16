@@ -5,6 +5,7 @@ import { RevealObserver } from "@/components/layout/RevealObserver";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { getFaqs, getNavigation, getSiteConfig } from "@/lib/content";
 import { cormorant, jost } from "@/lib/fonts";
+import { sharePath } from "@/lib/image-widths.mjs";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,6 +15,15 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: site.seo.defaultTitle, template: site.seo.titleTemplate },
     description: site.seo.description,
     applicationName: site.legalName,
+    // Default link preview (WhatsApp, social). Product pages override it with the product photo.
+    openGraph: {
+      type: "website",
+      siteName: site.legalName,
+      title: site.seo.defaultTitle,
+      description: site.seo.description,
+      images: [{ url: sharePath(site.seo.ogImage.src), alt: site.seo.ogImage.alt }],
+    },
+    twitter: { card: "summary_large_image", images: [sharePath(site.seo.ogImage.src)] },
   };
 }
 

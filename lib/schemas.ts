@@ -21,7 +21,7 @@ export const categorySlugSchema = z.enum(CATEGORY_SLUGS);
 
 export const imageInputSchema = z
   .object({
-    /** Path relative to /assets/images ("placeholders/products/sci-hd-001-a.jpg"), "brand/…", or an absolute URL. */
+    /** Path relative to /assets/images ("products/sci-hd-001.jpg"), "brand/…", or an absolute URL. */
     src: z.string().min(1),
     alt: z.string(),
     width: z.number().int().positive().optional(),
@@ -105,7 +105,7 @@ export const siteConfigSchema = z.object({
   tagline: text,
   logo: imageInputSchema,
   contact: z.object({
-    email: z.email(),
+    email: z.email().optional(),
     phones: z.array(z.object({ label: text, number: text })),
     whatsappNumber: z
       .string()
@@ -119,7 +119,7 @@ export const siteConfigSchema = z.object({
     }),
     hours: text.optional(),
     mapUrl: href,
-    mapImage: imageInputSchema,
+    mapImage: imageInputSchema.optional(),
   }),
   socials: z.array(
     z.object({
@@ -129,7 +129,7 @@ export const siteConfigSchema = z.object({
       handle: text.optional(),
     }),
   ),
-  googleFormUrl: href,
+  googleFormUrl: href.optional(),
   header: z.object({ contactHref: href }),
   analytics: z.object({ cloudflareBeaconToken: text.optional() }),
   enquiry: z.object({ whatsappTemplate: text, instagramNote: text }),
@@ -246,6 +246,10 @@ export const aboutPageSchema = z.object({
       eyebrow: text.optional(),
       heading: text,
       body: z.array(text).min(1),
+      /** Optional list shown after the body (e.g. branch locations). */
+      points: z.array(z.object({ title: text, detail: text.optional() })).optional(),
+      /** Paragraphs after the list. */
+      closing: z.array(text).optional(),
       images: z.array(imageInputSchema),
       pullQuote: text.optional(),
     }),
@@ -257,10 +261,16 @@ export const aboutPageSchema = z.object({
 export const contactPageSchema = z.object({
   title: text,
   intro: text,
+  whatsappHeading: text,
+  whatsappCta: text,
+  instagramHeading: text,
+  instagramCta: text,
+  visitHeading: text,
+  mapLinkLabel: text,
+  emailHeading: text,
+  /** Shown only when site.googleFormUrl is set. */
   formCtaLabel: text,
   formNote: text.optional(),
-  mapLinkLabel: text,
-  socialsHeading: text,
   seo: seoSchema,
 });
 
@@ -273,7 +283,13 @@ export const studioPageSchema = z.object({
     /** The Studio shows the company itself (workshop, process, people). Slides are not links. */
     slides: z
       .array(
-        z.object({ image: imageInputSchema, title: text.optional(), caption: text.optional() }),
+        z.object({
+          image: imageInputSchema,
+          title: text.optional(),
+          caption: text.optional(),
+          /** "product": white-background product photo shown whole in a tinted frame. */
+          fit: z.enum(["cover", "product"]).optional(),
+        }),
       )
       .min(1),
     autoplay: z.boolean(),

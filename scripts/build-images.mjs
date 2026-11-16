@@ -3,7 +3,7 @@
  * Build-time image pipeline (replaces a runtime image optimisation service).
  *
  * Sources (originals, committed):
- *   assets/images/**        → logical src "placeholders/products/sci-hd-001-a.jpg"
+ *   assets/images/**        → logical src "products/sci-hd-001.jpg"
  *   public/brand/**         → logical src "brand/logo.png"
  *
  * Outputs (generated, gitignored):
@@ -57,7 +57,7 @@ const toPosix = (p) => p.split(path.sep).join("/");
 const outFile = (logical, w) => path.join(ROOT, "public", ...variantPath(logical, w).split("/"));
 
 /** Products and OG images also get a JPEG "share" image for link previews (WhatsApp, social). */
-const SHARE_PREFIXES = ["products/", "placeholders/og/"];
+const SHARE_PREFIXES = ["products/", "site/"];
 const needsShare = (logical) => SHARE_PREFIXES.some((p) => logical.startsWith(p));
 const shareFile = (logical) => path.join(ROOT, "public", ...sharePath(logical).split("/"));
 

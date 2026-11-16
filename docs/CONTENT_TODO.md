@@ -6,7 +6,21 @@ In the code, every placeholder is marked `// TODO(client):` in `/content`. Run `
 
 ---
 
-## 0. Status (2026-11-16)
+## 0. Status (2026-11-17)
+
+Received and live: product photos batches 1 and 2 (90 products), logo, address, WhatsApp Business number, Instagram, About texts (The Initiative, The Present), two workshop photos, Studio film.
+
+Still useful from the client:
+- [ ] **Email address** (shown on Contact once added; optional)
+- [ ] **Google Form** link (optional; the button appears once added)
+- [ ] **FAQ answers**: confirm or edit the drafted FAQs (footer + About)
+- [ ] **White-background photos** for the three wire pieces shot on black (hanging basket, heart planter, nested baskets)
+- [ ] **Higher-resolution photos** where the originals are small: the seat cushions (325 px), wire baskets, SCI-OD-002 red lantern
+- [ ] **Logo as a vector or large PNG** (the current file is 450 px, fine on screen, soft if printed large)
+- [ ] **Studio film in higher resolution** if available (current file is 848×480)
+- [ ] Domain name, registrar and DNS access (for going live)
+
+### Earlier status (2026-11-16)
 
 - [x] **Product photos batch 1**: 56 products received and live (Home 11, Outdoor 11, Wall 12, Seasonal 22)
 - [ ] **More product photos**: the Home Decor and Garden Decor folders were empty; any further pieces in all categories

@@ -2,28 +2,25 @@ import type { AboutPageInput } from "@/lib/schemas";
 
 export const aboutPage: AboutPageInput = {
   title: "About Us",
-  // TODO(client): short intro line
-  intro: "A house of home furnishing and handicrafts, built on craft, care and long relationships.",
+  intro:
+    "A house of home furnishing and handicrafts, built on craft, fair work and the skill of the artisans we work with.",
   sections: [
     {
       id: "the-initiative",
-      eyebrow: "Our beginnings",
+      eyebrow: "Our purpose",
       heading: "The Initiative",
-      // TODO(client): The Initiative text (150–300 words): founding story, purpose, craft heritage
       body: [
-        "SAI Creations International began with a simple idea: to bring the skill of traditional artisans to homes around the world, without losing what makes their work special.",
-        "From the start, we worked directly with craftspeople: block printers, weavers, wood carvers and metalworkers. We built relationships based on fair work and mutual respect, and on a shared pride in doing things properly.",
-        "This placeholder text will be replaced with the company's own account of how the initiative started and what it set out to do.",
+        "Our company is built around a clear social commitment: empowering women artisans through sustainable global trade. Although our workforce includes both men and women working together across operations and production, our primary initiative is dedicated to creating meaningful livelihoods and growth opportunities for female makers.",
+        "We invest in women who hold deep, generational craft expertise—ensuring fair compensation, safe working environments, and direct access to international buyers. When you partner with us, you are supporting an ethical supply chain that actively champions women’s economic independence and brings India’s finest handcrafted goods to the global stage.",
       ],
-      // TODO(client): 2–3 photos (workshop, artisans, early days)
       images: [
         {
-          src: "placeholders/about/initiative-1.jpg",
-          alt: "Artisan carving a wooden printing block",
+          src: "about/initiative-1.jpg",
+          alt: "Women artisans at work on handcrafted pieces in the workshop",
         },
         {
-          src: "placeholders/about/initiative-2.jpg",
-          alt: "Early work samples laid out on a table",
+          src: "about/initiative-2.jpg",
+          alt: "Artisans assembling and packing handcrafted products",
         },
       ],
     },
@@ -31,22 +28,24 @@ export const aboutPage: AboutPageInput = {
       id: "the-present",
       eyebrow: "Today",
       heading: "The Present",
-      // TODO(client): The Present text (150–300 words): what the company does today
       body: [
-        "Today we design and produce home decor, outdoor decor, wall decor and seasonal collections for homes, retailers and design studios.",
-        "Our team works closely with each artisan group, from sampling to finishing and packing, so every piece meets the same standard of quality and care.",
-        "This placeholder text will be replaced with the company's own description of its capabilities, markets, team and values.",
+        "To give every art form the focus and environment it deserves, we operate across four specialized branches in Delhi and Uttar Pradesh:",
       ],
-      // TODO(client): 2–3 photos (team, current workshop, products)
-      images: [
-        { src: "placeholders/about/present-1.jpg", alt: "The SAI Creations team in the workshop" },
-        { src: "placeholders/about/present-2.jpg", alt: "Finished products ready for dispatch" },
+      points: [
+        { title: "Noida, Uttar Pradesh", detail: "D-32, Sector 7" },
+        { title: "Delhi", detail: "E-211, Ashok Nagar" },
+        { title: "Firozabad, Uttar Pradesh" },
+        { title: "Amethi, Uttar Pradesh" },
       ],
+      closing: [
+        "Each branch is dedicated to a distinct craft discipline, giving our artisans the specialized space and resources needed to execute large-scale orders smoothly. Across every location, we work closely alongside our artisans in safe, clean, and supportive environments—handling every stage of creation with meticulous care so our customers receive only the highest quality handcrafted goods.",
+      ],
+      images: [],
     },
   ],
   faqHeading: "Frequently asked questions",
   seo: {
     description:
-      "The story of SAI Creations International: The Initiative that started it, and The Present: who we are and what we make today.",
+      "SAI Creations International empowers women artisans through sustainable global trade, with four specialised branches in Delhi and Uttar Pradesh.",
   },
 };

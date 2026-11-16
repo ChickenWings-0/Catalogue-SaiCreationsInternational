@@ -165,6 +165,10 @@ E-commerce, prices, cart/checkout, user accounts, on-site form submission, multi
 | Palette | **Sage & Brass** (final). Switcher and other palettes removed |
 | Home hero | One slide: "Crafted by hand, made for home" (placeholder design approved) |
 | Product codes | **Not shown** anywhere (provisional, not the client's); internal URL keys only |
+| Contact (2026-11-17) | D-32, Sector 7, Noida, UP 201301, India · WhatsApp Business +91 9289 555 616 · Instagram @saicreationsintl. No Pinterest, X or LinkedIn |
+| Branches | Noida (D-32, Sector 7) · Delhi (E-211, Ashok Nagar) · Firozabad, UP · Amethi, UP |
+| Logo | Green "SC" monogram beside the text wordmark (wordmark kept), footer, favicon, share image |
+| Studio film | The client's 86-second product film |
 
 ## 7a. Still open (for the client)
 

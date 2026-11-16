@@ -1,11 +1,12 @@
 import type { ProductInput } from "@/lib/schemas";
 
 /*
- * SEASONAL DECOR: festive trees, stars and figures (22 products, client photos batch 1).
- * Visual-only: photo + reference code, no names or specifications (client request).
+ * SEASONAL DECOR: festive trees, stars and figures (22 products).
+ * Visual-only: photos only. No names, codes or specifications are shown (client request);
+ * the code is an internal key used in file names and URLs.
  * The order here is the display order. Photos: assets/images/products/<code>.jpg,
  * imported with `npm run import:images` (mapping in scripts/client-images.mjs).
- * TODO(client): more products to follow; codes are provisional.
+ * TODO(client): more products to follow.
  */
 export const seasonalDecorProducts: ProductInput[] = [
   {

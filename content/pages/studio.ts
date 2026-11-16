@@ -1,76 +1,40 @@
 import type { StudioPageInput } from "@/lib/schemas";
 
 /*
- * THE STUDIO: a showcase of the company itself (workshop, process, people), not products.
- * The scroll interaction is built in Phase 3 (docs/STUDIO_INTERACTION_SPEC.md).
+ * THE STUDIO: the client's own film (scroll-to-fullscreen sequence, docs/STUDIO_INTERACTION_SPEC.md),
+ * followed by a carousel of pieces made in their workshops (photos only, not links).
  */
+
+/** A product photo shown whole in the carousel (no names or codes, by client request). */
+const piece = (code: string, alt: string) => ({
+  image: { src: `products/${code}.jpg`, alt },
+  fit: "product" as const,
+});
+
 export const studioPage: StudioPageInput = {
   title: "The Studio",
-  // TODO(client): Studio intro (50–100 words)
   intro:
-    "Every piece we make begins in the workshop. Step inside to meet the people, the tools and the patient processes behind our collections.",
+    "A closer look at the pieces our artisans make by hand: brass and glass, hand-forged iron, wire and enamel, finished with care in our workshops in Delhi and Uttar Pradesh.",
   video: {
-    // TODO(client): replace with the client's own film (12–20 s seamless loop, no audio).
-    // PLACEHOLDER: free stock clip "Woman weaving a cloth on a large wooden loom" (Mixkit #4479,
-    // Mixkit Stock Video Free License), cut to a 14 s loop. Encode commands: STUDIO_INTERACTION_SPEC §4.1.
+    // The client's film (WhatsApp video, 16 Nov 2026), re-encoded for the web: MP4, WebM and a mobile size.
     src: "/video/studio/studio.mp4",
     srcWebm: "/video/studio/studio.webm",
     srcMobile: "/video/studio/studio-mobile.mp4",
-    poster: {
-      src: "placeholders/studio/video-poster.jpg",
-      alt: "A weaver working at a wooden hand loom",
-    },
+    poster: { src: "studio/video-poster.jpg", alt: "Handcrafted lanterns and terrariums" },
   },
   carousel: {
-    heading: "Workshop, process and people",
+    heading: "Made in our workshops",
     autoplay: false,
     autoplayDelayMs: 5000,
-    // TODO(client): 6–10 photos of the workshop, process and people (≥ 1600 × 2000, 4:5). Not links.
     slides: [
-      {
-        image: {
-          src: "placeholders/studio/slide-01.jpg",
-          alt: "Carved wooden blocks ready for printing",
-        },
-        title: "The blocks",
-      },
-      {
-        image: {
-          src: "placeholders/studio/slide-02.jpg",
-          alt: "A printer aligning a block on fabric",
-        },
-        title: "Printing by hand",
-      },
-      {
-        image: { src: "placeholders/studio/slide-03.jpg", alt: "Weaver at a hand loom" },
-        title: "At the loom",
-      },
-      {
-        image: { src: "placeholders/studio/slide-04.jpg", alt: "Dyed yarn drying in the sun" },
-        title: "Natural dyes",
-      },
-      {
-        image: {
-          src: "placeholders/studio/slide-05.jpg",
-          alt: "Woodcarver shaping a mirror frame",
-        },
-        title: "Carving",
-      },
-      {
-        image: { src: "placeholders/studio/slide-06.jpg", alt: "Metalworker hammering brass" },
-        title: "Metalwork",
-      },
-      {
-        image: { src: "placeholders/studio/slide-07.jpg", alt: "Quality check of finished pieces" },
-        title: "Finishing",
-      },
-      {
-        image: {
-          src: "placeholders/studio/slide-08.jpg",
-          alt: "The team in the workshop courtyard",
-        },
-        title: "Our people",
-      },
+      piece("sci-hd-013", "Ornate black iron candelabra with five amber tealight glasses"),
+      piece("sci-wd-001", "Hanging amber glass star lantern"),
+      piece("sci-od-012", "Set of four pastel enamel milk churn planters"),
+      piece("sci-hd-001", "Hexagonal brass and glass greenhouse terrarium"),
+      piece("sci-sd-001", "Silver wire reindeer"),
+      piece("sci-od-026", "Rust-finish wire gazebo plant stand"),
+      piece("sci-hd-012", "Set of three textured-glass cube lanterns"),
+      piece("sci-sd-002", "Seven-point brass and glass star lantern"),
     ],
   },
   outro: {
@@ -80,6 +44,6 @@ export const studioPage: StudioPageInput = {
   },
   seo: {
     description:
-      "Inside the SAI Creations International workshop: our process, our people and the craft behind every piece.",
+      "Inside SAI Creations International: handcrafted lanterns, terrariums, candelabras and decor made by our artisans in Delhi and Uttar Pradesh.",
   },
 };

@@ -4,16 +4,17 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 
 ---
 
-## Status at a glance (updated 2026-11-16)
+## Status at a glance (updated 2026-11-17)
 
 | Phase | Status |
 |---|---|
 | 0 Setup · 1 Layout shell · 2 Catalogue pages · 3 The Studio | ✅ Done |
 | 3.5 Client feedback: visual-only catalogue + first real photos | ✅ Done |
 | 3.6 Final palette (Sage & Brass), single hero, no codes, dev tools removed | ✅ Done |
-| 4 About, Contact, FAQs, 404 | Next |
+| 3.7 Client content round 2: photos batch 2, logo, contact details, About text, Studio film | ✅ Done |
+| 4 About, Contact, FAQs, 404 | ✅ Done (FAQ wording still to confirm) |
 | 4b Product photos batch 2 (repeatable whenever the client sends more) | Waiting on client |
-| 5 SEO, accessibility, performance, clean-up | To do |
+| 5 SEO, accessibility, performance, clean-up | Next |
 | 6 Deployment + custom domain | To do (needs domain details) |
 | 7 CMS for client editing | Later / optional |
 
@@ -152,6 +153,22 @@ Client decisions (2026-11-16): **no product names, dimensions or specifications*
 
 ---
 
+## Phase 3.7: Client content round 2 ✅ (2026-11-17)
+
+- [x] Photos batch 2 imported: **11 candelabras** (Home Decor) and **24 garden pieces** (Outdoor Decor: churns, tubs, baskets, bicycle planters, star lanterns, cushions). Duplicate files skipped (HOME 1=10, 6=8; GARDEN 6=8, 14=15)
+- [x] Import modes: `cutout` (white bg, near-white lifted to white), `clean` (ignores corner marks), `pad` (black bg kept), `crop` (lifestyle → square), `fit` (wide lifestyle over a blurred copy). The trim box ignores dust specks
+- [x] Removed the open glass box (was SCI-HD-010). Moved the textured cube lanterns from Outdoor to Home Decor (now SCI-HD-012)
+- [x] Totals: Home 22 · Outdoor 34 · Wall 12 · Seasonal 22 = **90 products**
+- [x] **Logo** (green "SC" monogram) beside the text wordmark in the header, in the footer brand strip, as the favicon/apple icon and on the default share image (`assets/images/site/og-default.jpg`). Default `og:image` wired in the root layout
+- [x] **Contact details**: D-32, Sector 7, Noida, Uttar Pradesh 201301, India · WhatsApp Business +91 9289 555 616 (used by every enquiry button) · Instagram @saicreationsintl. Pinterest, X and LinkedIn removed
+- [x] **About**: client text for The Initiative (with the two workshop photos) and The Present (four branches as cards)
+- [x] **Contact page** built: WhatsApp, Instagram and Visit us cards (Google Maps directions). Email and Google Form appear automatically once supplied
+- [x] **The Studio**: the client's film (86 s, re-encoded to MP4/WebM/mobile, about 0.5–1 MB each) and a carousel of their pieces. Home teasers use the workshop photos
+- [x] Home hero: the approved illustration regenerated without its "PLACEHOLDER" label (`assets/images/home/hero.jpg`). All other placeholder images deleted
+- [x] Header search icon removed (no dead controls)
+
+---
+
 ## Phase 4b: Product photos batch 2 (repeat for every new batch) ⏳
 
 When the client sends more photos:
@@ -160,20 +177,20 @@ When the client sends more photos:
 3. Run `npm run import:images`, then add the matching entries to `content/products/<category>.ts`.
 4. `npm run build` → check → commit.
 
-- [ ] Home Decor and Garden/Outdoor folders were empty in batch 1. Collect photos for them
+- [x] Home Decor and Garden photos received (batch 2)
 - [ ] Ask for higher-resolution originals where the product is small in frame (e.g. SCI-OD-002 is only ~350 px wide)
 - [ ] ~~Replace provisional codes~~ Not needed: codes are internal only and never shown
 
 ---
 
-## Phase 4: About, Contact, FAQs, 404
+## Phase 4: About, Contact, FAQs, 404 ✅
 
-- [ ] **About** `/about`: intro, `#the-initiative` and `#the-present` sections (placeholder text + images, alternating layout), `#faqs` with the **full** `FAQAccordion` (same `faqs.ts` source as the footer). `scroll-margin-top` for the sticky header
-- [ ] Footer links `/about#the-initiative` and `#the-present` land at the correct sections (also when already on `/about`)
-- [ ] **Contact** `/contact`: `ContactDetails` (address, phone `tel:`, email `mailto:`, hours), `MapPlaceholder` (a static placeholder image linking to Google Maps; **no iframe embed**), `SocialLinks` with labels, `GoogleFormCta` (plain link, new tab, no prefill). No on-site form
-- [ ] **404**: styled page with copy from content, links to Home + Catalogue, featured product photos
-- [ ] **Home hero**: replace the illustrated placeholder slides with real photography or a composed product shot (needs client lifestyle photos) ⏳
-- [ ] Header contact icon → `/contact`. Search icon placeholder state finalised ⏳
+- [x] **About** `/about`: intro, `#the-initiative` and `#the-present` sections (placeholder text + images, alternating layout), `#faqs` with the **full** `FAQAccordion` (same `faqs.ts` source as the footer). `scroll-margin-top` for the sticky header
+- [x] Footer links `/about#the-initiative` and `#the-present` land at the correct sections (also when already on `/about`)
+- [x] **Contact** `/contact`: `ContactDetails` (address, phone `tel:`, email `mailto:`, hours), a **Get directions** button to Google Maps (no map image, no iframe), `SocialLinks` with labels, `GoogleFormCta` (plain link, new tab, no prefill). No on-site form
+- [x] **404**: styled page with copy from content, links to Home + Catalogue, featured product photos
+- [x] **Home hero**: client approved the illustrated still life (label removed)
+- [x] Header contact icon → `/contact`. Search icon removed
 
 **Acceptance criteria**
 - FAQ content is edited in one place and appears in both the footer (subset) and About (all).
@@ -182,6 +199,8 @@ When the client sends more photos:
 - A visit to `/catalogue/home-decor/does-not-exist` or `/xyz` shows the styled 404 with HTTP status 404.
 
 ---
+
+- ⏳ FAQ wording is still the drafted text: ask the client to confirm or edit `content/faqs.ts`
 
 ## Phase 5: SEO, accessibility and performance pass
 

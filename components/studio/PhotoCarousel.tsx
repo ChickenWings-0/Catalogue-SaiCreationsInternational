@@ -18,7 +18,7 @@ import type { ImageAsset, Labels } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 import { PaginationDots } from "./PaginationDots";
 
-type Slide = { image: ImageAsset; title?: string; caption?: string };
+type Slide = { image: ImageAsset; title?: string; caption?: string; fit?: "cover" | "product" };
 
 type Props = {
   slides: Slide[];
@@ -161,12 +161,23 @@ export function PhotoCarousel({
                     renderSlide(slide, i, active)
                   ) : (
                     <>
-                      <ResponsiveImage
-                        image={slide.image}
-                        aspect="4/5"
-                        sizes="(min-width: 1024px) 32rem, (min-width: 768px) 56vw, 80vw"
-                        preload={false}
-                      />
+                      {slide.fit === "product" ? (
+                        <div className="relative aspect-[4/5] overflow-hidden bg-white">
+                          <ResponsiveImage
+                            image={slide.image}
+                            fill
+                            sizes="(min-width: 1024px) 32rem, (min-width: 768px) 56vw, 80vw"
+                            imgClassName="pointer-events-none object-contain p-[6%] mix-blend-multiply select-none [-webkit-user-drag:none]"
+                          />
+                        </div>
+                      ) : (
+                        <ResponsiveImage
+                          image={slide.image}
+                          aspect="4/5"
+                          sizes="(min-width: 1024px) 32rem, (min-width: 768px) 56vw, 80vw"
+                          preload={false}
+                        />
+                      )}
                       {(slide.title || slide.caption) && (
                         <figcaption
                           className={cn(

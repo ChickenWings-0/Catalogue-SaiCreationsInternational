@@ -1,26 +1,32 @@
 import type { CategoryInput } from "@/lib/schemas";
 
-// TODO(client): confirm category taglines and intros. Tile photos use a product photo for now.
+// TODO(client): confirm category taglines and intros. Tile photos use a product photo.
 export const categories: CategoryInput[] = [
   {
     slug: "home-decor",
     name: "Home Decor",
     codePrefix: "HD",
     order: 1,
-    tagline: "Terrariums, glass boxes and trays",
+    tagline: "Candelabras, terrariums and glassware",
     intro:
-      "Brass-framed glass terrariums, display boxes, trays and vessels, each piece cut, soldered and finished by hand.",
-    tileImage: { src: "products/sci-hd-001.jpg", alt: "Brass and glass greenhouse terrarium" },
+      "Hand-forged iron candelabras, brass-framed glass terrariums, display boxes, trays and vessels, each piece finished by hand.",
+    tileImage: {
+      src: "products/sci-hd-013.jpg",
+      alt: "Ornate black iron candelabra with five amber tealight glasses",
+    },
   },
   {
     slug: "outdoor-decor",
     name: "Outdoor Decor",
     codePrefix: "OD",
     order: 2,
-    tagline: "Lanterns for terraces and gardens",
+    tagline: "Garden planters, lanterns and cushions",
     intro:
-      "Brass and glass lanterns in many shapes and sizes, made by hand to bring a soft glow to terraces, courtyards and gardens.",
-    tileImage: { src: "products/sci-od-001.jpg", alt: "Brass and glass lantern with carry handle" },
+      "Milk churn planters, galvanised tubs, wire baskets, garden cushions and brass and glass lanterns for terraces, courtyards and gardens.",
+    tileImage: {
+      src: "products/sci-od-012.jpg",
+      alt: "Set of four pastel enamel milk churn planters",
+    },
   },
   {
     slug: "wall-decor",

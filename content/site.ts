@@ -6,59 +6,38 @@ import type { SiteConfigInput } from "@/lib/schemas";
  * comes from here.
  */
 
-// TODO(client): WhatsApp number in international format, digits only (e.g. 91XXXXXXXXXX)
-const WHATSAPP_NUMBER = "910000000000";
+/** WhatsApp Business number: +91 9289 555 616 (digits only, with country code). */
+const WHATSAPP_NUMBER = "919289555616";
 
 export const site: SiteConfigInput = {
   name: "SAI CREATIONS INTERNATIONAL",
   legalName: "SAI Creations International",
   tagline: "A House of Home Furnishing & Handicrafts",
-  // TODO(client): replace public/brand/logo.png with the real logo (transparent PNG, ≥ 960px wide)
+  /** The green "SC" monogram (shown beside the text wordmark, in the footer and as the favicon). */
   logo: { src: "brand/logo.png", alt: "SAI Creations International logo" },
 
   contact: {
-    // TODO(client): enquiries email address
-    email: "hello@example.com",
-    // TODO(client): phone number(s) with labels
-    phones: [{ label: "Sales", number: "+91 00000 00000" }],
+    // TODO(client): enquiries email address (optional; hidden while unset)
+    email: undefined,
+    phones: [{ label: "WhatsApp", number: "+91 9289 555 616" }],
     whatsappNumber: WHATSAPP_NUMBER,
-    // TODO(client): registered business address
     address: {
-      lines: ["Plot 00, Placeholder Industrial Area"],
-      city: "City",
-      region: "State",
-      postalCode: "000000",
+      lines: ["D-32, Sector 7"],
+      city: "Noida",
+      region: "Uttar Pradesh",
+      postalCode: "201301",
       country: "India",
     },
-    // TODO(client): business hours (optional)
-    hours: "Monday to Saturday, 10:00–18:00",
-    // TODO(client): Google Maps link to the business location
-    mapUrl: "https://maps.google.com/",
-    // TODO(client): optional nicer static map image (the image links to mapUrl, no embed)
-    mapImage: {
-      src: "placeholders/contact/map.jpg",
-      alt: "Map showing the location of SAI Creations International",
-    },
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=D-32%2C%20Sector%207%2C%20Noida%2C%20Uttar%20Pradesh%20201301%2C%20India",
   },
 
-  // TODO(client): real profile URLs and handles. Remove any platform the client doesn't use.
   socials: [
     {
       platform: "instagram",
       label: "SAI Creations on Instagram",
-      url: "https://www.instagram.com/your-handle/",
-      handle: "your-handle",
-    },
-    { platform: "x", label: "SAI Creations on X (Twitter)", url: "https://x.com/your-handle" },
-    {
-      platform: "linkedin",
-      label: "SAI Creations on LinkedIn",
-      url: "https://www.linkedin.com/company/your-company/",
-    },
-    {
-      platform: "pinterest",
-      label: "SAI Creations on Pinterest",
-      url: "https://www.pinterest.com/your-handle/",
+      url: "https://www.instagram.com/saicreationsintl/",
+      handle: "saicreationsintl",
     },
     {
       platform: "whatsapp",
@@ -67,8 +46,8 @@ export const site: SiteConfigInput = {
     },
   ],
 
-  // TODO(client): Google Form URL for enquiries (plain link; product-code prefill may come later)
-  googleFormUrl: "https://forms.gle/your-form-id",
+  // TODO(client): Google Form URL for enquiries (optional; the button is hidden while unset)
+  googleFormUrl: undefined,
 
   header: {
     // Pending client: contact icon may later open WhatsApp directly instead of the Contact page.
@@ -89,7 +68,7 @@ export const site: SiteConfigInput = {
 
   features: {
     headerShrink: false, // pending client
-    headerSearch: false, // pending client: icon shown as a placeholder only
+    headerSearch: false, // no search for a photo-only catalogue; icon hidden
     heroSlideshow: false, // client chose a single still hero
   },
 
@@ -99,8 +78,7 @@ export const site: SiteConfigInput = {
     // TODO(client): one-sentence company description for search results (≤ 160 characters)
     description:
       "Handcrafted home decor, outdoor decor, wall decor and seasonal pieces from SAI Creations International, a house of home furnishing and handicrafts.",
-    // TODO(client): share image (1200 × 630)
-    ogImage: { src: "placeholders/og/default.jpg", alt: "SAI Creations International" },
+    ogImage: { src: "site/og-default.jpg", alt: "SAI Creations International" },
   },
 
   ui: {

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
+import type { ImageAsset } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
   href?: string;
   /** Accessible name for the link, e.g. "SAI Creations International, home". */
   label: string;
+  /** Optional logo mark shown to the left of the text (the client's "SC" monogram). */
+  logo?: ImageAsset;
   className?: string;
 };
 
@@ -15,7 +19,7 @@ type Props = {
  * One line from 640px; below that, a two-line lockup with both lines at equal optical width.
  * Real text, not an image. It's never the page's H1.
  */
-export function Wordmark({ text, href = "/", label, className }: Props) {
+export function Wordmark({ text, href = "/", label, logo, className }: Props) {
   const i = text.lastIndexOf(" ");
   const first = i > 0 ? text.slice(0, i) : text;
   const second = i > 0 ? text.slice(i + 1) : "";
@@ -24,22 +28,29 @@ export function Wordmark({ text, href = "/", label, className }: Props) {
     <Link
       href={href}
       aria-label={label}
-      className={cn(
-        "flex flex-col items-center font-display leading-none font-normal whitespace-nowrap text-ink uppercase sm:block",
-        className,
-      )}
+      className={cn("flex items-center gap-2.5 sm:gap-3 lg:gap-4", className)}
     >
-      {/* Trailing tracking is cancelled with a negative right margin so each line centres optically.
-          From 640px both spans sit inline, separated by a real (tracked) word space. */}
-      <span className="-mr-[0.2em] text-[17px] tracking-[0.2em] sm:mr-0 sm:text-[18px] sm:tracking-[0.24em] lg:text-[22px] lg:tracking-[0.28em]">
-        {first}
-        {second && <span className="hidden sm:inline"> </span>}
-      </span>
-      {second && (
-        <span className="mt-1.5 -mr-[0.56em] text-[11px] tracking-[0.56em] sm:mt-0 sm:-mr-[0.24em] sm:text-[18px] sm:tracking-[0.24em] lg:-mr-[0.28em] lg:text-[22px] lg:tracking-[0.28em]">
-          {second}
-        </span>
+      {logo && (
+        <ResponsiveImage
+          image={{ ...logo, decorative: true }}
+          sizes="40px"
+          preload
+          className="size-8 shrink-0 bg-transparent sm:size-8 lg:size-10"
+        />
       )}
+      <span className="flex flex-col items-center font-display leading-none font-normal whitespace-nowrap text-ink uppercase sm:block">
+        {/* Trailing tracking is cancelled with a negative right margin so each line centres optically.
+          From 640px both spans sit inline, separated by a real (tracked) word space. */}
+        <span className="-mr-[0.2em] text-[17px] tracking-[0.2em] sm:mr-0 sm:text-[18px] sm:tracking-[0.24em] lg:text-[22px] lg:tracking-[0.28em]">
+          {first}
+          {second && <span className="hidden sm:inline"> </span>}
+        </span>
+        {second && (
+          <span className="mt-1.5 -mr-[0.56em] text-[11px] tracking-[0.56em] sm:mt-0 sm:-mr-[0.24em] sm:text-[18px] sm:tracking-[0.24em] lg:-mr-[0.28em] lg:text-[22px] lg:tracking-[0.28em]">
+            {second}
+          </span>
+        )}
+      </span>
     </Link>
   );
 }

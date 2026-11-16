@@ -8,12 +8,11 @@ export const homePage: HomePageInput = {
   sections: [
     {
       type: "hero",
-      // Client approved this single hero (placeholder illustration and copy) on 2026-11-16.
-      // TODO(client): swap in a real room photo later if they wish (≥ 2400 × 1350, 16:9).
+      // Client approved this hero (illustrated still life and copy) on 2026-11-16.
       slides: [
         {
           image: {
-            src: "placeholders/home/hero-1.jpg",
+            src: "home/hero.jpg",
             // Keeps the styled objects in view when cropped to portrait on phones.
             focalPoint: { x: 0.72, y: 0.6 },
             alt: "A calm living room styled with handcrafted pieces",
@@ -28,9 +27,8 @@ export const homePage: HomePageInput = {
     },
     {
       type: "categoryTiles",
-      // TODO(client): section intro
       heading: "Shop by category",
-      intro: "Four collections, each made by hand from natural materials.",
+      intro: "Four collections, each made by hand in our workshops.",
     },
     {
       type: "featuredProducts",
@@ -40,25 +38,23 @@ export const homePage: HomePageInput = {
     },
     {
       type: "studioTeaser",
-      // TODO(client): Studio teaser text (30–50 words) and still image
       eyebrow: "The Studio",
-      heading: "Inside our workshop",
-      body: "Step inside the workshop where every piece begins: the people, the tools and the slow, careful processes behind our collections.",
+      heading: "Inside our workshops",
+      body: "Watch our pieces come to life and see the craft behind them: brass and glass, hand-forged iron and wire, finished by hand.",
       media: {
-        src: "placeholders/home/studio-teaser.jpg",
-        alt: "Artisans at work in the SAI Creations workshop",
+        src: "about/initiative-1.jpg",
+        alt: "Women artisans at work in the SAI Creations workshop",
       },
       cta: { label: "Visit The Studio", href: "/studio/" },
     },
     {
       type: "aboutTeaser",
-      // TODO(client): About teaser text (40–60 words) and image
       eyebrow: "About Us",
-      heading: "A house of home furnishing and handicrafts",
-      body: "SAI Creations International brings together skilled artisans and thoughtful design to make home furnishings and handicrafts that are meant to be lived with and kept for years.",
+      heading: "Empowering women artisans",
+      body: "Our primary initiative creates meaningful livelihoods for women makers with deep, generational craft expertise, through fair pay, safe workplaces and direct access to international buyers.",
       image: {
-        src: "placeholders/home/about-teaser.jpg",
-        alt: "Hands finishing a handcrafted piece",
+        src: "about/initiative-2.jpg",
+        alt: "Artisans assembling and packing handcrafted products",
       },
       cta: { label: "Our story", href: "/about/" },
     },

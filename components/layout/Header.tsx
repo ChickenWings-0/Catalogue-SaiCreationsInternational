@@ -1,12 +1,11 @@
 import { Mail, Search } from "lucide-react";
 import Link from "next/link";
 import type { Navigation, SiteConfig } from "@/lib/schemas";
-import { cn } from "@/lib/utils";
 import { Sidebar } from "./Sidebar";
 import { Wordmark } from "./Wordmark";
 
 type Props = {
-  site: Pick<SiteConfig, "name" | "header" | "features" | "ui">;
+  site: Pick<SiteConfig, "name" | "logo" | "header" | "features" | "ui">;
   navigation: Pick<Navigation, "sidebarMain" | "sidebarBottom">;
   /**
    * Hook point for a future shrink-on-scroll effect (pending client, off by default).
@@ -40,27 +39,14 @@ export function Header({ site, navigation, shrinkOnScroll = false }: Props) {
           />
         </div>
 
-        <Wordmark text={site.name} label={ui.homeLinkLabel} />
+        <Wordmark text={site.name} label={ui.homeLinkLabel} logo={site.logo} />
 
         <div className="-mr-2.5 flex items-center justify-end">
-          {/* To refine later: search is a non-functional placeholder until the client confirms it. */}
-          {site.features.headerSearch ? (
+          {/* Search is off for the photo-only catalogue (features.headerSearch); no dead icon. */}
+          {site.features.headerSearch && (
             <button type="button" className={iconButton}>
               <Search className="size-5" strokeWidth={1.5} aria-hidden="true" />
               <span className="sr-only">{ui.search}</span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              aria-disabled="true"
-              title={ui.searchComingSoon}
-              className={cn(
-                iconButton,
-                "hidden cursor-default opacity-60 hover:text-ink sm:inline-flex",
-              )}
-            >
-              <Search className="size-5" strokeWidth={1.5} aria-hidden="true" />
-              <span className="sr-only">{ui.searchComingSoon}</span>
             </button>
           )}
           {/* To refine later: destination pending client (Contact page for now). */}
