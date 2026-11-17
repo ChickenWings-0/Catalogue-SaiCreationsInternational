@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { RevealObserver } from "@/components/layout/RevealObserver";
 import { SkipLink } from "@/components/layout/SkipLink";
-import { getFaqs, getNavigation, getSiteConfig } from "@/lib/content";
+import { getFaqs, getNavigation, getSiteConfig, isProductionSite } from "@/lib/content";
 import { cormorant, jost } from "@/lib/fonts";
 import { sharePath } from "@/lib/image-widths.mjs";
 import "./globals.css";
@@ -15,6 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: site.seo.defaultTitle, template: site.seo.titleTemplate },
     description: site.seo.description,
     applicationName: site.legalName,
+    // Only the live site is indexed; previews and local builds are noindex (see also app/robots.ts).
+    robots: isProductionSite() ? { index: true, follow: true } : { index: false, follow: false },
     // Default link preview (WhatsApp, social). Product pages override it with the product photo.
     openGraph: {
       type: "website",

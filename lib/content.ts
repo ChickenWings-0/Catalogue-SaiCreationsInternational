@@ -89,14 +89,38 @@ function load<T extends z.ZodType>(schema: T, data: unknown, where: string) {
   return resolveImages(parse(schema, data, where), where);
 }
 
-/** Canonical site origin, without trailing slash. Read at build time. */
+/**
+ * Canonical site origin (e.g. "https://saicreationsintl.com"), without trailing slash.
+ * Read at build time. Forgiving about the env value: "saicreationsintl.com",
+ * "https://saicreationsintl.com/" and " https://… " all work. A missing protocol becomes https://.
+ */
 export function getSiteUrl(): string {
-  const fromEnv =
+  const raw = (
     process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
     process.env.CF_PAGES_URL ||
-    "http://localhost:3000";
-  return fromEnv.replace(/\/+$/, "");
+    "http://localhost:3000"
+  ).trim();
+  const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    return new URL(withProtocol).origin;
+  } catch {
+    throw new Error(
+      `Invalid site URL "${raw}". Set NEXT_PUBLIC_SITE_URL to e.g. https://saicreationsintl.com`,
+    );
+  }
+}
+
+/**
+ * True only for the live site build. Anything else (Vercel previews, Cloudflare preview
+ * branches, local builds) is kept out of search engines. SITE_ENV=production wins; without it,
+ * Vercel's own production flag is used as a fallback.
+ */
+export function isProductionSite(): boolean {
+  const siteEnv = process.env.SITE_ENV?.trim().toLowerCase();
+  if (siteEnv) return siteEnv === "production";
+  return process.env.VERCEL_ENV === "production";
 }
 
 export const categoryHref = (slug: string) => `/catalogue/${slug}/`;

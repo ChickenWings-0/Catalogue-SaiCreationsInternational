@@ -15,7 +15,7 @@ Each phase ends with a review checkpoint. Items marked ⏳ are **pending client 
 | 4 About, Contact, FAQs, 404 | ✅ Done (FAQ wording still to confirm) |
 | 4b Product photos batch 2 (repeatable whenever the client sends more) | Waiting on client |
 | 5 SEO, accessibility, performance, clean-up | Next |
-| 6 Deployment + custom domain | To do (needs domain details) |
+| 6 Deployment + custom domain | In progress: saicreationsintl.com via Squarespace DNS → Vercel |
 | 7 CMS for client editing | Later / optional |
 
 ---
@@ -210,9 +210,9 @@ When the client sends more photos:
 - [ ] Optional (client decision): watermark product photos with the logo at build time, as a stronger anti-copy measure
 
 **SEO**
-- [ ] `metadataBase` from `NEXT_PUBLIC_SITE_URL`. Per-page `generateMetadata` (title template `%s · SAI Creations International`, description, canonical)
-- [ ] Open Graph + Twitter `summary_large_image` cards (default OG image with logo; product pages use the first product image)
-- [ ] `app/sitemap.ts` + `app/robots.ts` (`dynamic = 'force-static'`, emitted as files). Sitemap: all static + 4 category + every product URL (56 in batch 1) with trailing slashes on the bare domain. Robots: allow all when `SITE_ENV=production`; otherwise `Disallow: /` + `<meta name="robots" content="noindex">` (host-independent, no headers/middleware)
+- [x] `metadataBase` from `NEXT_PUBLIC_SITE_URL` (tolerant of a missing protocol); noindex on non-production builds. ⏳ Still to do: canonical URLs. Per-page `generateMetadata` (title template `%s · SAI Creations International`, description, canonical)
+- [x] Open Graph + Twitter `summary_large_image` cards (default OG image with logo; product pages use the first product image)
+- [x ] `app/sitemap.ts` + `app/robots.ts` (`dynamic = 'force-static'`, emitted as files). Sitemap: all static + 4 category + every product URL (56 in batch 1) with trailing slashes on the bare domain. Robots: allow all when `SITE_ENV=production`; otherwise `Disallow: /` + `<meta name="robots" content="noindex">` (host-independent, no headers/middleware)
 - [ ] JSON-LD: `Organization` (root layout: name, logo, url, `sameAs` socials, `contactPoint`), `BreadcrumbList` (category/product), `Product` (image, brand, category; no name, code or specs, by client choice). *Note:* without price/offers Google won't show Product rich results, but the markup is still valid structured data. `FAQPage` on `/about` (low rich-result value since 2023, harmless)
 - [ ] Semantic HTML audit: one H1 per page, landmark roles, lists for grids
 

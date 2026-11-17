@@ -6,6 +6,15 @@
 
 ---
 
+## 0. This project: saicreationsintl.com (Squarespace Domains, Google Workspace email)
+
+- **Domain:** `saicreationsintl.com`, bought through Google Workspace and now managed at **domains.squarespace.com**.
+- **Email:** `info@saicreationsintl.com` runs on **Google Workspace**. Its MX / TXT (SPF, DKIM) records at Squarespace **must not be removed**. Squarespace usually groups them as a "Google Workspace" preset.
+- **Vercel env (Production):** `NEXT_PUBLIC_SITE_URL = https://saicreationsintl.com` (or the www version if that is chosen as primary) and `SITE_ENV = production`. The code tolerates a missing `https://` or a trailing slash (`getSiteUrl()` in lib/content.ts). If `SITE_ENV` is missing, Vercel's own production flag is used.
+- **Squarespace DNS steps:** Domains → saicreationsintl.com → **DNS → DNS Settings**. Screenshot everything first, delete only the **"Squarespace Defaults"** preset if present (its `@` A records and `www` CNAME clash with Vercel), and keep the Google Workspace records. Under **Custom Records**, add **A `@`** → the IP Vercel shows (usually `76.76.21.21`) and **CNAME `www`** → the value Vercel shows (usually `cname.vercel-dns.com`). Make sure domain forwarding is off.
+- **Vercel Domains:** both `saicreationsintl.com` and `www.saicreationsintl.com` are added. One is primary; set the other to **Redirect (308)** to it. After go-live, set the project's `*.vercel.app` domain to redirect to the primary domain too.
+- **Search engines:** `/robots.txt` and `/sitemap.xml` are generated at build time. Previews and local builds get `Disallow: /` and a `noindex` meta tag.
+
 ## 1. Before you start
 
 | Item | Value | Notes |
