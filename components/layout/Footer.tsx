@@ -8,7 +8,10 @@ import { fillTemplate } from "@/lib/format";
 import type { FAQ, Navigation, NavItem, SiteConfig } from "@/lib/schemas";
 
 type Props = {
-  site: Pick<SiteConfig, "name" | "tagline" | "legalName" | "logo" | "contact" | "socials" | "ui">;
+  site: Pick<
+    SiteConfig,
+    "name" | "tagline" | "legalName" | "logo" | "contact" | "socials" | "googleFormUrl" | "ui"
+  >;
   footer: Navigation["footer"];
   faqs: FAQ[];
 };
@@ -99,6 +102,29 @@ export function Footer({ site, footer, faqs }: Props) {
                       </a>
                     </li>
                   ))}
+                {site.contact.email && (
+                  <li>
+                    <a
+                      href={`mailto:${site.contact.email}`}
+                      className="link-grow break-all transition-colors hover:text-ink"
+                    >
+                      {site.contact.email}
+                    </a>
+                  </li>
+                )}
+                {site.googleFormUrl && (
+                  <li className="pt-2">
+                    <a
+                      href={site.googleFormUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-grow eyebrow text-ink transition-colors hover:text-accent"
+                    >
+                      {site.ui.requestQuote}
+                      <span className="sr-only"> ({site.ui.opensInNewTab})</span>
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

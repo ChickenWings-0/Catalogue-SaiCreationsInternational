@@ -11,8 +11,8 @@ In the code, every placeholder is marked `// TODO(client):` in `/content`. Run `
 Received and live: product photos batches 1 and 2 (90 products), logo, address, WhatsApp Business number, Instagram, About texts (The Initiative, The Present), two workshop photos, Studio film.
 
 Still useful from the client:
-- [ ] **Email address** (shown on Contact once added; optional)
-- [ ] **Google Form** link (optional; the button appears once added)
+- [x] **Email**: info@saicreationsintl.com (Contact page, footer, FAQ)
+- [x] **Quotation request form**: https://forms.gle/Q54M1nwHjC83uLfU8 (Contact page, product pages, enlarged product view, footer, FAQ)
 - [ ] **FAQ answers**: confirm or edit the drafted FAQs (footer + About)
 - [ ] **White-background photos** for the three wire pieces shot on black (hanging basket, heart planter, nested baskets)
 - [ ] **Higher-resolution photos** where the originals are small: the seat cushions (325 px), wire baskets, SCI-OD-002 red lantern

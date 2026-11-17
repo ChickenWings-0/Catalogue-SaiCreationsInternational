@@ -17,8 +17,7 @@ export const site: SiteConfigInput = {
   logo: { src: "brand/logo.png", alt: "SAI Creations International logo" },
 
   contact: {
-    // TODO(client): enquiries email address (optional; hidden while unset)
-    email: undefined,
+    email: "info@saicreationsintl.com",
     phones: [{ label: "WhatsApp", number: "+91 9289 555 616" }],
     whatsappNumber: WHATSAPP_NUMBER,
     address: {
@@ -46,8 +45,8 @@ export const site: SiteConfigInput = {
     },
   ],
 
-  // TODO(client): Google Form URL for enquiries (optional; the button is hidden while unset)
-  googleFormUrl: undefined,
+  /** Google Form for quotation requests (Contact page, product views, footer). */
+  googleFormUrl: "https://forms.gle/Q54M1nwHjC83uLfU8",
 
   header: {
     // Pending client: contact icon may later open WhatsApp directly instead of the Contact page.
@@ -82,6 +81,8 @@ export const site: SiteConfigInput = {
   },
 
   ui: {
+    email: "Email",
+    requestQuote: "Request a quotation",
     skipToContent: "Skip to content",
     openMenu: "Open menu",
     closeMenu: "Close menu",

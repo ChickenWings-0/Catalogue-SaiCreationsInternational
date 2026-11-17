@@ -18,6 +18,8 @@ type Props = {
   onClose: () => void;
   labels: { lightbox: Labels["lightbox"]; enquire: Labels["enquire"]; product: Labels["product"] };
   newTabHint: string;
+  /** Quotation request form (Google Form); shows a secondary button when set. */
+  quoteUrl?: string;
   /** Element to refocus after closing (the photo that opened the lightbox). */
   returnFocusRef?: React.RefObject<HTMLElement | null>;
 };
@@ -32,6 +34,7 @@ export function ProductLightbox({
   onClose,
   labels,
   newTabHint,
+  quoteUrl,
   returnFocusRef,
 }: Props) {
   return (
@@ -55,6 +58,7 @@ export function ProductLightbox({
               onClose={onClose}
               labels={labels}
               newTabHint={newTabHint}
+              quoteUrl={quoteUrl}
             />
           )}
         </Dialog.Content>
@@ -69,6 +73,7 @@ function LightboxBody({
   onClose,
   labels,
   newTabHint,
+  quoteUrl,
 }: Omit<Props, "index" | "returnFocusRef"> & { start: number }) {
   const [viewportRef, api] = useEmblaCarousel({ loop: true, startIndex: start, duration: 26 });
   const [selected, setSelected] = useState(start);
@@ -160,6 +165,17 @@ function LightboxBody({
         >
           {labels.enquire.whatsapp}
         </Button>
+        {quoteUrl && (
+          <a
+            href={quoteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-grow eyebrow text-muted transition-colors hover:text-ink"
+          >
+            {labels.enquire.quote}
+            <span className="sr-only"> ({newTabHint})</span>
+          </a>
+        )}
       </div>
     </>
   );

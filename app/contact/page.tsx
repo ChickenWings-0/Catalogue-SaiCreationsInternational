@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin } from "lucide-react";
+import { FileText, Mail, MapPin } from "lucide-react";
 import type { ReactNode } from "react";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 import { Button } from "@/components/ui/Button";
@@ -142,18 +142,27 @@ export default async function ContactPage() {
                 >
                   {contact.email}
                 </a>
+                <Button
+                  href={`mailto:${contact.email}`}
+                  variant="secondary"
+                  icon={<Mail className="size-4" strokeWidth={1.5} />}
+                  className="mt-auto"
+                >
+                  {page.emailCta}
+                </Button>
               </Card>
             )}
             {site.googleFormUrl && (
               <Card
-                icon={<Mail className="size-5" strokeWidth={1.5} aria-hidden="true" />}
-                heading={page.formCtaLabel}
+                icon={<FileText className="size-5" strokeWidth={1.5} aria-hidden="true" />}
+                heading={page.formHeading}
               >
                 {page.formNote && <p className="text-body-sm text-muted">{page.formNote}</p>}
                 <Button
                   href={site.googleFormUrl}
-                  variant="secondary"
+                  icon={<FileText className="size-4" strokeWidth={1.5} />}
                   newTabHint={site.ui.opensInNewTab}
+                  className="mt-auto"
                 >
                   {page.formCtaLabel}
                 </Button>

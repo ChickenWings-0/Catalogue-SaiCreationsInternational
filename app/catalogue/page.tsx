@@ -87,6 +87,7 @@ export default async function CataloguePage() {
               product: labels.product,
             }}
             newTabHint={site.ui.opensInNewTab}
+            quoteUrl={site.googleFormUrl}
           />
         </Container>
       </section>

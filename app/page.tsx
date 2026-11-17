@@ -105,6 +105,7 @@ export default async function HomePage() {
                   product: labels.product,
                 }}
                 newTabHint={site.ui.opensInNewTab}
+                quoteUrl={site.googleFormUrl}
               />
             </Container>
           </section>

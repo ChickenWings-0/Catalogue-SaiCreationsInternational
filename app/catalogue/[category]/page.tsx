@@ -78,6 +78,7 @@ export default async function CategoryPage({ params }: PageProps<"/catalogue/[ca
               product: labels.product,
             }}
             newTabHint={site.ui.opensInNewTab}
+            quoteUrl={site.googleFormUrl}
           />
         ) : (
           <p className="py-24 text-center font-display text-display-sm text-muted">

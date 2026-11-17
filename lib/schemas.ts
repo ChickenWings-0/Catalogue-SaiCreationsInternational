@@ -146,6 +146,8 @@ export const siteConfigSchema = z.object({
   }),
   /** Interface microcopy (accessible labels etc.), kept here so it's editable too. */
   ui: z.object({
+    email: text,
+    requestQuote: text,
     skipToContent: text,
     openMenu: text,
     closeMenu: text,
@@ -268,7 +270,9 @@ export const contactPageSchema = z.object({
   visitHeading: text,
   mapLinkLabel: text,
   emailHeading: text,
+  emailCta: text,
   /** Shown only when site.googleFormUrl is set. */
+  formHeading: text,
   formCtaLabel: text,
   formNote: text.optional(),
   seo: seoSchema,
@@ -323,7 +327,7 @@ export const labelsSchema = z.object({
     comingSoon: text,
   }),
   product: z.object({ piece: text, more: text, back: text }),
-  enquire: z.object({ heading: text, intro: text, whatsapp: text }),
+  enquire: z.object({ heading: text, intro: text, whatsapp: text, quote: text }),
   lightbox: z.object({
     open: text,
     close: text,

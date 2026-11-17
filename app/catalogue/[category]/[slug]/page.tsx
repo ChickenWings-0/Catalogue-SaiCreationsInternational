@@ -143,6 +143,17 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
               >
                 {labels.enquire.whatsapp}
               </Button>
+              {site.googleFormUrl && (
+                <Button
+                  href={site.googleFormUrl}
+                  variant="secondary"
+                  size="lg"
+                  newTabHint={site.ui.opensInNewTab}
+                  className="w-full"
+                >
+                  {labels.enquire.quote}
+                </Button>
+              )}
             </div>
             <LinkArrow href={categoryHref(category.slug)}>
               {fillTemplate(labels.product.back, { category: category.name })}
@@ -169,6 +180,7 @@ export default async function ProductPage({ params }: PageProps<"/catalogue/[cat
                 product: labels.product,
               }}
               newTabHint={site.ui.opensInNewTab}
+              quoteUrl={site.googleFormUrl}
             />
           </Container>
         </section>

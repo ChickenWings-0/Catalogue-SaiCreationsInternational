@@ -24,6 +24,8 @@ type Props = {
     product: Labels["product"];
   };
   newTabHint: string;
+  /** Quotation request form, offered in the lightbox. */
+  quoteUrl?: string;
   className?: string;
 };
 
@@ -39,6 +41,7 @@ export function ProductWall({
   preloadCount = 0,
   labels,
   newTabHint,
+  quoteUrl,
   className,
 }: Props) {
   const [open, setOpenState] = useState<number | null>(null);
@@ -118,6 +121,7 @@ export function ProductWall({
         onClose={() => setOpen(null)}
         labels={{ lightbox: labels.lightbox, enquire: labels.enquire, product: labels.product }}
         newTabHint={newTabHint}
+        quoteUrl={quoteUrl}
         returnFocusRef={lastTrigger}
       />
     </div>

@@ -11,7 +11,7 @@ export const faqs: FAQInput[] = [
     showInFooter: true,
     question: "How do I place an order or enquiry?",
     answer:
-      "Message us on WhatsApp or Instagram with the product code shown on each product page, or fill in our enquiry form. We'll reply with availability, options and next steps.",
+      "Tap any piece in the catalogue and choose Enquire on WhatsApp: a link to that piece is added to your message. For larger or trade orders, use our quotation request form or email info@saicreationsintl.com. We'll reply with availability, options and next steps.",
   },
   {
     id: "custom-orders",
@@ -51,7 +51,7 @@ export const faqs: FAQInput[] = [
     showInFooter: false,
     question: "Can I request a sample?",
     answer:
-      "Samples are available for many products, especially for trade and bulk enquiries. Contact us with the product codes you're interested in.",
+      "Samples are available for many products, especially for trade and bulk enquiries. Send us the pieces you're interested in on WhatsApp, or list them in our quotation request form.",
   },
   {
     id: "care",
@@ -59,7 +59,7 @@ export const faqs: FAQInput[] = [
     showInFooter: false,
     question: "How should I care for handcrafted pieces?",
     answer:
-      "Care instructions are listed on each product page where relevant. In general, keep natural materials away from prolonged direct sun and moisture, and clean gently with a soft dry cloth.",
+      "Keep natural materials, metal and glass away from prolonged direct sun and moisture, and clean gently with a soft dry cloth. Ask us on WhatsApp for care advice on a specific piece.",
   },
   {
     id: "visit",

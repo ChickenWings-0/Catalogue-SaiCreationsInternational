@@ -21,6 +21,7 @@ export const labels: LabelsInput = {
     heading: "Interested in this piece?",
     intro: "Send us a WhatsApp message. A link to this piece, with its photo, is added for you.",
     whatsapp: "Enquire on WhatsApp",
+    quote: "Request a quotation",
   },
   lightbox: {
     open: "View larger: {label}",
